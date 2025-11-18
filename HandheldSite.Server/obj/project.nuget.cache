@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "dgSpecHash": "jLec7VjK+mk=",
+  "success": true,
+  "projectFilePath": "/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/HandheldSite.Server.csproj",
+  "expectedPackageFiles": [
+    "/Users/ikeonugha/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/10.0.0/microsoft.aspnetcore.identity.entityframeworkcore.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.aspnetcore.openapi/10.0.0/microsoft.aspnetcore.openapi.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.entityframeworkcore/10.0.0/microsoft.entityframeworkcore.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.0/microsoft.entityframeworkcore.abstractions.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.entityframeworkcore.analyzers/10.0.0/microsoft.entityframeworkcore.analyzers.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.entityframeworkcore.relational/10.0.0/microsoft.entityframeworkcore.relational.10.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/mysqlconnector/2.4.0/mysqlconnector.2.4.0.nupkg.sha512",
+    "/Users/ikeonugha/.nuget/packages/pomelo.entityframeworkcore.mysql/9.0.0/pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "message": "Detected package version outside of dependency constraint: Pomelo.EntityFrameworkCore.MySql 9.0.0 requires Microsoft.EntityFrameworkCore.Relational (>= 9.0.0 && <= 9.0.999) but version Microsoft.EntityFrameworkCore.Relational 10.0.0 was resolved.",
+      "projectPath": "/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/HandheldSite.Server.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/HandheldSite.Server.csproj",
+      "libraryId": "Microsoft.EntityFrameworkCore.Relational",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}
