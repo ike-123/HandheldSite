@@ -1,15 +1,27 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace HandheldSite.Server.Models
 {
-    public class User
+    public class User: IdentityUser<Guid>
     {
 
-        int Id {get;set;}
-        string Username {get;set;} = string.Empty;
-        
-        string Email {get;set;} = string.Empty;
+        public string? RefreshToken {get;set;}
+        public DateTime? RefreshTokenExpiresAtUTC{get; set;}
 
-        string Password {get;set;} = string.Empty;
+        public static User Create(string email, string username)
+        {
+            return new User
+            {
+                Email = email,
+                UserName = username
+            };
+        }
+
+        public override string ToString()
+        {
+            return UserName;
+        }
+
     }
 }
