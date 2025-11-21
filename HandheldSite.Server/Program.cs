@@ -48,6 +48,9 @@ builder.Services.AddHttpClient();
 
 
 builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IReviewService,ReviewService>();
+builder.Services.AddScoped<IProfileService,ProfileService>();
+
 
 
 

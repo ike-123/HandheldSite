@@ -2,10 +2,8 @@ using System;
 
 namespace HandheldSite.Server.Models
 {
-    public class Review
+    public class CreateReviewDTO
     {
-
-        public int ReviewId {get;set;} 
 
         public Guid UserId {get;set;}
 
@@ -16,6 +14,5 @@ namespace HandheldSite.Server.Models
         public string SecondaryImage {get;set;} = string.Empty;
 
         public string ReviewText {get;set;} = string.Empty;
-
     }
 }
