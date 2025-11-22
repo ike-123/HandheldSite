@@ -18,6 +18,9 @@ namespace HandheldSite.Server.Data
 
         public DbSet<Review> Reviews {get;set;}
 
+        public DbSet<Handheld> Handhelds {get;set;}
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

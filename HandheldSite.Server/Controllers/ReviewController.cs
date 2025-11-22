@@ -58,7 +58,7 @@ namespace HandheldSite.Server.Controllers
 
         [Authorize]
         [HttpPost("CreateReview")]
-        public async Task<ActionResult> CreateReview(CreateReviewDTO reviewdto)
+        public async Task<ActionResult> CreateReview([FromBody] CreateReviewDTO reviewdto)
         {
             var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -67,7 +67,7 @@ namespace HandheldSite.Server.Controllers
             try
             {
                 await _ReviewService.CreateReview(reviewdto,userid);
-                return Ok();
+                return Ok("Review Created");
             }
             catch (Exception)
             {

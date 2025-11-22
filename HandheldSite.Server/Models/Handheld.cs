@@ -7,6 +7,7 @@ namespace HandheldSite.Server.Models
 
         public int HandheldId {get;set;}
         public string HandheldName {get;set;}  = string.Empty;
+        public string Description {get;set;}  = string.Empty;
         public string HandheldImg {get;set;} = string.Empty;
     }
 }
