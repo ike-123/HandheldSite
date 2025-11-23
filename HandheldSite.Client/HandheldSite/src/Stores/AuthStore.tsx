@@ -15,13 +15,12 @@ type AuthStore ={
 }
 
 const api: AxiosInstance = axios.create({
-    baseURL: "",
+    baseURL: "http://localhost:5112/api/Auth/",
     withCredentials: true,
 });
 
 export const useAuthStore = create<AuthStore>((set)=>({
 
-    // token: 0,
 
     async Register(email:string, password:string) {
         

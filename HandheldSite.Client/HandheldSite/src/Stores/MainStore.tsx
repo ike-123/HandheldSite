@@ -3,9 +3,9 @@ import { create } from "zustand";
 
 type MainStore ={
 
-    GetRandomReviews: ()=>Promise<void>;
-    GetReview: (ReviewId:number)=>Promise<void>;
-    GetReviewsForHandheld: (HandheldId:number)=>Promise<void>;
+    GetRandomReviews: ()=>Promise<any>;
+    GetReview: (ReviewId:number)=>Promise<any>;
+    GetReviewsForHandheld: (HandheldId:number)=>Promise<any>;
     GetReviewsByUser: (UserId:number)=>Promise<void>;
     CreateReview: (post:Post)=>Promise<void>;
 
@@ -127,19 +127,19 @@ export const useMainStore = create<MainStore>((set)=>({
 
     async GetRandomReviews() {
         
-       await api.get("Review/GetRandomReviews");
-
+       return await api.get("Review/GetRandomReviews");
+       
     },
 
     async GetReview(ReviewId:number) {
         
-       await api.get(`Review/GetReview/${ReviewId}`);
+       return await api.get(`Review/GetReview/${ReviewId}`);
 
     },
 
     async GetReviewsForHandheld(HandheldId:number) {
         
-       await api.get(`Review/GetReviewsForHandheld/${HandheldId}`);
+       return await api.get(`Review/GetReviewsForHandheld/${HandheldId}`);
 
     },
 

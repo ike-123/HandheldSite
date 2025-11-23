@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using HandheldSite.Server.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,27 @@ namespace HandheldSite.Server.Controllers
 
 
         }
+
+        [HttpGet("GetMyProfile")]
+        public async Task<IActionResult> GetMyProfile()
+        {
+            try
+            {
+                var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+                object profilePageInfo = await _profileService.GetUserProfileinfo(userid_string);
+                return Ok(profilePageInfo);
+                
+            }
+            catch (Exception)
+            {
+                return BadRequest("Unable to fetch Profile Data");
+            }
+
+
+        }
+
+        //Create GetMyProfile route
     }
 }

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../Stores/AuthStore';
+import axios from 'axios';
 
 const Register = () => {
 
+    const Register = useAuthStore((state)=>state.Register)
     const navigate = useNavigate();
 
     const [input, setInput] = useState({
@@ -22,11 +25,23 @@ const Register = () => {
         
         event.preventDefault();
 
-        
+        try {
+            await Register(input.email,input.password);
+
+            navigate("/Login")
+
+        } catch (error) {
+            
+            if(axios.isAxiosError(error)){
+                
+                SetErrorText(error.response?.data);
+            };
+        }
     }
 
   return (
     <div>
+        hey
         <form action="">
             <h1>Sign up</h1>
             <input required type="text" name='email' placeholder='Email' autoComplete='off' onChange={OnChangeInput}/>

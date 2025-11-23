@@ -21,7 +21,6 @@ namespace HandheldSite.Server.Services
         {
             User? user =  await _dbContext.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userid);
 
-   
             List<Review> reviewresult = await _reviewService.GetReviewsByUser(userid);
 
             var ProfileInfo = new 
@@ -33,5 +32,6 @@ namespace HandheldSite.Server.Services
             return ProfileInfo;
 
         }
+
     }
 }

@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../Stores/AuthStore';
+import axios from 'axios';
+
 
 const Login = () => {
 
+    const Login = useAuthStore((state)=>state.Login)
     const navigate = useNavigate();
 
     const [input, setInput] = useState({
@@ -21,6 +25,19 @@ const Login = () => {
     async function LoginButton(event:React.MouseEvent<HTMLButtonElement>) {
         
         event.preventDefault();
+
+        try {
+            await Login(input.email,input.password);
+
+            navigate("/")
+
+        } catch (error) {
+            
+            if(axios.isAxiosError(error)){
+                
+                SetErrorText(error.response?.data);
+            };
+        }
     }
 
   return (
