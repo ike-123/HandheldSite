@@ -21,6 +21,8 @@ const Register = () => {
     async function RegisterButton(event:React.MouseEvent<HTMLButtonElement>) {
         
         event.preventDefault();
+
+        
     }
 
   return (
