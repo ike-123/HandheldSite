@@ -48,7 +48,7 @@ namespace HandheldSite.Server.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Unable to fetch Profile Data");
+                return Unauthorized("User not found");
             }
 
 

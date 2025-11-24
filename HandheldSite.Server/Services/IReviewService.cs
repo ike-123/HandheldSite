@@ -10,7 +10,7 @@ namespace HandheldSite.Server.Services
 
         Task<Review> GetReview(int ReviewId);
 
-        Task<List<Review>> GetReviewsForHandheld(int HandheldIdId);
+        Task<List<Review>> GetReviewsForHandheld(int HandheldIdId, string sort);
 
         Task<List<Review>> GetReviewsByUser(string userid);
 

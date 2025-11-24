@@ -34,6 +34,14 @@ export const useAuthStore = create<AuthStore>((set)=>({
 
     },
 
+    async GetMyProfileInfo(email:string, password:string) {
+        
+        await api.post("Login",{email,password});
+
+    },
+
+
+
     async Logout() {
         
         await api.get("Logout");

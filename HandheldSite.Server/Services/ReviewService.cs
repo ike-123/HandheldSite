@@ -41,16 +41,20 @@ namespace HandheldSite.Server.Services
             return review;
         }
 
-        public async Task<List<Review>> GetReviewsForHandheld(int HandheldIdId)
+        public async Task<List<Review>> GetReviewsForHandheld(int HandheldIdId, string sort)
         {
-            var reviews = await _dbContext.Reviews.Where(review => review.HandheldId == HandheldIdId).ToListAsync();
+            var query = _dbContext.Reviews.Where(review => review.HandheldId == HandheldIdId);
 
-            if(reviews == null)
-            {
-                return null;
-            }
+            if(sort == "recent")
+                query = query.OrderByDescending(h => h.CreatedAt)
+            ;
 
-            return reviews;
+            if (sort == "mostlikes")
+                // query = query.OrderBy(h => h.);
+                ;
+
+            return await query.ToListAsync();
+
         }
 
         public async Task<List<Review>> GetReviewsByUser(string userid)
@@ -69,13 +73,16 @@ namespace HandheldSite.Server.Services
         public async Task CreateReview(CreateReviewDTO submittedreview, Guid userid )
         {
 
+
+
             var Review = new Review
             {
                 UserId = userid,
                 HandheldId = submittedreview.HandheldId,
                 PrimaryImage = submittedreview.PrimaryImage,
                 SecondaryImage = submittedreview.SecondaryImage,
-                ReviewText = submittedreview.ReviewText
+                ReviewText = submittedreview.ReviewText,
+                CreatedAt = DateTime.UtcNow
             };
 
             _dbContext.Reviews.Add(Review);

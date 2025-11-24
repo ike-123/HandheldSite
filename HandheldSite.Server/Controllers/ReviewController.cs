@@ -40,9 +40,10 @@ namespace HandheldSite.Server.Controllers
         }
 
         [HttpGet("GetReviewsForHandheld/{HandheldId}")]
-        public async Task<ActionResult> GetReviewsForHanheld(int HandheldId)
+        public async Task<ActionResult> GetReviewsForHanheld(int HandheldId, string sort = "recent")
         {
-            var reviews = await _ReviewService.GetReviewsForHandheld(HandheldId);
+
+            var reviews = await _ReviewService.GetReviewsForHandheld(HandheldId, sort);
             
             return Ok(reviews);
         }

@@ -17,5 +17,7 @@ namespace HandheldSite.Server.Models
 
         public string ReviewText {get;set;} = string.Empty;
 
+        public DateTime CreatedAt {get;set;} 
+
     }
 }

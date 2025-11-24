@@ -5,9 +5,11 @@ type MainStore ={
 
     GetRandomReviews: ()=>Promise<any>;
     GetReview: (ReviewId:number)=>Promise<any>;
-    GetReviewsForHandheld: (HandheldId:number)=>Promise<any>;
+    GetReviewsForHandheld: (HandheldId:number, sort:string)=>Promise<any>;
     GetReviewsByUser: (UserId:number)=>Promise<void>;
     CreateReview: (post:Post)=>Promise<void>;
+    GetMyProfile: ()=>Promise<any>;
+    GetAllHandhelds: ()=>Promise<any>;
 
 }
 type Post = {
@@ -137,9 +139,11 @@ export const useMainStore = create<MainStore>((set)=>({
 
     },
 
-    async GetReviewsForHandheld(HandheldId:number) {
+    async GetReviewsForHandheld(HandheldId:number, sort:string) {
         
-       return await api.get(`Review/GetReviewsForHandheld/${HandheldId}`);
+       return await api.get(`Review/GetReviewsForHandheld/${HandheldId}`,
+        {params: {sort}}
+       );
 
     },
 
@@ -154,6 +158,17 @@ export const useMainStore = create<MainStore>((set)=>({
        await api.post("Review/CreateReview", post);
 
     },
+
+    async GetMyProfile() {
+        
+       return await api.get(`Profile/GetMyProfile`);
+
+    },
+
+    async GetAllHandhelds() {
+        
+        return await api.get(`Handheld/GetAllHandhelds`)
+    }
 
 })
 
