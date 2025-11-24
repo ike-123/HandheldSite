@@ -76,5 +76,55 @@ namespace HandheldSite.Server.Controllers
             }
            
         }
+
+
+        [HttpGet("FetchLikeStatus")]
+        public async Task<ActionResult> FetchLikeStatus([FromQuery] int reviewId)
+        {
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(UserId == null)
+            {
+                return BadRequest("user not found");
+            }
+            
+            var likestatus = await _ReviewService.FetchLikeStatus(reviewId,UserId);
+
+            return Ok(likestatus);
+        }
+
+
+
+        [HttpGet("ToggleLikeStatus")]
+        public async Task<ActionResult> ToggleLikeStatus([FromQuery] int reviewId)
+        {
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(UserId == null)
+            {
+                return BadRequest("user not found");
+            }
+
+            var likestatus = await _ReviewService.ToggleLikeStatus(reviewId,UserId);
+
+            return Ok(likestatus);
+        }
+
+
+        [HttpGet("GetLikedReviews")]
+        public async Task<ActionResult> GetLikedReviews()
+        {
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(UserId == null)
+            {
+                return BadRequest("user not found");
+            }
+
+            var reviews = await _ReviewService.GetLikedReviews(UserId);
+
+            return Ok(reviews);
+        }
+
     }
 }

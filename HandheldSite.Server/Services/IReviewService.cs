@@ -10,10 +10,16 @@ namespace HandheldSite.Server.Services
 
         Task<Review> GetReview(int ReviewId);
 
-        Task<List<Review>> GetReviewsForHandheld(int HandheldIdId, string sort);
+        Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort);
 
         Task<List<Review>> GetReviewsByUser(string userid);
 
         Task CreateReview(CreateReviewDTO submittedreview, Guid userid);
+
+        Task<bool> FetchLikeStatus(int ReviewId, string userid );
+
+        Task<bool> ToggleLikeStatus(int ReviewId, string userid );
+
+        Task<List<Review>> GetLikedReviews(string userid);
     }
 }
