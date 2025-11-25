@@ -10,6 +10,7 @@ type MainStore ={
     CreateReview: (post:Post)=>Promise<void>;
     GetMyProfile: ()=>Promise<any>;
     GetAllHandhelds: ()=>Promise<any>;
+    ToggleLikeButton:(reviewId:number)=>Promise<any>;
 
 }
 type Post = {
@@ -168,7 +169,15 @@ export const useMainStore = create<MainStore>((set)=>({
     async GetAllHandhelds() {
         
         return await api.get(`Handheld/GetAllHandhelds`)
-    }
+    },
+
+    async ToggleLikeButton(reviewId:number) {
+        
+        return await api.get(`Review/ToggleLikeStatus`,
+            {params:{reviewId}}
+        )
+    },
+    
 
 })
 

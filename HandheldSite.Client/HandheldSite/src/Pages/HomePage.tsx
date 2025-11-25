@@ -13,7 +13,7 @@ const HomePage = () => {
     const [Handhelds,SetHandhelds] = useState([]);
     const [currentHandheldId,SetSelected] = useState<number | undefined>(undefined);
 
-    const [reviews, SetReviews] = useState([]);
+    const [reviews, SetReviews] = useState<any[]>([]);
 
 
     // IT WILL BE BETTER IF HANDHELD SELECTION AND SORT PANEL IS ON THE LEFT-HAND SIDE WITH THE PROFILE PANEL JUST UNDER IT.
@@ -25,6 +25,8 @@ const HomePage = () => {
     const GetReviewforHandheld = useMainStore((state) => state.GetReviewsForHandheld);
     const GetMyProfile = useMainStore((state)=> state.GetMyProfile);
     const GetHandhelds = useMainStore((state)=> state.GetAllHandhelds);
+    const ToggleLike = useMainStore((state)=> state.ToggleLikeButton);
+
 
 
     const selectedHandheld:any = Handhelds.find((handheld: any) => handheld.handheldId === currentHandheldId);
@@ -80,12 +82,36 @@ const HomePage = () => {
             SetSelected(parseInt(id));
             Get_Reviews_for_Handheld(parseInt(id),sort);
        }
+
+
          
 
        
 
 
     },[id])
+
+
+    async function ToggleLikeButton(reviewid:number) {
+    
+    var rev = 1;
+      const {data} = await ToggleLike(rev);
+      const ReturnedId = data.reviewId;
+      const likestatus = data.likestatus;
+
+
+      SetReviews(previous => previous.map((review)=>
+        review.reviewId === ReturnedId ? {...review, isLiked:likestatus}:review
+
+      ));
+
+      console.log(ReturnedId);
+
+
+
+
+
+    }
 
   return (
     <div>
@@ -131,6 +157,18 @@ const HomePage = () => {
             }
         </div>
 
+
+
+            <button onClick={()=>{ToggleLikeButton(1)}}>Toggle Like</button>
+
+
+            <div>
+                <form action="">
+
+                    <input type="text" name='reviewText' placeholder='Type your Review' autoComplete='off' />
+                    <button>Submit Review</button>
+                </form>
+            </div>
 
 
     </div>

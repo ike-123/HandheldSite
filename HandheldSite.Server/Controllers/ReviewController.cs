@@ -106,8 +106,14 @@ namespace HandheldSite.Server.Controllers
             }
 
             var likestatus = await _ReviewService.ToggleLikeStatus(reviewId,UserId);
-
-            return Ok(likestatus);
+            
+            var likeAndReviewId = new 
+            {
+                likestatus,
+                reviewId 
+            };
+            
+            return Ok(likeAndReviewId);
         }
 
 
