@@ -10,10 +10,12 @@ namespace HandheldSite.Server.Services
     public class ReviewService: IReviewService
     {
         private readonly MyDbContext _dbContext;
-        
-        public ReviewService(MyDbContext dbContext)
+        private readonly IProfileService _profileService;
+
+        public ReviewService(MyDbContext dbContext, IProfileService profileService)
         {
             _dbContext = dbContext;
+            _profileService = profileService;
         }
 
 
@@ -29,8 +31,11 @@ namespace HandheldSite.Server.Services
             return reviews;
         }
 
-           public async Task<Review> GetReview(int ReviewId)
+           public async Task<ReviewWithLikeDto> GetReview(int ReviewId)
         {
+            //take the reviewID and find the review
+            //then add isliked and the user profile.
+
             var review = await _dbContext.Reviews.FirstOrDefaultAsync(review => review.ReviewId == ReviewId);
 
             if(review == null)
@@ -38,7 +43,21 @@ namespace HandheldSite.Server.Services
                 return null;
             }
 
-            return review;
+            var result = new ReviewWithLikeDto
+            {
+                ReviewId = review.ReviewId,
+                UserId = review.UserId,
+                HandheldId = review.HandheldId,
+                ReviewText = review.ReviewText,
+                PrimaryImage = review.PrimaryImage,
+                SecondaryImage = review.SecondaryImage,
+                CreatedAt = review.CreatedAt,
+                isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString()),
+                user = await _profileService.GetUser(review.UserId.ToString())
+            };
+
+
+            return result;
         }
 
         public async Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort)
@@ -67,7 +86,8 @@ namespace HandheldSite.Server.Services
                 PrimaryImage = review.PrimaryImage,
                 SecondaryImage = review.SecondaryImage,
                 CreatedAt = review.CreatedAt,
-                isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString())
+                isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString()),
+                user = await _profileService.GetUser(review.UserId.ToString())
             }));
 
             // var result =  reviews.Select(async review => new ReviewWithLikeDto
@@ -82,6 +102,7 @@ namespace HandheldSite.Server.Services
             //     isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString())
             // });
             
+
             return result.ToList();
 
         }

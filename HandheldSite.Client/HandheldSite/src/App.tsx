@@ -5,6 +5,7 @@ import NotFoundPage from './Pages/NotFoundPage'
 import HomePage from './Pages/HomePage'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
+import SingleReviewPage from './Pages/SingleReviewPage'
 
 
 const router = createBrowserRouter([{
@@ -26,6 +27,10 @@ const router = createBrowserRouter([{
       path: "/Login",
       element: <Login />,
     },
+    {
+      path: "SingleReviewPage/:id",
+      element: <SingleReviewPage/>
+    }
 
   ]
 }])

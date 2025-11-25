@@ -8,7 +8,7 @@ namespace HandheldSite.Server.Services
         
         Task<List<Review>> GetRandomReviews();
 
-        Task<Review> GetReview(int ReviewId);
+        Task<ReviewWithLikeDto> GetReview(int ReviewId);
 
         Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort);
 

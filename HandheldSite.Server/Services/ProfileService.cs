@@ -9,24 +9,44 @@ namespace HandheldSite.Server.Services
     {
 
         private readonly MyDbContext _dbContext;
-        private readonly IReviewService _reviewService;
 
-        public ProfileService(MyDbContext dbContext, IReviewService reviewService)
+        public ProfileService(MyDbContext dbContext)
         {
             _dbContext = dbContext;
-            _reviewService = reviewService;
+        }
+
+
+        public async Task<object> GetUser(string userid)
+        {
+            //this will change so we return the profile instead of the user
+            User? user =  await _dbContext.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userid);
+
+            var userdetails = new
+            {
+                user.UserName,
+            };
+
+            return  userdetails ;
+
         }
 
         public async Task<object> GetUserProfileinfo(string userid)
         {
             User? user =  await _dbContext.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userid);
 
-            List<Review> reviewresult = await _reviewService.GetReviewsByUser(userid);
+            // List<Review> reviewresult = await _reviewService.GetReviewsByUser(userid);
+
+            var reviews = await _dbContext.Reviews.Where(review => review.UserId.ToString() == userid).ToListAsync();
+
+            if(reviews == null)
+            {
+                return null;
+            }
 
             var ProfileInfo = new 
             {
                 username = user.UserName,
-                reviewresult
+                reviews
             };
 
             return ProfileInfo;

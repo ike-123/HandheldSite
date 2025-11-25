@@ -21,7 +21,7 @@ const HomePage = () => {
     //Don't get random reviews but get the reviews for only the hadheld selected. This is so that there can always be 
     // a panel on the right hand side that shows you the specs of the currently selected handheld.
     //If the user wants to select all they can choose to do so.
-    const GetRandomReviews = useMainStore((state) => state.GetRandomReviews);
+    
     const GetReviewforHandheld = useMainStore((state) => state.GetReviewsForHandheld);
     const GetMyProfile = useMainStore((state)=> state.GetMyProfile);
     const GetHandhelds = useMainStore((state)=> state.GetAllHandhelds);
