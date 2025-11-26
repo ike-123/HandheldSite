@@ -117,33 +117,50 @@ const HomePage = () => {
         <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
 
             {/* left section */}
+            <div className='flex-1 gap-3 flex flex-col'>
 
-            {/* sort */}
-            <div className='card h-100 bg-primary flex-1'>
+        
+                <div className='card h-50 bg-primary flex items-center gap-1'>
+
+                    <img className='w-full h-20 object-fill rounded-t-md'  src="https://i.pinimg.com/736x/e9/53/e8/e953e8aeaf4844dab4bcffb58ec04bdf.jpg" alt="" />
+                    <div className="avatar justify-center mt-10">
+                        
+                        <div className="ring-primary ring-offset-base-100 w-24 rounded-full absolute bottom-0 ring-2 ring-offset-2">
+                            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                        </div>
+                    </div>
+
+                    <h1 className='text-2xl'>John Maxwell</h1>
 
 
-                <select value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
+                </div>
 
-                    {
-                        Handhelds.map((handheld: any) => (
+                <div className='card h-100 bg-primary p-6'>
 
-                            <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
+                    <legend className="fieldset-legend">Handheld</legend>
+                    <select className="select mb-1.5" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
 
-                        ))
-                    }
+                        {
+                            Handhelds.map((handheld: any) => (
 
-                </select>
+                                <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
 
-                <select value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
+                            ))
+                        }
 
-                    <option value="recent">Most Recent</option>
-                    <option value="likes">Most Liked</option>
-                </select>
+                    </select>
 
+
+                    <legend className="fieldset-legend">Sort By</legend>
+
+                    <select className="select" value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
+
+                        <option value="recent">Most Recent</option>
+                        <option value="likes">Most Liked</option>
+                    </select>
+
+                </div>
             </div>
-
-
-            {/* profile */}
 
 
             {/* Middle Section */}
@@ -219,27 +236,66 @@ const HomePage = () => {
 
             {/* Right Section */}
 
-            <div className='card h-100 bg-primary flex-1'>
+            <div className='card h-200 bg-primary flex flex-1 min-w-0 '>
 
                 {selectedHandheld &&
 
-                    <div>
+                    <>
+                        <div className='max-w-full'>
 
-                        <div className=''>
-                            <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" />
+                            <div className=''>
+                                <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" />
+                            </div>
+
+                            <h1 className='font-bold'>
+
+                                {selectedHandheld.handheldName}
+
+                            </h1>
+
+                            <h2>
+                                {selectedHandheld.description}
+                            </h2>
+
                         </div>
 
-                        <h1 className='font-bold'>
 
-                            {selectedHandheld.handheldName}
+                        <div className='px-3'>
 
-                        </h1>
+                            <div className='bg-secondary h-10'>
 
-                        <h2>
-                            {selectedHandheld.description}
-                        </h2>
+                                <div>
+                                        <h1>Processor</h1>
+                                        <h1>AMD Ryzen Z1 Extreme</h1>
+                                </div>
+                             
 
-                    </div>
+                            </div>
+
+                        </div>
+                     
+
+                        {/* <div className="stats stats-vertical shadow self-center">
+                            <div className="stat">
+                                <div className="stat-title">APU</div>
+                                <div className="stat-value">AMD Van Gouh</div>
+                                <div className="stat-desc">4 zen2/ 4 RDNA 2 CU's</div>
+
+                            </div>
+                            <div className="stat">
+                                <div className="stat-title ">Release Date</div>
+                                <div className="stat-value">19/03/2022</div>
+                                <div className="stat-desc">4 zen2/ 4 RDNA 2 CU's</div>
+
+                            </div>
+
+                        </div> */}
+
+
+
+
+                    </>
+
 
 
                 }
