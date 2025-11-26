@@ -31,7 +31,7 @@ namespace HandheldSite.Server.Services
             return reviews;
         }
 
-           public async Task<ReviewWithLikeDto> GetReview(int ReviewId)
+           public async Task<ReviewWithLikeDto> GetReview(int ReviewId, string userid)
         {
             //take the reviewID and find the review
             //then add isliked and the user profile.
@@ -52,7 +52,7 @@ namespace HandheldSite.Server.Services
                 PrimaryImage = review.PrimaryImage,
                 SecondaryImage = review.SecondaryImage,
                 CreatedAt = review.CreatedAt,
-                isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString()),
+                isLiked = await FetchLikeStatus(review.ReviewId,userid),
                 user = await _profileService.GetUser(review.UserId.ToString())
             };
 
@@ -60,7 +60,7 @@ namespace HandheldSite.Server.Services
             return result;
         }
 
-        public async Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort)
+        public async Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort, string userid)
         {
             var query = _dbContext.Reviews.Where(review => review.HandheldId == HandheldIdId);
 
@@ -77,18 +77,48 @@ namespace HandheldSite.Server.Services
             var reviews = await query.ToListAsync();
 
 
+            // Get all reviewIds we are working with
+            var reviewIds = reviews.Select(review => review.ReviewId).ToList();
+
+
+            // Collect all user IDs (authors) for each review
+            var userIds = reviews.Select(review => review.UserId).Distinct().ToList();
+
+
+            // Fetch which of these reviews are liked by the current user
+            var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == userid).Select(like => like.ReviewId).ToListAsync();
+            
+
+
+            // Batch load all users
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+
+
             var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
-            {
-                ReviewId = review.ReviewId,
-                UserId = review.UserId,
-                HandheldId = review.HandheldId,
-                ReviewText = review.ReviewText,
-                PrimaryImage = review.PrimaryImage,
-                SecondaryImage = review.SecondaryImage,
-                CreatedAt = review.CreatedAt,
-                isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString()),
-                user = await _profileService.GetUser(review.UserId.ToString())
-            }));
+                {
+                    ReviewId = review.ReviewId,
+                    HandheldId = review.HandheldId,
+                    ReviewText = review.ReviewText,
+                    PrimaryImage = review.PrimaryImage,
+                    SecondaryImage = review.SecondaryImage,
+                    CreatedAt = review.CreatedAt,
+                    isLiked = likedReviewIds.Contains(review.ReviewId),
+                    user = users[review.UserId]
+                }));
+
+
+            // var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
+            // {
+            //     ReviewId = review.ReviewId,
+            //     UserId = review.UserId,
+            //     HandheldId = review.HandheldId,
+            //     ReviewText = review.ReviewText,
+            //     PrimaryImage = review.PrimaryImage,
+            //     SecondaryImage = review.SecondaryImage,
+            //     CreatedAt = review.CreatedAt,
+            //     isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString()),
+            //     user = await _profileService.GetUser(review.UserId.ToString())
+            // }));
 
             // var result =  reviews.Select(async review => new ReviewWithLikeDto
             // {

@@ -10,8 +10,8 @@ const HomePage = () => {
     const [searchParams] = useSearchParams();
     const sort = searchParams.get("sort") ?? "recent";
 
-    const [Handhelds,SetHandhelds] = useState([]);
-    const [currentHandheldId,SetSelected] = useState<number | undefined>(undefined);
+    const [Handhelds, SetHandhelds] = useState([]);
+    const [currentHandheldId, SetSelected] = useState<number | undefined>(undefined);
 
     const [reviews, SetReviews] = useState<any[]>([]);
 
@@ -21,91 +21,91 @@ const HomePage = () => {
     //Don't get random reviews but get the reviews for only the hadheld selected. This is so that there can always be 
     // a panel on the right hand side that shows you the specs of the currently selected handheld.
     //If the user wants to select all they can choose to do so.
-    
+
     const GetReviewforHandheld = useMainStore((state) => state.GetReviewsForHandheld);
-    const GetMyProfile = useMainStore((state)=> state.GetMyProfile);
-    const GetHandhelds = useMainStore((state)=> state.GetAllHandhelds);
-    const ToggleLike = useMainStore((state)=> state.ToggleLikeButton);
+    const GetMyProfile = useMainStore((state) => state.GetMyProfile);
+    const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
+    const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
 
 
 
-    const selectedHandheld:any = Handhelds.find((handheld: any) => handheld.handheldId === currentHandheldId);
+    const selectedHandheld: any = Handhelds.find((handheld: any) => handheld.handheldId === currentHandheldId);
 
-    useEffect(()=>{
+    useEffect(() => {
 
 
-        async function Get_All_Handhelds(){
+        async function Get_All_Handhelds() {
 
-            const {data} = await GetHandhelds();
-            console.log(data);    
-            
+            const { data } = await GetHandhelds();
+            console.log(data);
+
             console.log("initial")
 
             SetHandhelds(data);
- 
 
-       }
+
+        }
 
 
         Get_All_Handhelds();
 
-    },[])
+    }, [])
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
 
         //left of the screen will be profile and another tab below that idk 
         // (maybe takes you to compare page? If it's not too much work)
 
-        async function Get_My_Profile(){
+        async function Get_My_Profile() {
 
             console.log("run");
 
-            const {data} = await GetMyProfile();
-            console.log(data);     
+            const { data } = await GetMyProfile();
+            console.log(data);
 
-       }
+        }
 
-        async function Get_Reviews_for_Handheld(id: number, sortBy:string){
+        async function Get_Reviews_for_Handheld(id: number, sortBy: string) {
 
-            const {data} = await GetReviewforHandheld(Number(id),sortBy);
-            
-            SetReviews(data);  
-       }
+            const { data } = await GetReviewforHandheld(Number(id), sortBy);
+
+            SetReviews(data);
+            console.log(data);
+        }
 
 
 
-       Get_My_Profile();
+        Get_My_Profile();
 
-       if(id){
+        if (id) {
             SetSelected(parseInt(id));
-            Get_Reviews_for_Handheld(parseInt(id),sort);
-       }
+            Get_Reviews_for_Handheld(parseInt(id), sort);
+        }
 
 
-         
-
-       
 
 
-    },[id])
 
 
-    async function ToggleLikeButton(reviewid:number) {
-    
-    var rev = 1;
-      const {data} = await ToggleLike(rev);
-      const ReturnedId = data.reviewId;
-      const likestatus = data.likestatus;
+
+    }, [id])
 
 
-      SetReviews(previous => previous.map((review)=>
-        review.reviewId === ReturnedId ? {...review, isLiked:likestatus}:review
+    async function ToggleLikeButton(reviewid: number) {
 
-      ));
+        const { data } = await ToggleLike(reviewid);
+        const ReturnedId = data.reviewId;
+        const likestatus = data.likestatus;
 
-      console.log(ReturnedId);
+
+        SetReviews(previous => previous.map((review) =>
+            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
+
+        ));
+
+        console.log(ReturnedId);
 
 
 
@@ -113,66 +113,148 @@ const HomePage = () => {
 
     }
 
-  return (
-    <div>
+    return (
+        <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
 
-        <select value={currentHandheldId} onChange={(event)=>{const newId = event.target.value; navigate(`/${newId}`); }}>
+            {/* left section */}
 
-            {
-                Handhelds.map((handheld:any)=>(
-
-                    <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
-
-                ))
-            }
-
-        </select>
-
-        <select value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
-            
-            <option value="recent">Most Recent</option>
-            <option value="likes">Most Liked</option>
-        </select>
+            {/* sort */}
+            <div className='card h-100 bg-primary flex-1'>
 
 
-        <div>
+                <select value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
 
-            {reviews.map((review:any)=>(
-                <div>
-                    <p>
-                        {review.reviewText}
-                    </p>
-                </div>
-            ))}
-        </div>
+                    {
+                        Handhelds.map((handheld: any) => (
 
-        <div>
+                            <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
 
-            {selectedHandheld && 
+                        ))
+                    }
 
-            <h1>
-                The name is {selectedHandheld.handheldName}
+                </select>
 
-            </h1>
-            }
-        </div>
+                <select value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
 
+                    <option value="recent">Most Recent</option>
+                    <option value="likes">Most Liked</option>
+                </select>
 
-
-            <button onClick={()=>{ToggleLikeButton(1)}}>Toggle Like</button>
-
-
-            <div>
-                <form action="">
-
-                    <input type="text" name='reviewText' placeholder='Type your Review' autoComplete='off' />
-                    <button>Submit Review</button>
-                </form>
             </div>
 
 
-    </div>
-  )
+            {/* profile */}
+
+
+            {/* Middle Section */}
+
+            <div className=' flex flex-col gap-4 flex-2'>
+
+                <div className='card bg-primary p-4 flex'>
+
+                    <div className='avatar flex gap-3 items-center font-bold mb-1' >
+
+                        <img className='w-12 rounded-xl' src="https://assets.promptbase.com/DALLE_IMAGES%2FSB1PjLah85MVrYwvUct7urDoTXf2%2Fresized%2F1692612767503z_800x800.webp?alt=media&token=264e0f3a-2661-4347-a7be-b56d4a5afdfa" alt="" />
+
+                        <form className="w-full" action="">
+
+                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' />
+                        </form>
+
+                    </div>
+
+                    <div className='flex '>
+
+                        <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button>
+                        <button className='btn w-15 ml-auto'>Submit</button>
+
+
+                    </div>
+
+                </div>
+
+
+                {reviews.map((review: any) => (
+                    <div className='card bg-primary p-4 gap-4 '>
+
+                        <div className='avatar flex gap-3 items-center font-bold' >
+                            <div className='w-12 rounded-xl'>
+
+                                <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
+
+                            </div>
+
+                            <h1>{review.user.userName}</h1>
+
+
+
+                        </div>
+
+                        <div className='px-6'>
+
+                            <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
+                        </div>
+                        <p>
+                            {review.reviewText}
+                        </p>
+
+                        {review.isLiked ?
+
+                            <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+
+                            :
+                            <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+
+                        }
+
+
+
+                    </div>
+                ))}
+
+
+            </div>
+
+
+
+            {/* Right Section */}
+
+            <div className='card h-100 bg-primary flex-1'>
+
+                {selectedHandheld &&
+
+                    <div>
+
+                        <div className=''>
+                            <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" />
+                        </div>
+
+                        <h1 className='font-bold'>
+
+                            {selectedHandheld.handheldName}
+
+                        </h1>
+
+                        <h2>
+                            {selectedHandheld.description}
+                        </h2>
+
+                    </div>
+
+
+                }
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+    )
 }
 
 export default HomePage

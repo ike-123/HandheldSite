@@ -34,7 +34,9 @@ namespace HandheldSite.Server.Controllers
         [HttpGet("GetReview/{ReviewId}")]
         public async Task<ActionResult> GetReview(int ReviewId)
         {
-            var review = await _ReviewService.GetReview(ReviewId);
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var review = await _ReviewService.GetReview(ReviewId, UserId);
             
             return Ok(review);
         }
@@ -42,8 +44,9 @@ namespace HandheldSite.Server.Controllers
         [HttpGet("GetReviewsForHandheld/{HandheldId}")]
         public async Task<ActionResult> GetReviewsForHanheld(int HandheldId, string sort = "recent")
         {
-
-            var reviews = await _ReviewService.GetReviewsForHandheld(HandheldId, sort);
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
+            var reviews = await _ReviewService.GetReviewsForHandheld(HandheldId, sort, UserId);
             
             return Ok(reviews);
         }
