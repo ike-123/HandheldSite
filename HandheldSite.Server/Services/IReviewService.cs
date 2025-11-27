@@ -12,7 +12,7 @@ namespace HandheldSite.Server.Services
 
         Task<List<ReviewWithLikeDto>> GetReviewsForHandheld(int HandheldIdId, string sort,string userid);
 
-        Task<List<Review>> GetReviewsByUser(string userid);
+        Task<List<ReviewWithLikeDto>> GetReviewsByUser(string userid);
 
         Task CreateReview(CreateReviewDTO submittedreview, Guid userid);
 

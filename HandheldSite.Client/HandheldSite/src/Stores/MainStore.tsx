@@ -6,7 +6,7 @@ type MainStore ={
     GetRandomReviews: ()=>Promise<any>;
     GetReview: (ReviewId:number)=>Promise<any>;
     GetReviewsForHandheld: (HandheldId:number, sort:string)=>Promise<any>;
-    GetReviewsByUser: (UserId:number)=>Promise<void>;
+    GetReviewsByUser: (UserId:number)=>Promise<any>;
     CreateReview: (post:Post)=>Promise<void>;
     GetMyProfile: ()=>Promise<any>;
     GetAllHandhelds: ()=>Promise<any>;
@@ -150,7 +150,8 @@ export const useMainStore = create<MainStore>((set)=>({
 
     async GetReviewsByUser(userid:number) {
         
-       await api.get(`Review/GetReviewsByUser/${userid}`);
+       return await api.get(`Review/GetReviewsByUser/${userid}`);
+
 
     },
 

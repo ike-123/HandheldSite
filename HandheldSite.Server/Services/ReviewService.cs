@@ -137,16 +137,47 @@ namespace HandheldSite.Server.Services
 
         }
 
-        public async Task<List<Review>> GetReviewsByUser(string userid)
+        public async Task<List<ReviewWithLikeDto>> GetReviewsByUser(string userid)
         {
-            var reviews = await _dbContext.Reviews.Where(review => review.UserId.ToString() == userid).ToListAsync();
+        
+            var query = _dbContext.Reviews.Where(review => review.UserId.ToString() == userid);
 
-            if(reviews == null)
-            {
-                return null;
-            }
+            query = query.OrderByDescending(h => h.CreatedAt);
+            
 
-            return reviews;
+            var reviews = await query.ToListAsync();
+
+
+            // Get all reviewIds we are working with
+            var reviewIds = reviews.Select(review => review.ReviewId).ToList();
+
+
+            // Collect all user IDs (authors) for each review
+            var userIds = reviews.Select(review => review.UserId).Distinct().ToList();
+
+
+            // Fetch which of these reviews are liked by the current user
+            var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == userid).Select(like => like.ReviewId).ToListAsync();
+            
+
+
+            // Batch load all users
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+
+
+            var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
+                {
+                    ReviewId = review.ReviewId,
+                    HandheldId = review.HandheldId,
+                    ReviewText = review.ReviewText,
+                    PrimaryImage = review.PrimaryImage,
+                    SecondaryImage = review.SecondaryImage,
+                    CreatedAt = review.CreatedAt,
+                    isLiked = likedReviewIds.Contains(review.ReviewId),
+                    user = users[review.UserId]
+                }));
+
+            return result.ToList();
         }
 
    
