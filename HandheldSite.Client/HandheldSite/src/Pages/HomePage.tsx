@@ -173,15 +173,15 @@ const HomePage = () => {
                     </select>
 
                 </div >
-                    
-                    <div className='py-3 bg-primary rounded-md'>
+
+                <div className='py-3 bg-primary rounded-md'>
 
                     <ul className="menu menu-xl bg-base-200 rounded-box w-full bg-primary">
                         <li><a>Home</a></li>
                         <li><a>Liked Reviews</a></li>
                         <li><a>Compare</a></li>
                     </ul>
-                    </div>
+                </div>
 
 
             </div>
@@ -206,7 +206,14 @@ const HomePage = () => {
 
                     <div className='flex'>
 
-                        <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button>
+
+                        {/* <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button> */}
+
+                        <div>
+                            <label htmlFor="file" className="btn w-15 ml-14 rounded-2xl bg-emerald-400 cursor-pointer"> Photo </label>
+                            <input id="file" type="file" className="hidden" onChange={(e) => console.log(e.target.files)} />
+
+                        </div>
                         <button className='btn w-15 ml-auto'>Submit</button>
 
                     </div>
@@ -218,7 +225,7 @@ const HomePage = () => {
                     <div className='card bg-primary p-4 gap-4 '>
 
                         <div className='flex gap-3 items-center h-10' >
-                            
+
                             <div className='avatar'>
 
                                 <div className=' w-14 rounded'>
@@ -228,7 +235,7 @@ const HomePage = () => {
                                 </div>
 
                             </div>
-                           
+
 
                             <div className='flex flex-col h-full gap-1 '>
 

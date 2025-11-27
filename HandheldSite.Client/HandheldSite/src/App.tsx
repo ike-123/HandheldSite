@@ -7,6 +7,7 @@ import Register from './Pages/Register'
 import Login from './Pages/Login'
 import SingleReviewPage from './Pages/SingleReviewPage'
 import ProfilePage from './Pages/ProfilePage'
+import ComparisonPage from './Pages/ComparisonPage'
 
 
 const router = createBrowserRouter([{
@@ -32,10 +33,15 @@ const router = createBrowserRouter([{
       path: "SingleReviewPage/:id",
       element: <SingleReviewPage/>
     },
-        {
+    {
       path: "ProfilePage/:id",
       element: <ProfilePage/>
-    }
+    },
+    {
+      path: "Comparison",
+      element: <ComparisonPage/>
+    },
+
 
   ]
 }])

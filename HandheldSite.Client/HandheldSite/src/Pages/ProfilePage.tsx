@@ -109,6 +109,13 @@ const ProfilePage = () => {
             </h1>
 
 
+            <div>
+                <input id="file" type="file" className="hidden" onChange={(e) => console.log(e.target.files)}/>
+
+                <label htmlFor="file"className="btn cursor-pointer"> Upload File </label>
+            </div>
+
+
 
             {reviews.map((review: any) => (
                 <div className='card bg-primary p-4 gap-4 '>
@@ -159,6 +166,9 @@ const ProfilePage = () => {
                         <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
 
                     }
+
+
+
 
 
 
