@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useMainStore } from '../Stores/MainStore'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import processor from '../../public/processor.png'
+
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+
+
+
 
 const HomePage = () => {
 
@@ -15,6 +23,9 @@ const HomePage = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
 
+
+    TimeAgo.addDefaultLocale(en)
+    const timeAgo = new TimeAgo('en-GB')
 
     // IT WILL BE BETTER IF HANDHELD SELECTION AND SORT PANEL IS ON THE LEFT-HAND SIDE WITH THE PROFILE PANEL JUST UNDER IT.
 
@@ -106,11 +117,6 @@ const HomePage = () => {
         ));
 
         console.log(ReturnedId);
-
-
-
-
-
     }
 
     return (
@@ -119,12 +125,12 @@ const HomePage = () => {
             {/* left section */}
             <div className='flex-1 gap-3 flex flex-col'>
 
-        
-                <div className='card h-50 bg-primary flex items-center gap-1'>
 
-                    <img className='w-full h-20 object-fill rounded-t-md'  src="https://i.pinimg.com/736x/e9/53/e8/e953e8aeaf4844dab4bcffb58ec04bdf.jpg" alt="" />
+                <div className='card h-60 bg-primary flex items-center gap-1'>
+
+                    <img className='w-full h-20 object-fill rounded-t-md' src="https://i.pinimg.com/736x/e9/53/e8/e953e8aeaf4844dab4bcffb58ec04bdf.jpg" alt="" />
                     <div className="avatar justify-center mt-10">
-                        
+
                         <div className="ring-primary ring-offset-base-100 w-24 rounded-full absolute bottom-0 ring-2 ring-offset-2">
                             <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
                         </div>
@@ -132,13 +138,20 @@ const HomePage = () => {
 
                     <h1 className='text-2xl'>John Maxwell</h1>
 
+                    <div className='w-full px-10'>
+                        <button className='btn btn-secondary p-2 mt-5 w-full'>
+                            My Profile
+                        </button>
+                    </div>
+
+
 
                 </div>
 
-                <div className='card h-100 bg-primary p-6'>
+                <div className='card h-40 bg-primary px-8 pb-4 pt-2'>
 
-                    <legend className="fieldset-legend">Handheld</legend>
-                    <select className="select mb-1.5" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
+                    <legend className="fieldset-legend text-sm">Handheld</legend>
+                    <select className="select mb" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -151,7 +164,7 @@ const HomePage = () => {
                     </select>
 
 
-                    <legend className="fieldset-legend">Sort By</legend>
+                    <legend className="fieldset-legend text-sm">Sort By</legend>
 
                     <select className="select" value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
 
@@ -159,7 +172,18 @@ const HomePage = () => {
                         <option value="likes">Most Liked</option>
                     </select>
 
-                </div>
+                </div >
+                    
+                    <div className='py-3 bg-primary rounded-md'>
+
+                    <ul className="menu menu-xl bg-base-200 rounded-box w-full bg-primary">
+                        <li><a>Home</a></li>
+                        <li><a>Liked Reviews</a></li>
+                        <li><a>Compare</a></li>
+                    </ul>
+                    </div>
+
+
             </div>
 
 
@@ -180,11 +204,10 @@ const HomePage = () => {
 
                     </div>
 
-                    <div className='flex '>
+                    <div className='flex'>
 
                         <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button>
                         <button className='btn w-15 ml-auto'>Submit</button>
-
 
                     </div>
 
@@ -194,20 +217,37 @@ const HomePage = () => {
                 {reviews.map((review: any) => (
                     <div className='card bg-primary p-4 gap-4 '>
 
-                        <div className='avatar flex gap-3 items-center font-bold' >
-                            <div className='w-12 rounded-xl'>
+                        <div className='flex gap-3 items-center h-10' >
+                            
+                            <div className='avatar'>
 
-                                <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
+                                <div className=' w-14 rounded'>
+
+                                    <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
+
+                                </div>
+
+                            </div>
+                           
+
+                            <div className='flex flex-col h-full gap-1 '>
+
+                                <h1 className='font-bold'>{review.user.userName}</h1>
+
+                                <h2 className='text-sm text-accent'>
+                                    {timeAgo.format(Date.parse(review.createdAt))}
+
+                                </h2>
+
 
                             </div>
 
-                            <h1>{review.user.userName}</h1>
 
 
 
                         </div>
 
-                        <div className='px-6'>
+                        <div className='px-1'>
 
                             <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
                         </div>
@@ -236,7 +276,7 @@ const HomePage = () => {
 
             {/* Right Section */}
 
-            <div className='card h-200 bg-primary flex flex-1 min-w-0 '>
+            <div className='card h-200 bg-primary flex flex-1 min-w-0 px-2 '>
 
                 {selectedHandheld &&
 
@@ -247,33 +287,111 @@ const HomePage = () => {
                                 <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" />
                             </div>
 
-                            <h1 className='font-bold'>
+                            <h1 className='font-bold text-2xl mb-1.5'>
 
                                 {selectedHandheld.handheldName}
 
                             </h1>
 
-                            <h2>
+                            <h2 className='mb-1'>
                                 {selectedHandheld.description}
                             </h2>
 
                         </div>
 
 
-                        <div className='px-3'>
+                        <div className='px-3 flex flex-col gap-3 mt-2.5'>
 
-                            <div className='bg-secondary h-10'>
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5 py-1'>
+
+                                <img src={processor} className='h-6' alt="" />
 
                                 <div>
-                                        <h1>Processor</h1>
-                                        <h1>AMD Ryzen Z1 Extreme</h1>
+                                    <p className='text-sm'>Processor</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
                                 </div>
-                             
+
 
                             </div>
 
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1 '>
+
+                                <img src={processor} className='h-6' alt="" />
+
+                                <div>
+                                    <p className='text-sm'>CPU</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                </div>
+
+
+                            </div>
+
+
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+
+                                <img src={processor} className='h-6' alt="" />
+
+                                <div>
+                                    <p className='text-sm'>GPU</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+
+                                <img src={processor} className='h-6' alt="" />
+
+                                <div>
+                                    <p className='text-sm'>RAM</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+
+                                <img src={processor} className='h-6' alt="" />
+
+                                <div>
+                                    <p className='text-sm'>Display</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                </div>
+
+
+                            </div>
+
+                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+
+                                <img src={processor} className='h-6' alt="" />
+
+                                <div>
+                                    <p className='text-sm'>Battery</p>
+                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
                         </div>
-                     
+
 
                         {/* <div className="stats stats-vertical shadow self-center">
                             <div className="stat">

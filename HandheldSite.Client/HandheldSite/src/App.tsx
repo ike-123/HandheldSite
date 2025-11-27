@@ -6,6 +6,7 @@ import HomePage from './Pages/HomePage'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
 import SingleReviewPage from './Pages/SingleReviewPage'
+import ProfilePage from './Pages/ProfilePage'
 
 
 const router = createBrowserRouter([{
@@ -30,6 +31,10 @@ const router = createBrowserRouter([{
     {
       path: "SingleReviewPage/:id",
       element: <SingleReviewPage/>
+    },
+        {
+      path: "ProfilePage/:id",
+      element: <ProfilePage/>
     }
 
   ]
