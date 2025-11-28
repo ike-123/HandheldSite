@@ -3,6 +3,10 @@ import { useMainStore } from '../Stores/MainStore'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import processor from '../../public/processor.png'
 
+import NotLikedHeart from '../../public/Not-Liked-Heart.png'
+import LikedHeart from '../../public/Liked-Heart.png'
+
+
 import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
@@ -102,11 +106,12 @@ const HomePage = () => {
 
         const { data } = await ToggleLike(reviewid);
         const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus;
+        const likestatus = data.likestatus.likestatus;
+        const LikeCount = data.likestatus.likecount;
 
 
         SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
+            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
         ));
 
@@ -244,8 +249,6 @@ const HomePage = () => {
                             </div>
 
 
-
-
                         </div>
 
                         <div className='px-1'>
@@ -256,14 +259,25 @@ const HomePage = () => {
                             {review.reviewText}
                         </p>
 
+                        <div className='flex gap-2'>
+
                         {review.isLiked ?
 
-                            <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                <img className='h-8' src={LikedHeart} alt="" />
+                            </button>
 
                             :
-                            <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                <img className='h-8' src={NotLikedHeart} alt="" />
+
+                            </button>
 
                         }
+
+                        <h1 className='text-2xl'>{review.likeCount}</h1>
+                        </div>
+
 
 
 

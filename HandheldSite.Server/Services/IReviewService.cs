@@ -18,7 +18,7 @@ namespace HandheldSite.Server.Services
 
         Task<bool> FetchLikeStatus(int ReviewId, string userid );
 
-        Task<bool> ToggleLikeStatus(int ReviewId, string userid );
+        Task<object?> ToggleLikeStatus(int ReviewId, string userid );
 
         Task<List<ReviewWithLikeDto>> GetLikedReviews(string userid);
     }

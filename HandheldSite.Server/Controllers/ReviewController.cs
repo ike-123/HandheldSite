@@ -114,6 +114,11 @@ namespace HandheldSite.Server.Controllers
             }
 
             var likestatus = await _ReviewService.ToggleLikeStatus(reviewId,UserId);
+
+            if(likestatus == null)
+            {
+                return BadRequest("Review doesn't exist");
+            }
             
             var likeAndReviewId = new 
             {

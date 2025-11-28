@@ -53,6 +53,7 @@ namespace HandheldSite.Server.Services
                 PrimaryImage = review.PrimaryImage,
                 SecondaryImage = review.SecondaryImage,
                 CreatedAt = review.CreatedAt,
+                LikeCount = review.LikeCount,
                 isLiked = await FetchLikeStatus(review.ReviewId,userid),
                 user = await _profileService.GetUser(review.UserId.ToString())
             };
@@ -72,7 +73,6 @@ namespace HandheldSite.Server.Services
             if (sort == "mostlikes")
                 
                 query = query.OrderByDescending(review => _dbContext.Likes.Count(like=> like.ReviewId == review.ReviewId));
-
 
 
             var reviews = await query.ToListAsync();
@@ -103,6 +103,7 @@ namespace HandheldSite.Server.Services
                     PrimaryImage = review.PrimaryImage,
                     SecondaryImage = review.SecondaryImage,
                     CreatedAt = review.CreatedAt,
+                    LikeCount = review.LikeCount,
                     isLiked = likedReviewIds.Contains(review.ReviewId),
                     user = users[review.UserId]
                 }));
@@ -179,6 +180,7 @@ namespace HandheldSite.Server.Services
                     PrimaryImage = review.PrimaryImage,
                     SecondaryImage = review.SecondaryImage,
                     CreatedAt = review.CreatedAt,
+                    LikeCount = review.LikeCount,
                     isLiked = likedReviewIds.Contains(review.ReviewId),
                     user = users[review.UserId]
                 }));
@@ -224,34 +226,65 @@ namespace HandheldSite.Server.Services
         //Toggle like
 
 
-        public async Task<bool> ToggleLikeStatus(int ReviewId, string userid )
+        public async Task<object?> ToggleLikeStatus(int ReviewId, string userid )
         {
 
             Guid userIdGuid = Guid.Parse(userid);
 
+            //check if user has liked review
             Like? isLiked = await _dbContext.Likes.FirstOrDefaultAsync(like => like.ReviewId ==  ReviewId && like.UserId == userIdGuid);
+
+            //get the review and return null if it doesn't exist
+            var review = await _dbContext.Reviews.FirstOrDefaultAsync(review => review.ReviewId == ReviewId);
+            if(review == null)
+            {
+                return null;
+            }
 
             if(isLiked == null)
             {
                 //The user hasn't liked the review. So we will Like it.
 
+                //add the like into the like table
                 var Like = new Like();
 
                 Like.UserId = userIdGuid;
                 Like.ReviewId = ReviewId; 
 
+                var Result = new
+                {
+                    likecount = review.LikeCount +1,
+                    likestatus = true,
+    
+                };
+
+                //increase the likecount in the review by 1
+                review.LikeCount += 1;
+
                 await _dbContext.Likes.AddAsync(Like);
                 await _dbContext.SaveChangesAsync();
 
-                return true;
+
+                return Result;
             }
 
             //The user has currently favourited the game. So we will unfavourite it by removing it from the database.
 
             _dbContext.Likes.Remove(isLiked);
+
+            var Result2 = new
+            {
+                likecount = review.LikeCount -1,
+                likestatus = false,
+            };
+
+            review.LikeCount -= 1;
+
+
+
             await _dbContext.SaveChangesAsync();
 
-            return false;
+            return Result2;
         }
 
 

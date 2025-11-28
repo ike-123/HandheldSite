@@ -21,6 +21,8 @@ namespace HandheldSite.Server.Models
 
         public required bool isLiked {get;set;}
 
+        public int LikeCount {get;set;}
+
         public required object user {get;set;}
 
     }

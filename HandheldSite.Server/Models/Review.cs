@@ -17,6 +17,8 @@ namespace HandheldSite.Server.Models
 
         public string ReviewText {get;set;} = string.Empty;
 
+        public int LikeCount {get;set;} = 0;
+
         public DateTime CreatedAt {get;set;} 
 
     }
