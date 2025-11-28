@@ -4,6 +4,9 @@ import en from 'javascript-time-ago/locale/en'
 import { useMainStore } from '../Stores/MainStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import NotLikedHeart from '../../public/Not-Liked-Heart.png'
+import LikedHeart from '../../public/Liked-Heart.png'
+
 
 const ProfilePage = () => {
 
@@ -22,7 +25,7 @@ const ProfilePage = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
     const [userinfo, SetUserInfo] = useState<any>();
-    
+
 
 
 
@@ -55,20 +58,23 @@ const ProfilePage = () => {
     }, [])
 
 
+
     async function ToggleLikeButton(reviewid: number) {
 
         const { data } = await ToggleLike(reviewid);
         const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus;
+        const likestatus = data.likestatus.likestatus;
+        const LikeCount = data.likestatus.likecount;
 
 
         SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
+            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
         ));
 
         console.log(ReturnedId);
     }
+
 
     return (
 
@@ -123,7 +129,7 @@ const ProfilePage = () => {
 
             <div className=' flex flex-col gap-10 max-w-2xl'>
 
-                
+
                 {reviews.map((review: any) => (
                     <div className='card bg-primary p-4 gap-4 '>
 
@@ -165,16 +171,24 @@ const ProfilePage = () => {
                             {review.reviewText}
                         </p>
 
-                        {review.isLiked ?
+                        <div className='flex gap-2'>
 
-                            <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                            {review.isLiked ?
 
-                            :
-                            <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                    <img className='h-8' src={LikedHeart} alt="" />
+                                </button>
 
-                        }
+                                :
+                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                    <img className='h-8' src={NotLikedHeart} alt="" />
 
+                                </button>
 
+                            }
+
+                            <h1 className='text-3xl'>{review.likeCount}</h1>
+                        </div>
 
 
 

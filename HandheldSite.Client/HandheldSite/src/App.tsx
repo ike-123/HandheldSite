@@ -1,5 +1,5 @@
 import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Navbar from './Pages/Navbar'
 import NotFoundPage from './Pages/NotFoundPage'
 import HomePage from './Pages/HomePage'
@@ -9,12 +9,26 @@ import SingleReviewPage from './Pages/SingleReviewPage'
 import ProfilePage from './Pages/ProfilePage'
 import ComparisonPage from './Pages/ComparisonPage'
 import LikedReviews from './Pages/LikedReviews'
+import Footer from './Pages/Footer'
 
+const PageStructure = () => {
+  return (
+
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+
+
+  )
+
+}
 
 const router = createBrowserRouter([{
 
   path: "/",
-  element: <Navbar />,
+  element: <PageStructure/>,
   errorElement: <NotFoundPage />,
   children: [
 
@@ -32,19 +46,19 @@ const router = createBrowserRouter([{
     },
     {
       path: "SingleReviewPage/:id",
-      element: <SingleReviewPage/>
+      element: <SingleReviewPage />
     },
     {
       path: "ProfilePage/:id",
-      element: <ProfilePage/>
+      element: <ProfilePage />
     },
     {
       path: "Comparison",
-      element: <ComparisonPage/>
+      element: <ComparisonPage />
     },
     {
       path: "LikedReviews",
-      element: <LikedReviews/>
+      element: <LikedReviews />
     },
 
 

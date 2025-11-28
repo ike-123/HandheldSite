@@ -275,7 +275,7 @@ const HomePage = () => {
 
                         }
 
-                        <h1 className='text-2xl'>{review.likeCount}</h1>
+                        <h1 className='text-3xl'>{review.likeCount}</h1>
                         </div>
 
 

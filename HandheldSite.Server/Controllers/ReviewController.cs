@@ -54,7 +54,10 @@ namespace HandheldSite.Server.Controllers
         [HttpGet("GetReviewsByUser/{UserId}")]
         public async Task<ActionResult> GetReviewsByUser(string UserId)
         {
-            var reviews = await _ReviewService.GetReviewsByUser(UserId);
+            var MyUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var reviews = await _ReviewService.GetReviewsByUser(UserId,MyUserId);
+
 
             if(reviews == null)
             {

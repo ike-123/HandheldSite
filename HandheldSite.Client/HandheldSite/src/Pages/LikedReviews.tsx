@@ -2,6 +2,9 @@ import TimeAgo from 'javascript-time-ago';
 import React, { useEffect, useState } from 'react'
 import en from 'javascript-time-ago/locale/en'
 import { useMainStore } from '../Stores/MainStore';
+import NotLikedHeart from '../../public/Not-Liked-Heart.png'
+import LikedHeart from '../../public/Liked-Heart.png'
+
 
 const LikedReviews = () => {
 
@@ -10,7 +13,7 @@ const LikedReviews = () => {
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const GetLikedReviews = useMainStore((state) => state.GetLikedReviews);
-    
+
 
 
     TimeAgo.addDefaultLocale(en)
@@ -30,31 +33,33 @@ const LikedReviews = () => {
         }
 
         Get_Liked_Reviews();
-        
+
 
     }, [])
-    
+
 
     async function ToggleLikeButton(reviewid: number) {
 
         const { data } = await ToggleLike(reviewid);
         const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus;
+        const likestatus = data.likestatus.likestatus;
+        const LikeCount = data.likestatus.likecount;
 
 
         SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
+            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
         ));
 
         console.log(ReturnedId);
     }
 
+
     return (
 
         <div className='flex-col flex max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 items-center gap-5'>
 
-            
+
             <h1 className='text-2xl'>Liked Reviews</h1>
 
 
@@ -99,14 +104,24 @@ const LikedReviews = () => {
                         {review.reviewText}
                     </p>
 
-                    {review.isLiked ?
+                    <div className='flex gap-2'>
 
-                        <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                        {review.isLiked ?
 
-                        :
-                        <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                <img className='h-8' src={LikedHeart} alt="" />
+                            </button>
 
-                    }
+                            :
+                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                <img className='h-8' src={NotLikedHeart} alt="" />
+
+                            </button>
+
+                        }
+
+                        <h1 className='text-3xl'>{review.likeCount}</h1>
+                    </div>
 
 
 
