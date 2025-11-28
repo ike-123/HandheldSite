@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HandheldSite.Server.Services
 {
-    public class ReviewService: IReviewService
+    public class ReviewService : IReviewService
     {
         private readonly MyDbContext _dbContext;
         private readonly IProfileService _profileService;
@@ -24,7 +24,7 @@ namespace HandheldSite.Server.Services
         {
             var reviews = await _dbContext.Reviews.OrderBy(r => Guid.NewGuid()).Take(10).ToListAsync();
 
-            if(reviews == null)
+            if (reviews == null)
             {
                 return null;
             }
@@ -32,14 +32,14 @@ namespace HandheldSite.Server.Services
             return reviews;
         }
 
-           public async Task<ReviewWithLikeDto> GetReview(int ReviewId, string userid)
+        public async Task<ReviewWithLikeDto> GetReview(int ReviewId, string userid)
         {
             //take the reviewID and find the review
             //then add isliked and the user profile.
 
             var review = await _dbContext.Reviews.FirstOrDefaultAsync(review => review.ReviewId == ReviewId);
 
-            if(review == null)
+            if (review == null)
             {
                 return null;
             }
@@ -51,10 +51,9 @@ namespace HandheldSite.Server.Services
                 HandheldId = review.HandheldId,
                 ReviewText = review.ReviewText,
                 PrimaryImage = review.PrimaryImage,
-                SecondaryImage = review.SecondaryImage,
                 CreatedAt = review.CreatedAt,
                 LikeCount = review.LikeCount,
-                isLiked = await FetchLikeStatus(review.ReviewId,userid),
+                isLiked = await FetchLikeStatus(review.ReviewId, userid),
                 user = await _profileService.GetUser(review.UserId.ToString())
             };
 
@@ -66,13 +65,13 @@ namespace HandheldSite.Server.Services
         {
             var query = _dbContext.Reviews.Where(review => review.HandheldId == HandheldIdId);
 
-            if(sort == "recent")
+            if (sort == "recent")
                 query = query.OrderByDescending(h => h.CreatedAt)
             ;
 
             if (sort == "mostlikes")
-                
-                query = query.OrderByDescending(review => _dbContext.Likes.Count(like=> like.ReviewId == review.ReviewId));
+
+                query = query.OrderByDescending(review => _dbContext.Likes.Count(like => like.ReviewId == review.ReviewId));
 
 
             var reviews = await query.ToListAsync();
@@ -88,25 +87,24 @@ namespace HandheldSite.Server.Services
 
             // Fetch which of these reviews are liked by the current user
             var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == userid).Select(like => like.ReviewId).ToListAsync();
-            
+
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
 
 
-            var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
-                {
-                    ReviewId = review.ReviewId,
-                    HandheldId = review.HandheldId,
-                    ReviewText = review.ReviewText,
-                    PrimaryImage = review.PrimaryImage,
-                    SecondaryImage = review.SecondaryImage,
-                    CreatedAt = review.CreatedAt,
-                    LikeCount = review.LikeCount,
-                    isLiked = likedReviewIds.Contains(review.ReviewId),
-                    user = users[review.UserId]
-                }));
+            var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
+            {
+                ReviewId = review.ReviewId,
+                HandheldId = review.HandheldId,
+                ReviewText = review.ReviewText,
+                PrimaryImage = review.PrimaryImage,
+                CreatedAt = review.CreatedAt,
+                LikeCount = review.LikeCount,
+                isLiked = likedReviewIds.Contains(review.ReviewId),
+                user = users[review.UserId]
+            }));
 
 
             // var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
@@ -133,7 +131,7 @@ namespace HandheldSite.Server.Services
             //     CreatedAt = review.CreatedAt,
             //     isLiked = await FetchLikeStatus(review.ReviewId,review.UserId.ToString())
             // });
-            
+
 
             return result.ToList();
 
@@ -141,15 +139,15 @@ namespace HandheldSite.Server.Services
 
         public async Task<List<ReviewWithLikeDto>> GetReviewsByUser(string userid, string myuserId)
         {
-        
+
             var query = _dbContext.Reviews.Where(review => review.UserId.ToString() == userid);
 
             query = query.OrderByDescending(h => h.CreatedAt);
-            
+
 
             var reviews = await query.ToListAsync();
 
-            if(reviews == null)
+            if (reviews == null)
             {
                 return null;
             }
@@ -165,57 +163,78 @@ namespace HandheldSite.Server.Services
 
             // Fetch which of these reviews are liked by the current user
             var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == myuserId).Select(like => like.ReviewId).ToListAsync();
-            
+
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
 
 
-            var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
-                {
-                    ReviewId = review.ReviewId,
-                    HandheldId = review.HandheldId,
-                    ReviewText = review.ReviewText,
-                    PrimaryImage = review.PrimaryImage,
-                    SecondaryImage = review.SecondaryImage,
-                    CreatedAt = review.CreatedAt,
-                    LikeCount = review.LikeCount,
-                    isLiked = likedReviewIds.Contains(review.ReviewId),
-                    user = users[review.UserId]
-                }));
+            var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
+            {
+                ReviewId = review.ReviewId,
+                HandheldId = review.HandheldId,
+                ReviewText = review.ReviewText,
+                PrimaryImage = review.PrimaryImage,
+                CreatedAt = review.CreatedAt,
+                LikeCount = review.LikeCount,
+                isLiked = likedReviewIds.Contains(review.ReviewId),
+                user = users[review.UserId]
+            }));
 
             return result.ToList();
         }
 
-   
-        public async Task CreateReview(CreateReviewDTO submittedreview, Guid userid )
+
+        public async Task<bool> CreateReview(CreateReviewDTO submittedReview, Guid userid)
         {
 
+            byte[]? imageBytes = null;
 
-
-            var Review = new Review
+            if (submittedReview.PrimaryImage != null)
             {
-                UserId = userid,
-                HandheldId = submittedreview.HandheldId,
-                PrimaryImage = submittedreview.PrimaryImage,
-                SecondaryImage = submittedreview.SecondaryImage,
-                ReviewText = submittedreview.ReviewText,
-                CreatedAt = DateTime.UtcNow
-            };
+                using (var ms = new MemoryStream())
+                {
+                    await submittedReview.PrimaryImage.CopyToAsync(ms);
+                    imageBytes = ms.ToArray();
+                }
+            }
 
-            _dbContext.Reviews.Add(Review);
-            await _dbContext.SaveChangesAsync();
-        
+
+
+            if (int.TryParse(submittedReview.HandheldId, out int intID))
+            {
+                var Review = new Review
+                {
+                    UserId = userid,
+                    HandheldId = intID,
+                    PrimaryImage = imageBytes,
+                    ReviewText = submittedReview.ReviewText,
+                    LikeCount = 0,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _dbContext.Reviews.Add(Review);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+
         }
 
 
         //Fetch Like Status
 
-        public async Task<bool> FetchLikeStatus(int ReviewId, string userid )
+        public async Task<bool> FetchLikeStatus(int ReviewId, string userid)
         {
 
-            var isLiked = await _dbContext.Likes.FirstOrDefaultAsync(like => like.ReviewId ==  ReviewId && like.UserId.ToString() == userid);
+            var isLiked = await _dbContext.Likes.FirstOrDefaultAsync(like => like.ReviewId == ReviewId && like.UserId.ToString() == userid);
 
             return isLiked != null;
 
@@ -226,22 +245,22 @@ namespace HandheldSite.Server.Services
         //Toggle like
 
 
-        public async Task<object?> ToggleLikeStatus(int ReviewId, string userid )
+        public async Task<object?> ToggleLikeStatus(int ReviewId, string userid)
         {
 
             Guid userIdGuid = Guid.Parse(userid);
 
             //check if user has liked review
-            Like? isLiked = await _dbContext.Likes.FirstOrDefaultAsync(like => like.ReviewId ==  ReviewId && like.UserId == userIdGuid);
+            Like? isLiked = await _dbContext.Likes.FirstOrDefaultAsync(like => like.ReviewId == ReviewId && like.UserId == userIdGuid);
 
             //get the review and return null if it doesn't exist
             var review = await _dbContext.Reviews.FirstOrDefaultAsync(review => review.ReviewId == ReviewId);
-            if(review == null)
+            if (review == null)
             {
                 return null;
             }
 
-            if(isLiked == null)
+            if (isLiked == null)
             {
                 //The user hasn't liked the review. So we will Like it.
 
@@ -249,13 +268,13 @@ namespace HandheldSite.Server.Services
                 var Like = new Like();
 
                 Like.UserId = userIdGuid;
-                Like.ReviewId = ReviewId; 
+                Like.ReviewId = ReviewId;
 
                 var Result = new
                 {
-                    likecount = review.LikeCount +1,
+                    likecount = review.LikeCount + 1,
                     likestatus = true,
-    
+
                 };
 
                 //increase the likecount in the review by 1
@@ -274,7 +293,7 @@ namespace HandheldSite.Server.Services
 
             var Result2 = new
             {
-                likecount = review.LikeCount -1,
+                likecount = review.LikeCount - 1,
                 likestatus = false,
             };
 
@@ -298,7 +317,7 @@ namespace HandheldSite.Server.Services
 
             //For each review in the reviews table we look at a like and check if the like.reviewid is the same as the review.reviewid,
             //  if it's the same then we know a user has liked it. We then check the like.userid and see if it matches the userid that we passed 
-            
+
             //shorter explanation- A review is included if there exists a Like with the same ReviewId and the Like.UserId equals userIdGuid.
 
             var reviews = await _dbContext.Reviews.Where(review => _dbContext.Likes.Any(like => like.ReviewId == review.ReviewId && like.UserId == userIdGuid)).ToListAsync();
@@ -314,29 +333,28 @@ namespace HandheldSite.Server.Services
 
             // Fetch which of these reviews are liked by the current user
             var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == userid).Select(like => like.ReviewId).ToListAsync();
-            
+
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
 
 
-            var result = await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
-                {
-                    ReviewId = review.ReviewId,
-                    HandheldId = review.HandheldId,
-                    ReviewText = review.ReviewText,
-                    PrimaryImage = review.PrimaryImage,
-                    SecondaryImage = review.SecondaryImage,
-                    CreatedAt = review.CreatedAt,
-                    LikeCount = review.LikeCount,
-                    isLiked = likedReviewIds.Contains(review.ReviewId),
-                    user = users[review.UserId]
-                }));
+            var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
+            {
+                ReviewId = review.ReviewId,
+                HandheldId = review.HandheldId,
+                ReviewText = review.ReviewText,
+                PrimaryImage = review.PrimaryImage,
+                CreatedAt = review.CreatedAt,
+                LikeCount = review.LikeCount,
+                isLiked = likedReviewIds.Contains(review.ReviewId),
+                user = users[review.UserId]
+            }));
 
             return result.ToList();
 
-            
+
 
         }
 

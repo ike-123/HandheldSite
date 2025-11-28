@@ -7,9 +7,9 @@ namespace HandheldSite.Server.Models
 
         public Guid UserId {get;set;}
 
-        public int HandheldId {get;set;}
+        public string HandheldId {get;set;}
 
-        public string PrimaryImage {get;set;} = string.Empty;
+        public IFormFile? PrimaryImage {get;set;}
 
         public string SecondaryImage {get;set;} = string.Empty;
 

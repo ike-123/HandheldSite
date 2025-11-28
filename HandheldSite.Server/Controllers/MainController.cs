@@ -12,15 +12,15 @@ namespace HandheldSite.Server.Controllers
     public class MainController : ControllerBase
     {
 
-        Review Review = new Review{ReviewText = "I love the steam deck. I bought it last week and have been glued to it ever since", PrimaryImage = ""};
+        // Review Review = new Review{ReviewText = "I love the steam deck. I bought it last week and have been glued to it ever since", PrimaryImage = ""};
 
 
-        [Authorize]
-        [HttpGet("GetReview")]
-        public IActionResult GetReview()
-        {   
-            return Ok(Review);
-        }
+        // [Authorize]
+        // [HttpGet("GetReview")]
+        // public IActionResult GetReview()
+        // {   
+        //     return Ok(Review);
+        // }
 
 
 

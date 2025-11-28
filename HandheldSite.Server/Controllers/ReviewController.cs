@@ -70,15 +70,20 @@ namespace HandheldSite.Server.Controllers
 
         [Authorize]
         [HttpPost("CreateReview")]
-        public async Task<ActionResult> CreateReview([FromBody] CreateReviewDTO reviewdto)
+        public async Task<ActionResult> CreateReview([FromForm] CreateReviewDTO submittedReview)
         {
+            if (submittedReview == null)
+            {
+                return BadRequest("Invalid review data.");
+            }
+
             var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var userid = Guid.Parse(userid_string!);
 
             try
             {
-                await _ReviewService.CreateReview(reviewdto,userid);
+                await _ReviewService.CreateReview(submittedReview,userid);
                 return Ok("Review Created");
             }
             catch (Exception)

@@ -14,7 +14,7 @@ namespace HandheldSite.Server.Services
 
         Task<List<ReviewWithLikeDto>> GetReviewsByUser(string userid, string MyUserId);
 
-        Task CreateReview(CreateReviewDTO submittedreview, Guid userid);
+        Task<bool> CreateReview(CreateReviewDTO submittedReview, Guid userid );
 
         Task<bool> FetchLikeStatus(int ReviewId, string userid );
 

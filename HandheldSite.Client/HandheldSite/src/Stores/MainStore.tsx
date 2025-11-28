@@ -7,7 +7,7 @@ type MainStore ={
     GetReview: (ReviewId:number)=>Promise<any>;
     GetReviewsForHandheld: (HandheldId:number, sort:string)=>Promise<any>;
     GetReviewsByUser: (UserId:string)=>Promise<any>;
-    CreateReview: (post:Post)=>Promise<void>;
+    CreateReview: (post:any)=>Promise<any>;
     GetMyProfile: ()=>Promise<any>;
     GetUserProfile: (userid:string)=>Promise<any>;
     GetAllHandhelds: ()=>Promise<any>;
@@ -16,9 +16,8 @@ type MainStore ={
 
 }
 type Post = {
-    HandheldId:string,
+    HandheldId:number,
     PrimaryImage:string,
-    SecondaryImage:string,
     ReviewText:string
 }
 
@@ -157,9 +156,15 @@ export const useMainStore = create<MainStore>((set)=>({
 
     },
 
-    async CreateReview(post:Post) {
+    async CreateReview(post:any) {
         
-       await api.post("Review/CreateReview", post);
+       await api.post("Review/CreateReview", post,{
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          }
+          
+        });
 
     },
 

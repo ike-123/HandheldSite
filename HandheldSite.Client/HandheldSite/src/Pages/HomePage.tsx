@@ -12,7 +12,11 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 
 
-
+type Post = {
+    HandheldId: number,
+    PrimaryImage: string,
+    ReviewText: string
+}
 
 const HomePage = () => {
 
@@ -26,6 +30,9 @@ const HomePage = () => {
     const [currentHandheldId, SetSelected] = useState<number | undefined>(undefined);
 
     const [reviews, SetReviews] = useState<any[]>([]);
+
+    const [userReview, SetUserReview] = useState<any | null>();
+    const [reviewImage, SetReviewImage] = useState<File | null>(null);
 
 
     TimeAgo.addDefaultLocale(en)
@@ -41,6 +48,8 @@ const HomePage = () => {
     const GetMyProfile = useMainStore((state) => state.GetMyProfile);
     const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    const SubmitReview = useMainStore((state) => state.CreateReview);
+
 
 
 
@@ -101,6 +110,20 @@ const HomePage = () => {
 
     }, [id])
 
+    function ChangeUseReviewValue(event: React.ChangeEvent<HTMLInputElement>) {
+
+        console.log(event.target.value);
+        SetUserReview(event.target.value);
+    }
+
+    function HandleImageSelect(event: React.ChangeEvent<HTMLInputElement>) {
+
+        console.log(event.target.files);
+        const file = event.target.files?.[0];
+        if (file) {
+            SetReviewImage(file);
+        }
+    }
 
     async function ToggleLikeButton(reviewid: number) {
 
@@ -117,6 +140,23 @@ const HomePage = () => {
 
         console.log(ReturnedId);
     }
+
+
+
+    async function SubmitReviewButton() {
+
+        const formData = new FormData();
+
+        formData.append("HandheldId", currentHandheldId!.toString());
+        formData.append("ReviewText", userReview);
+        if (reviewImage) {
+            formData.append("PrimaryImage", reviewImage);
+        }
+
+        const { data } = await SubmitReview(formData);
+        console.log(data);
+    }
+    
 
     return (
         <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
@@ -198,7 +238,7 @@ const HomePage = () => {
 
                         <form className="w-full" action="">
 
-                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' />
+                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' onChange={ChangeUseReviewValue} />
                         </form>
 
                     </div>
@@ -210,10 +250,10 @@ const HomePage = () => {
 
                         <div>
                             <label htmlFor="file" className="btn w-15 ml-14 rounded-2xl bg-emerald-400 cursor-pointer"> Photo </label>
-                            <input id="file" type="file" className="hidden" onChange={(e) => console.log(e.target.files)} />
+                            <input id="file" type="file" className="hidden" onChange={HandleImageSelect} />
 
                         </div>
-                        <button className='btn w-15 ml-auto'>Submit</button>
+                        <button onClick={SubmitReviewButton} className='btn w-15 ml-auto'>Submit</button>
 
                     </div>
 
@@ -261,21 +301,21 @@ const HomePage = () => {
 
                         <div className='flex gap-2'>
 
-                        {review.isLiked ?
+                            {review.isLiked ?
 
-                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                <img className='h-8' src={LikedHeart} alt="" />
-                            </button>
+                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                    <img className='h-8' src={LikedHeart} alt="" />
+                                </button>
 
-                            :
-                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                <img className='h-8' src={NotLikedHeart} alt="" />
+                                :
+                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
+                                    <img className='h-8' src={NotLikedHeart} alt="" />
 
-                            </button>
+                                </button>
 
-                        }
+                            }
 
-                        <h1 className='text-3xl'>{review.likeCount}</h1>
+                            <h1 className='text-3xl'>{review.likeCount}</h1>
                         </div>
 
 
