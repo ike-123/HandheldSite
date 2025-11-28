@@ -10,6 +10,7 @@ import ProfilePage from './Pages/ProfilePage'
 import ComparisonPage from './Pages/ComparisonPage'
 import LikedReviews from './Pages/LikedReviews'
 import Footer from './Pages/Footer'
+import Test from './Pages/test'
 
 const PageStructure = () => {
   return (
@@ -60,6 +61,10 @@ const router = createBrowserRouter([{
       path: "LikedReviews",
       element: <LikedReviews />
     },
+    {
+      path: "test",
+      element: <Test/>
+    }
 
 
   ]

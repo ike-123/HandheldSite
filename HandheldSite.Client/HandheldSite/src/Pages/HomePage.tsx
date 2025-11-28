@@ -11,6 +11,9 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
 
+    TimeAgo.addDefaultLocale(en)
+    const timeAgo = new TimeAgo('en-GB')
+
 
 type Post = {
     HandheldId: number,
@@ -35,8 +38,6 @@ const HomePage = () => {
     const [reviewImage, SetReviewImage] = useState<File | null>(null);
 
 
-    TimeAgo.addDefaultLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
 
     // IT WILL BE BETTER IF HANDHELD SELECTION AND SORT PANEL IS ON THE LEFT-HAND SIDE WITH THE PROFILE PANEL JUST UNDER IT.
 
@@ -51,6 +52,8 @@ const HomePage = () => {
     const SubmitReview = useMainStore((state) => state.CreateReview);
 
 
+
+    const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
 
 
     const selectedHandheld: any = Handhelds.find((handheld: any) => handheld.handheldId === currentHandheldId);
@@ -74,6 +77,38 @@ const HomePage = () => {
         Get_All_Handhelds();
 
     }, [])
+
+    useEffect(() => {
+        reviews.forEach((review: any) => {
+            if (!review.primaryImage || imageUrls[review.reviewId]) return;
+
+            // 1) already a data URL string (e.g. "data:image/png;base64,...")
+            if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
+                setImageUrls(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
+                return;
+            }
+
+            // 2) plain base64 string without prefix
+            if (typeof review.primaryImage === 'string') {
+                const dataUrl = `data:image/jpeg;base64,${review.primaryImage}`;
+                setImageUrls(prev => ({ ...prev, [review.reviewId]: dataUrl }));
+                return;
+            }
+
+            // 3) numeric byte array or { data: number[] } from EF/JSON
+            const bytes = review.primaryImage.data ?? review.primaryImage;
+            const uint8 = new Uint8Array(bytes);
+            const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
+            const url = URL.createObjectURL(blob);
+            setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
+        });
+        // revoke created URLs on unmount to avoid memory leaks
+        return () => {
+            Object.values(imageUrls).forEach(u => {
+                try { URL.revokeObjectURL(u); } catch { }
+            });
+        };
+    }, [reviews]);
 
 
     useEffect(() => {
@@ -156,7 +191,7 @@ const HomePage = () => {
         const { data } = await SubmitReview(formData);
         console.log(data);
     }
-    
+
 
     return (
         <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
@@ -293,7 +328,7 @@ const HomePage = () => {
 
                         <div className='px-1'>
 
-                            <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
+                            <img className='rounded-xl' src={imageUrls[review.reviewId]} alt="" />
                         </div>
                         <p>
                             {review.reviewText}
