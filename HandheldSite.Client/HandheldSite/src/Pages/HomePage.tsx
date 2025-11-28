@@ -95,12 +95,6 @@ const HomePage = () => {
             Get_Reviews_for_Handheld(parseInt(id), sort);
         }
 
-
-
-
-
-
-
     }, [id])
 
 

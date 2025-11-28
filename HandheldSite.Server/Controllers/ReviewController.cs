@@ -55,6 +55,11 @@ namespace HandheldSite.Server.Controllers
         public async Task<ActionResult> GetReviewsByUser(string UserId)
         {
             var reviews = await _ReviewService.GetReviewsByUser(UserId);
+
+            if(reviews == null)
+            {
+                return BadRequest("not found");
+            }
             
             return Ok(reviews);
         }

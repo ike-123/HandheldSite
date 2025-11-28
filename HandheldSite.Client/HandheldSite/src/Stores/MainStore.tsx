@@ -6,11 +6,13 @@ type MainStore ={
     GetRandomReviews: ()=>Promise<any>;
     GetReview: (ReviewId:number)=>Promise<any>;
     GetReviewsForHandheld: (HandheldId:number, sort:string)=>Promise<any>;
-    GetReviewsByUser: (UserId:number)=>Promise<any>;
+    GetReviewsByUser: (UserId:string)=>Promise<any>;
     CreateReview: (post:Post)=>Promise<void>;
     GetMyProfile: ()=>Promise<any>;
+    GetUserProfile: (userid:string)=>Promise<any>;
     GetAllHandhelds: ()=>Promise<any>;
     ToggleLikeButton:(reviewId:number)=>Promise<any>;
+    GetLikedReviews:()=>Promise<any>;
 
 }
 type Post = {
@@ -148,7 +150,7 @@ export const useMainStore = create<MainStore>((set)=>({
 
     },
 
-    async GetReviewsByUser(userid:number) {
+    async GetReviewsByUser(userid:string) {
         
        return await api.get(`Review/GetReviewsByUser/${userid}`);
 
@@ -167,6 +169,10 @@ export const useMainStore = create<MainStore>((set)=>({
 
     },
 
+    async GetUserProfile(userid:string){
+        return await api.get(`Profile/GetUserProfileinfo/${userid}`)
+    },
+
     async GetAllHandhelds() {
         
         return await api.get(`Handheld/GetAllHandhelds`)
@@ -178,6 +184,12 @@ export const useMainStore = create<MainStore>((set)=>({
             {params:{reviewId}}
         )
     },
+
+    async GetLikedReviews() {
+        
+        return await api.get(`Review/GetLikedReviews`)
+
+    }
     
 
 })

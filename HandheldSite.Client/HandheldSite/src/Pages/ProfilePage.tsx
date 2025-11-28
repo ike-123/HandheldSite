@@ -15,11 +15,14 @@ const ProfilePage = () => {
     const timeAgo = new TimeAgo('en-GB')
 
     const GetReviewsForUser = useMainStore((state) => state.GetReviewsByUser);
+    const GetUserProfile = useMainStore((state) => state.GetUserProfile);
+
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
 
     const [reviews, SetReviews] = useState<any[]>([]);
-
+    const [userinfo, SetUserInfo] = useState<any>();
+    
 
 
 
@@ -27,20 +30,29 @@ const ProfilePage = () => {
 
 
 
-        async function Get_Reviews_for_User(id: number) {
+        async function Get_Reviews_for_User(id: string) {
 
-            const { data } = await GetReviewsForUser(Number(id));
+            const { data } = await GetReviewsForUser(id);
 
             SetReviews(data);
             console.log(data);
         }
 
+        async function Get_User_Profile(id: string) {
 
-        if (id) {
-            Get_Reviews_for_User(parseInt(id));
+            const { data } = await GetUserProfile(id);
+
+            SetUserInfo(data);
+            console.log(data);
         }
 
-    }, [id])
+
+        if (id) {
+            Get_User_Profile(id);
+            Get_Reviews_for_User(id);
+        }
+
+    }, [])
 
 
     async function ToggleLikeButton(reviewid: number) {
@@ -87,8 +99,8 @@ const ProfilePage = () => {
 
                     <div className='bg-primary w-full h-35 flex flex-col '>
 
-                        <h1 className='text-4xl pl-85 pt-5'>Username</h1>
-                        <h2 className='text-md pl-85 pt-1'>Description</h2>
+                        <h1 className='text-4xl pl-85 pt-5'>{userinfo?.username}</h1>
+                        {/* <h2 className='text-md pl-85 pt-1'>Description</h2> */}
 
 
                     </div>
@@ -104,76 +116,74 @@ const ProfilePage = () => {
 
 
 
-            <h1 className=''>
-                Reviews from username
+            <h1 className='text-2xl mb-6'>
+                Reviews from {userinfo?.username}
             </h1>
 
 
-            <div>
-                <input id="file" type="file" className="hidden" onChange={(e) => console.log(e.target.files)}/>
+            <div className=' flex flex-col gap-10 max-w-2xl'>
 
-                <label htmlFor="file"className="btn cursor-pointer"> Upload File </label>
-            </div>
+                
+                {reviews.map((review: any) => (
+                    <div className='card bg-primary p-4 gap-4 '>
 
+                        <div className='flex gap-3 items-center h-10' >
 
+                            <div className='avatar'>
 
-            {reviews.map((review: any) => (
-                <div className='card bg-primary p-4 gap-4 '>
+                                <div className=' w-14 rounded'>
 
-                    <div className='flex gap-3 items-center h-10' >
+                                    <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
 
-                        <div className='avatar'>
-
-                            <div className=' w-14 rounded'>
-
-                                <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
+                                </div>
 
                             </div>
 
+
+                            <div className='flex flex-col h-full gap-1 '>
+
+                                <h1 className='font-bold'>{review.user.userName}</h1>
+
+                                <h2 className='text-sm text-accent'>
+                                    {timeAgo.format(Date.parse(review.createdAt))}
+
+                                </h2>
+
+
+                            </div>
+
+
+
+
                         </div>
 
+                        <div className='px-1'>
 
-                        <div className='flex flex-col h-full gap-1 '>
-
-                            <h1 className='font-bold'>{review.user.userName}</h1>
-
-                            <h2 className='text-sm text-accent'>
-                                {timeAgo.format(Date.parse(review.createdAt))}
-
-                            </h2>
-
-
+                            <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
                         </div>
+                        <p>
+                            {review.reviewText}
+                        </p>
+
+                        {review.isLiked ?
+
+                            <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+
+                            :
+                            <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
+
+                        }
+
+
 
 
 
 
                     </div>
+                ))}
 
-                    <div className='px-1'>
+            </div>
 
-                        <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
-                    </div>
-                    <p>
-                        {review.reviewText}
-                    </p>
-
-                    {review.isLiked ?
-
-                        <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
-
-                        :
-                        <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(review.reviewId) }}>Toggle Like</button>
-
-                    }
-
-
-
-
-
-
-                </div>
-            ))}
 
 
         </div>

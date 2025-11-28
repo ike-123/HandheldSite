@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using HandheldSite.Server.Data;
 using HandheldSite.Server.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace HandheldSite.Server.Services
@@ -147,6 +148,11 @@ namespace HandheldSite.Server.Services
 
             var reviews = await query.ToListAsync();
 
+            if(reviews == null)
+            {
+                return null;
+            }
+
 
             // Get all reviewIds we are working with
             var reviewIds = reviews.Select(review => review.ReviewId).ToList();
@@ -252,7 +258,7 @@ namespace HandheldSite.Server.Services
 
         //Fetch All Likes
 
-        public async Task<List<Review>> GetLikedReviews(string userid)
+        public async Task<List<ReviewWithLikeDto>> GetLikedReviews(string userid)
         {
 
             Guid userIdGuid = Guid.Parse(userid);
@@ -262,7 +268,41 @@ namespace HandheldSite.Server.Services
             
             //shorter explanation- A review is included if there exists a Like with the same ReviewId and the Like.UserId equals userIdGuid.
 
-            return await _dbContext.Reviews.Where(review => _dbContext.Likes.Any(like => like.ReviewId == review.ReviewId && like.UserId == userIdGuid)).ToListAsync();
+            var reviews = await _dbContext.Reviews.Where(review => _dbContext.Likes.Any(like => like.ReviewId == review.ReviewId && like.UserId == userIdGuid)).ToListAsync();
+
+
+            // Get all reviewIds we are working with
+            var reviewIds = reviews.Select(review => review.ReviewId).ToList();
+
+
+            // Collect all user IDs (authors) for each review
+            var userIds = reviews.Select(review => review.UserId).Distinct().ToList();
+
+
+            // Fetch which of these reviews are liked by the current user
+            var likedReviewIds = await _dbContext.Likes.Where(like => reviewIds.Contains(like.ReviewId) && like.UserId.ToString() == userid).Select(like => like.ReviewId).ToListAsync();
+            
+
+
+            // Batch load all users
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new {u.Email,u.UserName});
+
+
+            var result =  await Task.WhenAll( reviews.Select(async review => new ReviewWithLikeDto
+                {
+                    ReviewId = review.ReviewId,
+                    HandheldId = review.HandheldId,
+                    ReviewText = review.ReviewText,
+                    PrimaryImage = review.PrimaryImage,
+                    SecondaryImage = review.SecondaryImage,
+                    CreatedAt = review.CreatedAt,
+                    isLiked = likedReviewIds.Contains(review.ReviewId),
+                    user = users[review.UserId]
+                }));
+
+            return result.ToList();
+
+            
 
         }
 

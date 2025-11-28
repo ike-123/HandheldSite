@@ -8,6 +8,7 @@ import Login from './Pages/Login'
 import SingleReviewPage from './Pages/SingleReviewPage'
 import ProfilePage from './Pages/ProfilePage'
 import ComparisonPage from './Pages/ComparisonPage'
+import LikedReviews from './Pages/LikedReviews'
 
 
 const router = createBrowserRouter([{
@@ -40,6 +41,10 @@ const router = createBrowserRouter([{
     {
       path: "Comparison",
       element: <ComparisonPage/>
+    },
+    {
+      path: "LikedReviews",
+      element: <LikedReviews/>
     },
 
 
