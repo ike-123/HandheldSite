@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using HandheldSite.Server.Models;
 using HandheldSite.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +16,14 @@ namespace HandheldSite.Server.Controllers
         private readonly IAuthService _authservice;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthController> _logger;
+        private readonly IProfileService _profileService;
 
-        public AuthController(IAuthService authService, IConfiguration configuration, ILogger<AuthController> logger)
+        public AuthController(IAuthService authService, IConfiguration configuration, ILogger<AuthController> logger, IProfileService profileService)
         {
             _authservice = authService;
             _configuration = configuration;
             _logger = logger;
+            _profileService = profileService;
         }
         
         [HttpPost("Register")]
@@ -76,7 +80,6 @@ namespace HandheldSite.Server.Controllers
         {
 
             _logger.LogInformation("RefreshToken endpoint called");
-            Debug.WriteLine("hey");
 
             var refreshToken = Request.Cookies["Refresh_Token"];
 
@@ -110,5 +113,28 @@ namespace HandheldSite.Server.Controllers
             return Ok(); 
 
         }
+
+        [Authorize]
+		[HttpGet("Ping")]
+		public async Task<IActionResult> AuthenticatedUserEndpoint()
+		{
+            var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            try
+            {
+                object profilePageInfo = await _profileService.GetUserProfileinfo(userid_string!);
+                return Ok(profilePageInfo);
+                
+            }
+            catch (Exception)
+            {
+                return Unauthorized("User not found");
+            }
+
+		}
+
+
+
+
     }
 }

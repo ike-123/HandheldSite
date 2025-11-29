@@ -4,6 +4,8 @@ import { useMainStore } from '../Stores/MainStore';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 
+import NotLikedHeart from '../../public/Not-Liked-Heart.png'
+import LikedHeart from '../../public/Liked-Heart.png'
 
 const SingleReviewPage = () => {
 
@@ -13,6 +15,9 @@ const SingleReviewPage = () => {
 
     const [PageContent, SetPageContent] = useState<any>();
 
+    const [imageUrl, setImageUrl] = useState<string>();
+
+
     TimeAgo.addDefaultLocale(en)
     const timeAgo = new TimeAgo('en-GB')
 
@@ -20,7 +25,7 @@ const SingleReviewPage = () => {
     const GetPageInfo = useMainStore((state) => state.GetReview);
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
-    
+
 
 
     useEffect(() => {
@@ -40,6 +45,41 @@ const SingleReviewPage = () => {
 
     }, [id])
 
+    useEffect(() => {
+
+        console.log("runnnin")
+
+        if (!PageContent?.primaryImage) return;
+
+        // // 1) already a data URL string (e.g. "data:image/png;base64,...")
+        // if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
+        //     setImageUrl(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
+        //     return;
+        // }
+
+        // 2) plain base64 string without prefix
+        if (typeof PageContent?.primaryImage === 'string') {
+            console.log("heeeey 2")
+            const dataUrl = `data:image/jpeg;base64,${PageContent?.primaryImage}`;
+            setImageUrl(dataUrl);
+            return;
+        }
+
+        // // 3) numeric byte array or { data: number[] } from EF/JSON
+        // const bytes = review.primaryImage.data ?? review.primaryImage;
+        // const uint8 = new Uint8Array(bytes);
+        // const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
+        // const url = URL.createObjectURL(blob);
+        // setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
+
+        // revoke created URLs on unmount to avoid memory leaks
+        return () => {
+
+            try { URL.revokeObjectURL(imageUrl!); } catch { }
+        }
+
+    }, [PageContent]);
+
 
 
 
@@ -54,7 +94,7 @@ const SingleReviewPage = () => {
 
 
 
-        SetPageContent((previous:any)=>({...previous,isLiked:likestatus}));
+        SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus }));
 
         // SetReviews(previous => previous.map((review) =>
         //     review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
@@ -70,33 +110,32 @@ const SingleReviewPage = () => {
     return (
         <div className='flex flex-col px-4 sm:px-6 lg:px-8. max-w-5xl mx-auto gap-5'>
 
-            <div className="stats shadow">
+
+            {/* <div className="stats shadow">
 
                 <div className="stat">
                     <div className="stat-title">Steam Deck</div>
                     <img className='max-w-50' src="https://cdn.fastly.steamstatic.com/steamdeck/images/press/renderings/rendering07.png" alt="" />
-                    {/* <div className="stat-desc">Jan 1st - Feb 1st</div> */}
+
                 </div>
 
                 <div className="stat">
                     <div className="stat-title">Release Date</div>
-                    <div  className="stat-value text-xl">22 Feb 2022</div>
-                    {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
+                    <div className="stat-value text-xl">22 Feb 2022</div>
+
                 </div>
                 <div className="stat">
                     <div className="stat-title">Processor</div>
                     <div className="stat-value text-xl"> AMD Van Gogh</div>
-                    {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
+
                 </div>
                 <div className="stat">
                     <div className="stat-title">Display</div>
                     <div className="stat-value text-xl">7" LCD</div>
-                    {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+
                 </div>
 
-
-
-            </div>
+            </div> */}
 
 
 
@@ -105,7 +144,7 @@ const SingleReviewPage = () => {
 
 
 
-                <img className='w-full h-100 self-center object-cover' src="https://www.gameshub.com/wp-content/uploads/sites/5/2024/10/steam-deck-australia-review.jpg" alt="" />
+                <img className='w-full h-100 self-center object-cover' src={imageUrl} alt="" />
 
 
                 {/* user info */}
@@ -130,17 +169,26 @@ const SingleReviewPage = () => {
 
                 </div>
 
-               
-                
-                {PageContent?.isLiked 
-                
-                    ? <button className='btn bg-green-400 w-20' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>Toggle Like</button>
-
-                    : <button className='btn bg-red-400 w-20' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>Toggle Like</button>
-
-                }
 
 
+                    <div className='flex gap-2'>
+
+                            {PageContent?.isLiked ?
+
+                                <button className='' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
+                                    <img className='h-8' src={LikedHeart} alt="" />
+                                </button>
+
+                                :
+                                <button className='' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
+                                    <img className='h-8' src={NotLikedHeart} alt="" />
+
+                                </button>
+
+                            }
+
+                            <h1 className='text-3xl'>{PageContent?.likeCount}</h1>
+                        </div>
                 {/* review Text */}
 
                 <div className='mt-10'>

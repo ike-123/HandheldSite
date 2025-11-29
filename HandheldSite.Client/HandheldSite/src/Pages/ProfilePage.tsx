@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
-
+import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
 
@@ -25,6 +25,7 @@ const ProfilePage = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
     const [userinfo, SetUserInfo] = useState<any>();
+    const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
 
 
 
@@ -56,6 +57,40 @@ const ProfilePage = () => {
         }
 
     }, [])
+
+
+    useEffect(() => {
+        reviews.forEach((review: any) => {
+            if (!review.primaryImage || imageUrls[review.reviewId]) return;
+
+            // 1) already a data URL string (e.g. "data:image/png;base64,...")
+            if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
+                setImageUrls(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
+                return;
+            }
+
+            // 2) plain base64 string without prefix
+            if (typeof review.primaryImage === 'string') {
+                const dataUrl = `data:image/jpeg;base64,${review.primaryImage}`;
+                setImageUrls(prev => ({ ...prev, [review.reviewId]: dataUrl }));
+                return;
+            }
+
+            // 3) numeric byte array or { data: number[] } from EF/JSON
+            const bytes = review.primaryImage.data ?? review.primaryImage;
+            const uint8 = new Uint8Array(bytes);
+            const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
+            const url = URL.createObjectURL(blob);
+            setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
+        });
+        // revoke created URLs on unmount to avoid memory leaks
+        return () => {
+            Object.values(imageUrls).forEach(u => {
+                try { URL.revokeObjectURL(u); } catch { }
+            });
+        };
+    }, [reviews]);
+
 
 
 
@@ -138,9 +173,10 @@ const ProfilePage = () => {
                             <div className='avatar'>
 
                                 <div className=' w-14 rounded'>
+                                <Link to={`/ProfilePage/${review.user.id}`}>
 
                                     <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
-
+                                </Link>
                                 </div>
 
                             </div>
@@ -163,10 +199,13 @@ const ProfilePage = () => {
 
                         </div>
 
+                        <Link className='' to={`/SingleReviewPage/${review.reviewId}`}>
+                    
                         <div className='px-1'>
 
-                            <img className='rounded-xl' src="https://sm.ign.com/ign_nordic/review/s/steam-deck/steam-deck-oled-review_46b8.jpg" alt="" />
+                            <img className='rounded-xl' src={imageUrls[review.reviewId]} alt="" />
                         </div>
+                        </Link>
                         <p>
                             {review.reviewText}
                         </p>

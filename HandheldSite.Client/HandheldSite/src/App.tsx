@@ -11,6 +11,9 @@ import ComparisonPage from './Pages/ComparisonPage'
 import LikedReviews from './Pages/LikedReviews'
 import Footer from './Pages/Footer'
 import Test from './Pages/test'
+import { useEffect } from 'react'
+import { useAuthStore } from './Stores/AuthStore'
+import { useMainStore } from './Stores/MainStore'
 
 const PageStructure = () => {
   return (
@@ -72,6 +75,18 @@ const router = createBrowserRouter([{
 
 function App() {
 
+    const AuthPing = useMainStore((state)=>state.AuthPing)
+  
+
+  useEffect(()=>{
+    async function Call_Ping(){
+
+      await AuthPing();
+    }
+
+    Call_Ping();
+
+  },[])
 
   return (
 

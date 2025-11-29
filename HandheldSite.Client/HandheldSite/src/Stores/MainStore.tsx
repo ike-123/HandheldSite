@@ -1,24 +1,27 @@
-import  axios, { AxiosError, type AxiosInstance } from "axios";
+import axios, { AxiosError, type AxiosInstance } from "axios";
 import { create } from "zustand";
 
-type MainStore ={
+type MainStore = {
 
-    GetRandomReviews: ()=>Promise<any>;
-    GetReview: (ReviewId:number)=>Promise<any>;
-    GetReviewsForHandheld: (HandheldId:number, sort:string)=>Promise<any>;
-    GetReviewsByUser: (UserId:string)=>Promise<any>;
-    CreateReview: (post:any)=>Promise<any>;
-    GetMyProfile: ()=>Promise<any>;
-    GetUserProfile: (userid:string)=>Promise<any>;
-    GetAllHandhelds: ()=>Promise<any>;
-    ToggleLikeButton:(reviewId:number)=>Promise<any>;
-    GetLikedReviews:()=>Promise<any>;
+    GetRandomReviews: () => Promise<any>;
+    GetReview: (ReviewId: number) => Promise<any>;
+    GetReviewsForHandheld: (HandheldId: number, sort: string) => Promise<any>;
+    GetReviewsByUser: (UserId: string) => Promise<any>;
+    CreateReview: (post: any) => Promise<any>;
+    GetMyProfile: () => Promise<any>;
+    GetUserProfile: (userid: string) => Promise<any>;
+    GetAllHandhelds: () => Promise<any>;
+    ToggleLikeButton: (reviewId: number) => Promise<any>;
+    GetLikedReviews: () => Promise<any>;
+    AuthPing: () => Promise<void>;
+    user: any | null;
+    loggedIn: boolean;
 
 }
 type Post = {
-    HandheldId:number,
-    PrimaryImage:string,
-    ReviewText:string
+    HandheldId: number,
+    PrimaryImage: string,
+    ReviewText: string
 }
 
 declare module 'axios' {
@@ -93,9 +96,8 @@ api.interceptors.response.use((response) => response, async (error: AxiosError) 
         //will send a new access and refresh token
         try {
             console.log("trying");
-            const { data } = await axios.post(
-                "http://localhost:5112/api/Auth/RefreshTokens",
-                {},
+            const { data } = await axios.get(
+                "http://localhost:5112/api/Auth/RefreshToken",
                 { withCredentials: true }
 
             );
@@ -127,75 +129,97 @@ api.interceptors.response.use((response) => response, async (error: AxiosError) 
 });
 
 
-export const useMainStore = create<MainStore>((set)=>({
+export const useMainStore = create<MainStore>((set) => ({
+
+    user: null,
+    loggedIn: false,
+
 
     async GetRandomReviews() {
-        
-       return await api.get("Review/GetRandomReviews");
-       
-    },
 
-    async GetReview(ReviewId:number) {
-        
-       return await api.get(`Review/GetReview/${ReviewId}`);
+        return await api.get("Review/GetRandomReviews");
 
     },
 
-    async GetReviewsForHandheld(HandheldId:number, sort:string) {
-        
-       return await api.get(`Review/GetReviewsForHandheld/${HandheldId}`,
-        {params: {sort}}
-       );
+    async GetReview(ReviewId: number) {
+
+        return await api.get(`Review/GetReview/${ReviewId}`);
 
     },
 
-    async GetReviewsByUser(userid:string) {
-        
-       return await api.get(`Review/GetReviewsByUser/${userid}`);
+    async GetReviewsForHandheld(HandheldId: number, sort: string) {
+
+        return await api.get(`Review/GetReviewsForHandheld/${HandheldId}`,
+            { params: { sort } }
+        );
+
+    },
+
+    async GetReviewsByUser(userid: string) {
+
+        return await api.get(`Review/GetReviewsByUser/${userid}`);
 
 
     },
 
-    async CreateReview(post:any) {
-        
-       await api.post("Review/CreateReview", post,{
+    async CreateReview(post: any) {
 
-          headers: {
-            "Content-Type": "multipart/form-data",
-          }
-          
+        await api.post("Review/CreateReview", post, {
+
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+
         });
 
     },
 
     async GetMyProfile() {
-        
-       return await api.get(`Profile/GetMyProfile`);
+
+        return await api.get(`Profile/GetMyProfile`);
 
     },
 
-    async GetUserProfile(userid:string){
+    async GetUserProfile(userid: string) {
         return await api.get(`Profile/GetUserProfileinfo/${userid}`)
     },
 
     async GetAllHandhelds() {
-        
+
         return await api.get(`Handheld/GetAllHandhelds`)
     },
 
-    async ToggleLikeButton(reviewId:number) {
-        
+    async ToggleLikeButton(reviewId: number) {
+
         return await api.get(`Review/ToggleLikeStatus`,
-            {params:{reviewId}}
+            { params: { reviewId } }
         )
     },
 
     async GetLikedReviews() {
-        
+
         return await api.get(`Review/GetLikedReviews`)
 
-    }
-    
+    },
+
+    async AuthPing() {
+
+        try {
+            const { data } = await api.get("Auth/Ping", { withCredentials: true });
+
+            set({ user: data, loggedIn: true });
+            console.log("User is loggged in");
+            console.log(data);
+
+
+        } catch (error) {
+
+            set({ user: null, loggedIn: false });
+
+        }
+
+    },
+
 
 })
 

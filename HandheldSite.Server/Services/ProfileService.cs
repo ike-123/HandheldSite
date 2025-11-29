@@ -46,7 +46,8 @@ namespace HandheldSite.Server.Services
             var ProfileInfo = new 
             {
                 username = user.UserName,
-                reviews
+                reviews,
+                userid, user.Id
             };
 
             return ProfileInfo;

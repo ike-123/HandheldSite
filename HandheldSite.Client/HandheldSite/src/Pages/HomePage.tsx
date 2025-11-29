@@ -5,7 +5,7 @@ import processor from '../../public/processor.png'
 
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
-
+import { Link } from 'react-router-dom';
 
 import TimeAgo from 'javascript-time-ago'
 
@@ -50,7 +50,7 @@ const HomePage = () => {
     const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitReview = useMainStore((state) => state.CreateReview);
-
+    const UserDetails = useMainStore((state)=> state.user);
 
 
     const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
@@ -188,6 +188,8 @@ const HomePage = () => {
             formData.append("PrimaryImage", reviewImage);
         }
 
+        
+
         const { data } = await SubmitReview(formData);
         console.log(data);
     }
@@ -213,9 +215,9 @@ const HomePage = () => {
                     <h1 className='text-2xl'>John Maxwell</h1>
 
                     <div className='w-full px-10'>
-                        <button className='btn btn-secondary p-2 mt-5 w-full'>
+                        <Link to={`/profilepage/${UserDetails?.userid}`} className='btn btn-secondary p-2 mt-5 w-full'>
                             My Profile
-                        </button>
+                        </Link>
                     </div>
 
 
@@ -252,8 +254,8 @@ const HomePage = () => {
 
                     <ul className="menu menu-xl bg-base-200 rounded-box w-full bg-primary">
                         <li><a>Home</a></li>
-                        <li><a>Liked Reviews</a></li>
-                        <li><a>Compare</a></li>
+                        <li><Link to={"/likedReviews"}>Liked Reviews</Link></li>
+                        <li><Link to={"/Comparison"}>Compare</Link></li>
                     </ul>
                 </div>
 
@@ -296,17 +298,23 @@ const HomePage = () => {
 
 
                 {reviews.map((review: any) => (
+
                     <div className='card bg-primary p-4 gap-4 '>
+                        
 
                         <div className='flex gap-3 items-center h-10' >
 
                             <div className='avatar'>
 
+                                
                                 <div className=' w-14 rounded'>
+                                <Link to={`/ProfilePage/${review.user.id}`}>
 
                                     <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
+                                </Link>
 
                                 </div>
+
 
                             </div>
 
@@ -326,10 +334,14 @@ const HomePage = () => {
 
                         </div>
 
+                    <Link className='' to={`/SingleReviewPage/${review.reviewId}`}>
+
                         <div className='px-1'>
 
-                            <img className='rounded-xl' src={imageUrls[review.reviewId]} alt="" />
+                            <img className='rounded-xl w-full h-75 object-cover' src={imageUrls[review.reviewId]} alt="" />
                         </div>
+                    </Link>
+
                         <p>
                             {review.reviewText}
                         </p>
@@ -353,10 +365,11 @@ const HomePage = () => {
                             <h1 className='text-3xl'>{review.likeCount}</h1>
                         </div>
 
-
+                        
 
 
                     </div>
+
                 ))}
 
 
@@ -398,7 +411,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>Processor</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.processor}</p>
                                 </div>
 
 
@@ -410,7 +423,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>CPU</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.cpu}</p>
                                 </div>
 
 
@@ -423,7 +436,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>GPU</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.gpu}</p>
                                 </div>
 
 
@@ -438,7 +451,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>RAM</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.ram}</p>
                                 </div>
 
 
@@ -452,7 +465,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>Display</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.display}</p>
                                 </div>
 
 
@@ -464,7 +477,7 @@ const HomePage = () => {
 
                                 <div>
                                     <p className='text-sm'>Battery</p>
-                                    <p className='font-bold'> AMD Ryzen Z1 Extreme</p>
+                                    <p className='font-bold'> {selectedHandheld.battery}</p>
                                 </div>
 
 

@@ -91,7 +91,7 @@ namespace HandheldSite.Server.Services
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName, u.Id });
 
 
             var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
@@ -167,7 +167,7 @@ namespace HandheldSite.Server.Services
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName, u.Id });
 
 
             var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
@@ -337,7 +337,7 @@ namespace HandheldSite.Server.Services
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName });
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName,u.Id });
 
 
             var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
