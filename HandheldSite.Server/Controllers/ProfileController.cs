@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using HandheldSite.Server.Models;
 using HandheldSite.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +46,33 @@ namespace HandheldSite.Server.Controllers
 
                 object profilePageInfo = await _profileService.GetUserProfileinfo(userid_string);
                 return Ok(profilePageInfo);
+                
+            }
+            catch (Exception)
+            {
+                return Unauthorized("User not found");
+            }
+
+
+        }
+
+        [Authorize]
+        [HttpPost("UpdateProfile")]
+        public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileDTO updatedProfileDTO)
+        {
+
+            if (updatedProfileDTO == null)
+            {
+                return BadRequest("Invalid Profile data.");
+            }
+
+            try
+            {
+                var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+                await _profileService.ChangeUserProfile(updatedProfileDTO,userid_string!);
+                return Ok("Profile Updated");
                 
             }
             catch (Exception)

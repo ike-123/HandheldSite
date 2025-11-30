@@ -6,6 +6,10 @@ import en from 'javascript-time-ago/locale/en'
 
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
+import ImageUrl from './Components/ImageUrl';
+
+    TimeAgo.addLocale(en)
+    const timeAgo = new TimeAgo('en-GB')
 
 const SingleReviewPage = () => {
 
@@ -16,10 +20,11 @@ const SingleReviewPage = () => {
     const [PageContent, SetPageContent] = useState<any>();
 
     const [imageUrl, setImageUrl] = useState<string>();
+    const [ProfileImageUrl, setProfileImageUrl] = useState<string>();
 
 
-    TimeAgo.addDefaultLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
+
+
 
     //returns review as well as informtiaon user info and like status
     const GetPageInfo = useMainStore((state) => state.GetReview);
@@ -45,42 +50,7 @@ const SingleReviewPage = () => {
 
     }, [id])
 
-    useEffect(() => {
-
-        console.log("runnnin")
-
-        if (!PageContent?.primaryImage) return;
-
-        // // 1) already a data URL string (e.g. "data:image/png;base64,...")
-        // if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
-        //     setImageUrl(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
-        //     return;
-        // }
-
-        // 2) plain base64 string without prefix
-        if (typeof PageContent?.primaryImage === 'string') {
-            console.log("heeeey 2")
-            const dataUrl = `data:image/jpeg;base64,${PageContent?.primaryImage}`;
-            setImageUrl(dataUrl);
-            return;
-        }
-
-        // // 3) numeric byte array or { data: number[] } from EF/JSON
-        // const bytes = review.primaryImage.data ?? review.primaryImage;
-        // const uint8 = new Uint8Array(bytes);
-        // const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
-        // const url = URL.createObjectURL(blob);
-        // setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
-
-        // revoke created URLs on unmount to avoid memory leaks
-        return () => {
-
-            try { URL.revokeObjectURL(imageUrl!); } catch { }
-        }
-
-    }, [PageContent]);
-
-
+ 
 
 
     async function ToggleLikeButton(reviewid: number) {
@@ -89,18 +59,16 @@ const SingleReviewPage = () => {
         //only allow user to like if logged in. If not logged in then send toast error.
 
         const { data } = await ToggleLike(reviewid);
-        const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus;
+        const likecount = data.likestatus.likecount;
+        const likestatus = data.likestatus.likestatus;
 
+        console.log(data);
 
-
-        SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus }));
+        SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus, likeCount:likecount }));
 
         // SetReviews(previous => previous.map((review) =>
         //     review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
         // ));
-
-        console.log(ReturnedId);
     }
 
 
@@ -142,9 +110,7 @@ const SingleReviewPage = () => {
 
             <div className=' self-center flex flex-col w-9/12'>
 
-
-
-                <img className='w-full h-100 self-center object-cover' src={imageUrl} alt="" />
+                <ImageUrl TailwindStyles='w-full h-100 self-center object-cover' image={PageContent?.primaryImage}/>
 
 
                 {/* user info */}
@@ -152,7 +118,8 @@ const SingleReviewPage = () => {
 
                     <div className='avatar flex gap-3 items-center font-bold mb-1' >
 
-                        <img className='w-15 rounded-xl' src="https://assets.promptbase.com/DALLE_IMAGES%2FSB1PjLah85MVrYwvUct7urDoTXf2%2Fresized%2F1692612767503z_800x800.webp?alt=media&token=264e0f3a-2661-4347-a7be-b56d4a5afdfa" alt="" />
+                      
+                        <ImageUrl TailwindStyles='w-15 h-15 rounded-xl' image={PageContent?.user.profileImage}/>
 
                     </div>
 
@@ -205,9 +172,6 @@ const SingleReviewPage = () => {
 
 
             </div>
-
-
-
 
 
         </div>

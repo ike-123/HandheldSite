@@ -8,6 +8,7 @@ type MainStore = {
     GetReviewsForHandheld: (HandheldId: number, sort: string) => Promise<any>;
     GetReviewsByUser: (UserId: string) => Promise<any>;
     CreateReview: (post: any) => Promise<any>;
+    SubmitProfileChange: (post: any) => Promise<any>;
     GetMyProfile: () => Promise<any>;
     GetUserProfile: (userid: string) => Promise<any>;
     GetAllHandhelds: () => Promise<any>;
@@ -174,6 +175,19 @@ export const useMainStore = create<MainStore>((set) => ({
 
     },
 
+        async SubmitProfileChange(post: any) {
+
+        await api.post("Profile/UpdateProfile", post, {
+
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+
+        });
+
+    },
+
+
     async GetMyProfile() {
 
         return await api.get(`Profile/GetMyProfile`);
@@ -208,7 +222,7 @@ export const useMainStore = create<MainStore>((set) => ({
             const { data } = await api.get("Auth/Ping", { withCredentials: true });
 
             set({ user: data, loggedIn: true });
-            console.log("User is loggged in");
+            //console.log("User is loggged in");
             console.log(data);
 
 

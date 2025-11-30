@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
+import ReviewComponent from './Components/ReviewComponent';
+import ImageUrl from './Components/ImageUrl';
 
     TimeAgo.addDefaultLocale(en)
     const timeAgo = new TimeAgo('en-GB')
@@ -78,37 +80,37 @@ const HomePage = () => {
 
     }, [])
 
-    useEffect(() => {
-        reviews.forEach((review: any) => {
-            if (!review.primaryImage || imageUrls[review.reviewId]) return;
+    // useEffect(() => {
+    //     reviews.forEach((review: any) => {
+    //         if (!review.primaryImage || imageUrls[review.reviewId]) return;
 
-            // 1) already a data URL string (e.g. "data:image/png;base64,...")
-            if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
-                setImageUrls(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
-                return;
-            }
+    //         // 1) already a data URL string (e.g. "data:image/png;base64,...")
+    //         if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
+    //             setImageUrls(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
+    //             return;
+    //         }
 
-            // 2) plain base64 string without prefix
-            if (typeof review.primaryImage === 'string') {
-                const dataUrl = `data:image/jpeg;base64,${review.primaryImage}`;
-                setImageUrls(prev => ({ ...prev, [review.reviewId]: dataUrl }));
-                return;
-            }
+    //         // 2) plain base64 string without prefix
+    //         if (typeof review.primaryImage === 'string') {
+    //             const dataUrl = `data:image/jpeg;base64,${review.primaryImage}`;
+    //             setImageUrls(prev => ({ ...prev, [review.reviewId]: dataUrl }));
+    //             return;
+    //         }
 
-            // 3) numeric byte array or { data: number[] } from EF/JSON
-            const bytes = review.primaryImage.data ?? review.primaryImage;
-            const uint8 = new Uint8Array(bytes);
-            const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
-            const url = URL.createObjectURL(blob);
-            setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
-        });
-        // revoke created URLs on unmount to avoid memory leaks
-        return () => {
-            Object.values(imageUrls).forEach(u => {
-                try { URL.revokeObjectURL(u); } catch { }
-            });
-        };
-    }, [reviews]);
+    //         // 3) numeric byte array or { data: number[] } from EF/JSON
+    //         const bytes = review.primaryImage.data ?? review.primaryImage;
+    //         const uint8 = new Uint8Array(bytes);
+    //         const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
+    //         const url = URL.createObjectURL(blob);
+    //         setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
+    //     });
+    //     // revoke created URLs on unmount to avoid memory leaks
+    //     return () => {
+    //         Object.values(imageUrls).forEach(u => {
+    //             try { URL.revokeObjectURL(u); } catch { }
+    //         });
+    //     };
+    // }, [reviews]);
 
 
     useEffect(() => {
@@ -208,14 +210,14 @@ const HomePage = () => {
                     <div className="avatar justify-center mt-10">
 
                         <div className="ring-primary ring-offset-base-100 w-24 rounded-full absolute bottom-0 ring-2 ring-offset-2">
-                            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                            <ImageUrl TailwindStyles='' image={UserDetails?.profileImage}/>
                         </div>
                     </div>
 
-                    <h1 className='text-2xl'>John Maxwell</h1>
+                    <h1 className='text-2xl'>{UserDetails?.username}</h1>
 
                     <div className='w-full px-10'>
-                        <Link to={`/profilepage/${UserDetails?.userid}`} className='btn btn-secondary p-2 mt-5 w-full'>
+                        <Link to={`/profilepage/${UserDetails?.id}`} className='btn btn-secondary p-2 mt-5 w-full'>
                             My Profile
                         </Link>
                     </div>
@@ -271,8 +273,7 @@ const HomePage = () => {
 
                     <div className='avatar flex gap-3 items-center font-bold mb-1' >
 
-                        <img className='w-12 rounded-xl' src="https://assets.promptbase.com/DALLE_IMAGES%2FSB1PjLah85MVrYwvUct7urDoTXf2%2Fresized%2F1692612767503z_800x800.webp?alt=media&token=264e0f3a-2661-4347-a7be-b56d4a5afdfa" alt="" />
-
+                        <ImageUrl TailwindStyles='w-12 rounded-xl' image={UserDetails?.profileImage}/>
                         <form className="w-full" action="">
 
                             <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' onChange={ChangeUseReviewValue} />
@@ -299,76 +300,11 @@ const HomePage = () => {
 
                 {reviews.map((review: any) => (
 
-                    <div className='card bg-primary p-4 gap-4 '>
+                   
                         
+                    <ReviewComponent review={review}/>
 
-                        <div className='flex gap-3 items-center h-10' >
-
-                            <div className='avatar'>
-
-                                
-                                <div className=' w-14 rounded'>
-                                <Link to={`/ProfilePage/${review.user.id}`}>
-
-                                    <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
-                                </Link>
-
-                                </div>
-
-
-                            </div>
-
-
-                            <div className='flex flex-col h-full gap-1 '>
-
-                                <h1 className='font-bold'>{review.user.userName}</h1>
-
-                                <h2 className='text-sm text-accent'>
-                                    {timeAgo.format(Date.parse(review.createdAt))}
-
-                                </h2>
-
-
-                            </div>
-
-
-                        </div>
-
-                    <Link className='' to={`/SingleReviewPage/${review.reviewId}`}>
-
-                        <div className='px-1'>
-
-                            <img className='rounded-xl w-full h-75 object-cover' src={imageUrls[review.reviewId]} alt="" />
-                        </div>
-                    </Link>
-
-                        <p>
-                            {review.reviewText}
-                        </p>
-
-                        <div className='flex gap-2'>
-
-                            {review.isLiked ?
-
-                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                    <img className='h-8' src={LikedHeart} alt="" />
-                                </button>
-
-                                :
-                                <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                    <img className='h-8' src={NotLikedHeart} alt="" />
-
-                                </button>
-
-                            }
-
-                            <h1 className='text-3xl'>{review.likeCount}</h1>
-                        </div>
-
-                        
-
-
-                    </div>
+                  
 
                 ))}
 

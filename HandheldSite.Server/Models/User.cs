@@ -8,6 +8,9 @@ namespace HandheldSite.Server.Models
 
         public string? RefreshToken {get;set;}
         public DateTime? RefreshTokenExpiresAtUTC{get; set;}
+        public byte[]? ProfileImage {get;set;}
+
+        
 
 
         public static User Create(string email, string username)

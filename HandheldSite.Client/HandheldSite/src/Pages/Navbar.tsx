@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { useMainStore } from '../Stores/MainStore'
+import ImageUrl from './Components/ImageUrl'
 
 const Navbar = () => {
 
   const LoggedIn = useMainStore((state) => state.loggedIn)
+  const UserDetails = useMainStore((state)=> state.user);
+  
 
 
 
@@ -31,12 +34,14 @@ const Navbar = () => {
             LoggedIn ? 
             
             (<div className="dropdown dropdown-end">
+              {/* profile image */}
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+
+                <ImageUrl TailwindStyles='' image={UserDetails?.profileImage}/>
+
                 </div>
+
               </div>
 
 

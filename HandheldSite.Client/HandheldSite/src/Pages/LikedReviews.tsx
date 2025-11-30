@@ -5,6 +5,7 @@ import { useMainStore } from '../Stores/MainStore';
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
 import { Link } from 'react-router-dom';
+import ReviewComponent from './Components/ReviewComponent';
 
 
 const LikedReviews = () => {
@@ -103,72 +104,7 @@ const LikedReviews = () => {
 
 
             {reviews.map((review: any) => (
-                <div className='card bg-primary p-4 gap-4 '>
-
-                    <div className='flex gap-3 items-center h-10' >
-
-                        <div className='avatar'>
-
-                            <div className=' w-14 rounded'>
-
-                                <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" />
-
-                            </div>
-
-                        </div>
-
-
-                        <div className='flex flex-col h-full gap-1 '>
-
-                            <h1 className='font-bold'>{review.user.userName}</h1>
-
-                            <h2 className='text-sm text-accent'>
-                                {timeAgo.format(Date.parse(review.createdAt))}
-
-                            </h2>
-
-
-                        </div>
-
-
-
-
-                    </div>
-                    <Link className='' to={`/SingleReviewPage/${review.reviewId}`}>
-
-
-                    <div className='px-1'>
-
-                        <img className='rounded-xl'  src={imageUrls[review.reviewId]}  alt="" />
-                    </div>
-
-                    </Link>
-                    <p>
-                        {review.reviewText}
-                    </p>
-
-                    <div className='flex gap-2'>
-
-                        {review.isLiked ?
-
-                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                <img className='h-8' src={LikedHeart} alt="" />
-                            </button>
-
-                            :
-                            <button className='' onClick={() => { ToggleLikeButton(review.reviewId) }}>
-                                <img className='h-8' src={NotLikedHeart} alt="" />
-
-                            </button>
-
-                        }
-
-                        <h1 className='text-3xl'>{review.likeCount}</h1>
-                    </div>
-
-
-
-                </div>
+              <ReviewComponent review={review}/>
             ))}
 
 
