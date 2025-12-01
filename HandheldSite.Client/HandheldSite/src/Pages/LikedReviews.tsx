@@ -102,7 +102,7 @@ const LikedReviews = () => {
 
             <h1 className='text-2xl'>Liked Reviews</h1>
 
-
+            
             {reviews.map((review: any) => (
               <ReviewComponent review={review}/>
             ))}

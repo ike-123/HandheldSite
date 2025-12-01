@@ -14,14 +14,20 @@ import Test from './Pages/test'
 import { useEffect } from 'react'
 import { useAuthStore } from './Stores/AuthStore'
 import { useMainStore } from './Stores/MainStore'
+import NavigationMenu from './Pages/Components/NavigationMenu'
+import ScrollToTop from './Pages/Components/ScrollToTop'
 
+
+//website doesn't seem to need ScrollToTop function when footer is removed
+// so i'll keep it commented out for now
 const PageStructure = () => {
   return (
 
     <>
       <Navbar />
-      <Outlet />
-      <Footer />
+       {/* <ScrollToTop /> */}
+      <NavigationMenu/>
+      {/* <Footer /> */}
     </>
 
 
@@ -38,7 +44,7 @@ const router = createBrowserRouter([{
     
     {
         index: true,
-        element: <Navigate to="/1" replace />
+        element: <Navigate to="home/1" replace />
     },
 
     {
@@ -72,7 +78,12 @@ const router = createBrowserRouter([{
     {
       path: "test",
       element: <Test/>
-    }
+    },
+       {
+      path: "nav",
+      element: <NavigationMenu/>
+    },
+    
 
 
   ]

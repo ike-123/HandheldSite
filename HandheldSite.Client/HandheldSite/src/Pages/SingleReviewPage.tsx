@@ -77,7 +77,7 @@ const SingleReviewPage = () => {
 
 
     return (
-        <div className='flex flex-col px-4 sm:px-6 lg:px-8. max-w-5xl mx-auto gap-5'>
+        <div className='flex-col flex w-full mx-auto px-4 sm:px-6 lg:px-8 items-center'>
 
 
             {/* <div className="stats shadow">

@@ -20,7 +20,7 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
     const [reviewinfo, setReviewInfo] = useState<any | null>(null);
 
     useEffect(() => {
-        console.log("review changed")
+        // console.log("review changed")
         setReviewInfo(review);
     }, [review])
 
@@ -56,7 +56,7 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
 
     return (
 
-        <div className='card bg-primary p-4 gap-4 '>
+        <div className='card bg-primary p-4 gap-4 w-full'>
 
             <div className='flex gap-3 items-center h-10' >
 
@@ -102,9 +102,7 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
 
                     
 
-                        <ImageUrl TailwindStyles='rounded-xl' image={reviewinfo?.primaryImage} />
-
-
+                    <ImageUrl TailwindStyles='rounded-xl' image={reviewinfo?.primaryImage} />
 
 
                 </div>

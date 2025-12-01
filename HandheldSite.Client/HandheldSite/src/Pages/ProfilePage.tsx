@@ -27,6 +27,9 @@ const ProfilePage = () => {
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitProfileChange = useMainStore((state) => state.SubmitProfileChange);
+    const UserDetails = useMainStore((state) => state.user);
+    const LoggedIn = useMainStore((state) => state.loggedIn);
+
 
 
     const [reviews, SetReviews] = useState<any[]>([]);
@@ -38,12 +41,30 @@ const ProfilePage = () => {
     const [previewProfile, SetPreviewProfile] = useState<string | null>(null);
     const [username, SetUserName] = useState<any | null>();
 
+    const [isUsersOwnProfile, setIsUsersOwnProfile] = useState<boolean>();
+
 
 
 
 
 
     useEffect(() => {
+
+        function CheckUserId() {
+            if (UserDetails?.id === id) {
+                setIsUsersOwnProfile(true);
+                console.log("yes user");
+            }
+            else {
+                setIsUsersOwnProfile(false);
+                console.log("no user");
+
+                console.log("user ", UserDetails?.id, " routeid = ", id)
+
+            }
+
+        }
+
 
         async function Get_Reviews_for_User(id: string) {
 
@@ -65,11 +86,43 @@ const ProfilePage = () => {
 
 
         if (id) {
+            CheckUserId();
             Get_User_Profile(id);
             Get_Reviews_for_User(id);
+
+
         }
 
     }, [])
+
+
+
+    useEffect(() => {
+
+        function CheckUserId() {
+            if (UserDetails?.id === id) {
+                setIsUsersOwnProfile(true);
+                console.log("yes user");
+                console.log("user ", UserDetails?.id, " routeid = ", id)
+
+            }
+            else {
+                setIsUsersOwnProfile(false);
+                console.log("no user");
+
+                console.log("user ", UserDetails?.id, " routeid = ", id)
+
+            }
+
+        }
+
+        if (id) {
+            CheckUserId();
+        }
+
+    }, [UserDetails])
+
+
 
 
     // useEffect(() => {
@@ -148,7 +201,7 @@ const ProfilePage = () => {
     }
 
     function handleModalClose() {
-        
+
         SetUserName(userinfo.username);
         SetUpdatedProfileImage(null);
         SetPreviewProfile(null);
@@ -179,19 +232,20 @@ const ProfilePage = () => {
 
     return (
 
-        <div className='flex-col flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 items-center'>
+        <div className='flex-col flex w-full mx-auto px-4 sm:px-6 lg:px-8 items-center'>
 
             <div className='w-full'>
 
                 {/* Profile and details section */}
 
                 <div className='relative flex flex-col  '>
+
                     {/* background image */}
-                    <img className="h-50 w-full object-cover" src="https://4kwallpapers.com/images/wallpapers/glossy-abstract-3840x2160-9602.jpg" alt="" />
+                    <img className="h-30 w-full object-cover" src="https://4kwallpapers.com/images/wallpapers/glossy-abstract-3840x2160-9602.jpg" alt="" />
 
-                    <div className='avatar left-20 -bottom-30 absolute' >
+                    <div className='avatar left-20 -bottom-18 absolute' >
 
-                        <div className=" ring-primary ring-offset-base-100 w-60 rounded-full ring-3 ring-offset-3">
+                        <div className=" ring-primary ring-offset-base-100 w-40 rounded-full ring-3 ring-offset-3">
                             {/* profile image */}
                             <ProfileImageUrl TailwindStyles='' image={userinfo?.profileImage} />
 
@@ -202,71 +256,76 @@ const ProfilePage = () => {
 
                 </div>
 
-                <div className='flex flex-col'>
+                {/* <div className='flex flex-col'> */}
 
-                    <div className='bg-primary w-full h-35 flex flex-col '>
+                <div className='bg-primary w-full h-25 gap-2 flex flex-col '>
 
-                        <h1 className='text-4xl pl-85 pt-5'>{userinfo?.username}</h1>
-                        {/* <h2 className='text-md pl-85 pt-1'>Description</h2> */}
+                    <h1 className='text-4xl pl-65 pt-2'>{userinfo?.username}</h1>
+                    {/* <h2 className='text-md pl-85 pt-1'>Description</h2> */}
+
+                    {
+                        isUsersOwnProfile && LoggedIn ?
+
+                            <div className='w-50 mt-auto pl-65'>
+
+                                {/* Open the modal using document.getElementById('ID').showModal() method */}
+                                <button className="btn p-0 text-xs bg-accent w-19 mb-2 h-9" onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement | null)?.showModal()}>Edit Profile</button>
+
+                                <dialog id="my_modal_2" onClose={handleModalClose} className="modal">
+
+                                    <div className="modal-box flex flex-col gap-10">
+
+                                        <div className='flex-row flex gap-4'>
+
+                                            <label className='text-xl font-bold' htmlFor="username">Username</label>
+                                            <input className='  focus:outline-none border-1 rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" value={username} onChange={ChangeUsername} />
+                                        </div>
 
 
+                                        {/* Change Profile */}
+
+                                        <div className='flex-row flex gap-8'>
+
+                                            {
+                                                previewProfile
+
+                                                    ? <img className='w-20 rounded-sm' src={previewProfile!} alt="" />
+                                                    : <ImageUrl TailwindStyles='w-20 rounded-sm' image={userinfo?.profileImage} />
+                                            }
+
+                                            <div className='flex items-center'>
+                                                <label htmlFor="file" className="btn w-35 rounded-lg bg-primary border-gray-500 cursor-pointer"> Change Photo </label>
+                                                <input id="file" type="file" className="hidden" onChange={HandleImageSelect} />
+
+                                            </div>
+                                        </div>
 
 
-                        <div className='w-50 mt-auto pl-85'>
+                                        <div className='flex justify-end'>
 
-                            {/* Open the modal using document.getElementById('ID').showModal() method */}
-                            <button className="btn  bg-accent w-27 mb-2" onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement | null)?.showModal()}>Edit Profile</button>
+                                            <button onClick={SubmitChangeProfile} className='btn bg-accent'>Update</button>
 
-                            <dialog id="my_modal_2" onClose={handleModalClose} className="modal">
-
-                                <div className="modal-box flex flex-col gap-10">
-
-                                    <div className='flex-row flex gap-4'>
-
-                                        <label className='text-xl font-bold' htmlFor="username">Username</label>
-                                        <input className='  focus:outline-none border-1 rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" value={username} onChange={ChangeUsername} />
-                                    </div>
-
-
-                                    {/* Change Profile */}
-
-                                    <div className='flex-row flex gap-8'>
-
-                                        {
-                                            previewProfile
-
-                                                ? <img className='w-20 rounded-sm' src={previewProfile!} alt="" />
-                                                : <ImageUrl TailwindStyles='w-20 rounded-sm' image={userinfo?.profileImage} />
-                                        }
-
-                                        <div className='flex items-center'>
-                                            <label htmlFor="file" className="btn w-35 rounded-lg bg-primary border-gray-500 cursor-pointer"> Change Photo </label>
-                                            <input id="file" type="file" className="hidden" onChange={HandleImageSelect} />
 
                                         </div>
-                                    </div>
-
-
-                                    <div className='flex justify-end'>
-
-                                        <button onClick={SubmitChangeProfile} className='btn bg-accent'>Update</button>
-
 
                                     </div>
 
-                                </div>
-
-                                <form method="dialog" className="modal-backdrop">
-                                    <button>close</button>
-                                </form>
-                            </dialog>
+                                    <form method="dialog" className="modal-backdrop">
+                                        <button>close</button>
+                                    </form>
+                                </dialog>
 
 
-                        </div>
+                            </div>
 
-                    </div>
+
+                            : ""
+                    }
+
 
                 </div>
+                {/* 
+                </div> */}
 
 
             </div>
@@ -278,12 +337,27 @@ const ProfilePage = () => {
 
 
 
-            <h1 className='text-2xl mb-6'>
-                Reviews from {userinfo?.username}
-            </h1>
+            {
 
+                LoggedIn && isUsersOwnProfile 
+                
+                    ?
 
-            <div className=' flex flex-col gap-10 max-w-2xl'>
+                    <h1 className='text-2xl mb-6'>
+                        Your Reviews
+                    </h1>
+
+                    
+                    : 
+
+                    <h1 className='text-2xl mb-6'>
+                        Reviews from {userinfo?.username}
+                    </h1>
+
+            }
+
+            
+            <div className='flex flex-col w-full gap-10 max-w-2xl'>
 
 
                 {reviews.map((review: any) => (

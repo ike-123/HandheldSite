@@ -32,6 +32,7 @@ const ProfileImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles
 
     return (
         // <div>{image}</div>
+        
         <img className={TailwindStyles} src={imageUrl} alt="" />
 
     )

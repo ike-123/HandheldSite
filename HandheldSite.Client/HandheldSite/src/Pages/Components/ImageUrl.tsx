@@ -8,13 +8,16 @@ interface ProfileImageUrlProps {
 const ImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles }) => {
 
     const [imageUrl, setImageUrl] = useState<string>();
-    const [_TailwindStyles,setTailwindStyles] = useState<string|undefined>("");
+    const [_TailwindStyles, setTailwindStyles] = useState<string | undefined>("");
 
 
     useEffect(() => {
 
+        // console.log("image changed");
+
         if (!image || typeof image !== 'string') {
 
+            console.log('no image');
             setImageUrl("")
             return;
         }
@@ -34,7 +37,18 @@ const ImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles }) => 
 
     return (
         // <div>{image}</div>
-        <img className={_TailwindStyles} src={imageUrl} alt="" />
+
+        <>
+            {
+                imageUrl
+                    ?
+                    <img className={_TailwindStyles} src={imageUrl} alt="" />
+
+                    : ""
+
+            }
+        </>
+
 
     )
 }

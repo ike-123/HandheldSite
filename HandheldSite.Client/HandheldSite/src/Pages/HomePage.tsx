@@ -60,7 +60,7 @@ const HomePage = () => {
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitReview = useMainStore((state) => state.CreateReview);
     const UserDetails = useMainStore((state) => state.user);
-    const LoggedIn = useMainStore((state) => state.loggedIn)
+    const LoggedIn = useMainStore((state) => state.loggedIn);
 
 
 
@@ -233,10 +233,10 @@ const HomePage = () => {
 
 
     return (
-        <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
+        <div className='flex px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto gap-5'>
 
             {/* left section */}
-            <div className='flex-1 gap-3 flex flex-col'>
+            {/* <div className='flex-1 gap-3 flex flex-col'>
 
 
                 <div className='card h-60 bg-primary flex items-center gap-1'>
@@ -297,7 +297,7 @@ const HomePage = () => {
                 </div>
 
 
-            </div>
+            </div> */}
 
 
             {/* Middle Section */}
@@ -331,12 +331,12 @@ const HomePage = () => {
                     <div className='avatar flex gap-3 font-bold mb-1' >
 
                         <ProfileImageUrl TailwindStyles='w-12 h-12 rounded-xl' image={UserDetails?.profileImage} />
-                        {/* <form className="w-full" action="">
+                        <form className="w-full" action="">
 
-                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUseReviewValue} />
-                        </form> */}
+                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUserReviewValue} />
+                        </form>
 
-                        <TextareaAutosize className='py-1 self-center resize-none border-2 border-accent w-full' value={userReview} onChange={ChangeUserReviewValue} />
+                        {/* <TextareaAutosize className='py-1 self-center resize-none border-2 border-accent w-full' value={userReview} onChange={ChangeUserReviewValue} /> */}
 
 
 
