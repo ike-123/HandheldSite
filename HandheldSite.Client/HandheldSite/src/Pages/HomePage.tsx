@@ -5,6 +5,7 @@ import processor from '../../public/processor.png'
 
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
+import Delete from '../../public/delete.png'
 import { Link } from 'react-router-dom';
 
 import TimeAgo from 'javascript-time-ago'
@@ -14,6 +15,7 @@ import ReviewComponent from './Components/ReviewComponent';
 import ImageUrl from './Components/ImageUrl';
 import toast from 'react-hot-toast';
 import ProfileImageUrl from './Components/ProfileImageUrl';
+import TextareaAutosize from 'react-textarea-autosize';
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-GB')
@@ -40,6 +42,9 @@ const HomePage = () => {
 
     const [userReview, SetUserReview] = useState<string>("");
     const [reviewImage, SetReviewImage] = useState<File | null>(null);
+
+    const [previewPicture, SetPreviewPicture] = useState<string | null>(null);
+
 
 
 
@@ -149,14 +154,13 @@ const HomePage = () => {
 
     }, [id])
 
-    function ChangeUseReviewValue(event: React.ChangeEvent<HTMLInputElement>) {
+    function ChangeUserReviewValue(event: any) {
 
-        if(LoggedIn){
+        if (LoggedIn) {
             console.log(event.target.value);
             SetUserReview(event.target.value);
         }
-        else{
-            console.log("not logged in")
+        else {
             toast.dismiss();
             toast.error("You must Login to write a review")
         }
@@ -169,7 +173,17 @@ const HomePage = () => {
         const file = event.target.files?.[0];
         if (file) {
             SetReviewImage(file);
+            SetPreviewPicture(URL.createObjectURL(file));
         }
+    }
+
+    function RemoveUploadedPicture() {
+
+
+        SetReviewImage(null);
+        SetPreviewPicture(null);
+
+        // you can run any code here
     }
 
     async function ToggleLikeButton(reviewid: number) {
@@ -195,6 +209,12 @@ const HomePage = () => {
         if (LoggedIn) {
             const formData = new FormData();
 
+            if(userReview == ""){
+                toast.dismiss();
+                toast.error("Text is required");
+                return;
+            }
+
             formData.append("HandheldId", currentHandheldId!.toString());
             formData.append("ReviewText", userReview);
             if (reviewImage) {
@@ -205,7 +225,7 @@ const HomePage = () => {
 
             await SubmitReview(formData);
         }
-        else{
+        else {
             toast.error("You must Login to post a review");
         }
 
@@ -284,15 +304,41 @@ const HomePage = () => {
 
             <div className=' flex flex-col gap-4 flex-2'>
 
-                <div className='card bg-primary p-4 flex'>
+                <div className='card bg-primary p-4 flex flex-col'>
 
-                    <div className='avatar flex gap-3 items-center font-bold mb-1' >
+                    {
+                        previewPicture
 
-                        <ProfileImageUrl TailwindStyles='w-12 rounded-xl' image={UserDetails?.profileImage} />
-                        <form className="w-full" action="">
+                            ?
+
+                            <div className='flex self-center gap-1 flex-row'>
+                                <img className='object-cover h-30 w-50  rounded' src={previewPicture!} alt="preview Image" />
+                                
+
+                                <button className="btn h-8 self-center w-8 rounded-full bg-red-400 cursor-pointer p-1" onClick={RemoveUploadedPicture}>
+                                    <img className=' ' src={Delete} alt="" />
+                                </button>
+
+
+                            </div>
+
+                            :
+
+                            ""
+                    }
+
+
+                    <div className='avatar flex gap-3 font-bold mb-1' >
+
+                        <ProfileImageUrl TailwindStyles='w-12 h-12 rounded-xl' image={UserDetails?.profileImage} />
+                        {/* <form className="w-full" action="">
 
                             <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUseReviewValue} />
-                        </form>
+                        </form> */}
+
+                        <TextareaAutosize className='py-1 self-center resize-none border-2 border-accent w-full' value={userReview} onChange={ChangeUserReviewValue} />
+
+
 
                     </div>
 
