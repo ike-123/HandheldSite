@@ -7,6 +7,9 @@ import en from 'javascript-time-ago/locale/en'
 
 import NotLikedHeart from '../../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../../public/Liked-Heart.png'
+import toast from "react-hot-toast";
+import { useAuthStore } from '../../Stores/AuthStore';
+import ProfileImageUrl from './ProfileImageUrl';
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-GB')
@@ -14,15 +17,16 @@ const timeAgo = new TimeAgo('en-GB')
 
 const ReviewComponent: React.FC<any> = ({ review }) => {
 
-    const [reviewinfo,setReviewInfo] = useState<any | null>(null);
+    const [reviewinfo, setReviewInfo] = useState<any | null>(null);
 
-    useEffect(()=>{
-
+    useEffect(() => {
+        console.log("review changed")
         setReviewInfo(review);
-    },[])
+    }, [review])
 
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    const LoggedIn = useMainStore((state) => state.loggedIn)
 
 
 
@@ -31,16 +35,22 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
 
 
         //only allow user to like if logged in. If not logged in then send toast error.
+        if (LoggedIn) {
 
-        const { data } = await ToggleLike(reviewid);
-        const likestatus = data.likestatus.likestatus;
-        const likecount = data.likestatus.likecount;
+            const { data } = await ToggleLike(reviewid);
+            const likestatus = data.likestatus.likestatus;
+            const likecount = data.likestatus.likecount;
 
-        console.log(data);
+            console.log(data);
 
-        console.log("hey");
+            console.log("hey");
 
-        setReviewInfo((previous: any) => ({ ...previous, isLiked:likestatus, likeCount:likecount }));
+            setReviewInfo((previous: any) => ({ ...previous, isLiked: likestatus, likeCount: likecount }));
+        }
+        else {
+            toast.error("You must Login to Like a post")
+        }
+
     }
 
 
@@ -56,7 +66,10 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
                         <Link to={`/ProfilePage/${reviewinfo?.user.id}`}>
 
                             {/* <img src="https://i.pinimg.com/736x/93/c6/43/93c6433bbd4ec60a88b399d08f2f17f3.jpg" alt="" /> */}
-                            <ImageUrl TailwindStyles='' image={reviewinfo?.user.profileImage} />
+
+                      
+                            <ProfileImageUrl TailwindStyles='' image={reviewinfo?.user.profileImage} />
+
                         </Link>
                     </div>
 
@@ -86,7 +99,13 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
                 <div className='px-1'>
 
                     {/* <img className='rounded-xl' src={imageUrls[review.reviewId]} alt="" /> */}
-                    <ImageUrl TailwindStyles='rounded-xl' image={reviewinfo?.primaryImage} />
+
+                    
+
+                        <ImageUrl TailwindStyles='rounded-xl' image={reviewinfo?.primaryImage} />
+
+
+
 
                 </div>
             </Link>

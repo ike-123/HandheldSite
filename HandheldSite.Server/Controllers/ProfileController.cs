@@ -60,7 +60,7 @@ namespace HandheldSite.Server.Controllers
         [HttpPost("UpdateProfile")]
         public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileDTO updatedProfileDTO)
         {
-
+            
             if (updatedProfileDTO == null)
             {
                 return BadRequest("Invalid Profile data.");
@@ -70,9 +70,9 @@ namespace HandheldSite.Server.Controllers
             {
                 var userid_string = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                object profilePageInfo = await _profileService.ChangeUserProfile(updatedProfileDTO,userid_string!);
 
-                await _profileService.ChangeUserProfile(updatedProfileDTO,userid_string!);
-                return Ok("Profile Updated");
+                return Ok(profilePageInfo);
                 
             }
             catch (Exception)

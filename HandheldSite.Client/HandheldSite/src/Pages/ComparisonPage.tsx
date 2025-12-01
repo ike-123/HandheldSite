@@ -11,7 +11,7 @@ const ComparisonPage = () => {
     const [Handheld2, SetHandheld2] = useState<any>();
     const [Handheld3, SetHandheld3] = useState<any>();
 
-    
+
 
     useEffect(() => {
 
@@ -19,9 +19,9 @@ const ComparisonPage = () => {
 
             const { data } = await GetHandhelds();
 
-        SetHandheld1(data[0])
-        SetHandheld2(data[1])
-        SetHandheld3(data[3])
+            SetHandheld1(data[0])
+            SetHandheld2(data[1])
+            SetHandheld3(data[3])
 
             console.log(data);
             SetHandhelds(data);
@@ -30,33 +30,33 @@ const ComparisonPage = () => {
         Get_All_Handhelds();
 
     }, [])
-    
 
-    function setHandheld1change(event:any) {
+
+    function setHandheld1change(event: any) {
 
         const id = Number(event.target.value);
 
         const selected = Handhelds.find((h: any) => h.handheldId === id);
-        
+
         SetHandheld1(selected)
 
         console.log(event.target.value);
 
     }
 
-        function setHandheld2change(event:any) {
-const id = Number(event.target.value);
-  const selected = Handhelds.find((h: any) => h.handheldId === id);
+    function setHandheld2change(event: any) {
+        const id = Number(event.target.value);
+        const selected = Handhelds.find((h: any) => h.handheldId === id);
         SetHandheld2(selected)
 
     }
-        function setHandheld3change(event:any) {
-const id = Number(event.target.value);
-  const selected = Handhelds.find((h: any) => h.handheldId === id);
+    function setHandheld3change(event: any) {
+        const id = Number(event.target.value);
+        const selected = Handhelds.find((h: any) => h.handheldId === id);
         SetHandheld3(selected)
 
     }
-    
+
 
 
 
@@ -128,22 +128,22 @@ const id = Number(event.target.value);
                     <h1 className='text-lg'>{Handheld1?.handheldName}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>AMD Van Goh</h1>
+                    <h1 className='text-lg'>{Handheld1?.processor}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>4x Zen 2 </h1>
+                    <h1 className='text-lg'>{Handheld1?.cpu} </h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>8 RDNA2 CU's</h1>
+                    <h1 className='text-lg'>{Handheld1?.gpu}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>16gb</h1>
+                    <h1 className='text-lg'>{Handheld1?.ram}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>7" Display</h1>
+                    <h1 className='text-lg'>{Handheld1?.display}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>50Mah</h1>
+                    <h1 className='text-lg'>{Handheld1?.battery}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
 
@@ -153,7 +153,7 @@ const id = Number(event.target.value);
 
                 <div className='flex flex-col items-center pt-5  w-75 min-w-60 bg-primary outline-1'>
 
-                <select className="select mb" value={Handheld2?.handheldId} onChange={ setHandheld2change}>
+                    <select className="select mb" value={Handheld2?.handheldId} onChange={setHandheld2change}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -170,29 +170,26 @@ const id = Number(event.target.value);
 
                     <div className="divider w-3/4 mx-auto"></div>
 
-
                     <h1 className='text-lg'>{Handheld2?.handheldName}</h1>
-
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>AMD Van Goh</h1>
+                    <h1 className='text-lg'>{Handheld2?.processor}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>4x Zen 2 </h1>
+                    <h1 className='text-lg'>{Handheld2?.cpu} </h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>8 RDNA2 CU's</h1>
+                    <h1 className='text-lg'>{Handheld2?.gpu}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>16gb</h1>
+                    <h1 className='text-lg'>{Handheld2?.ram}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>7" Display</h1>
+                    <h1 className='text-lg'>{Handheld2?.display}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>50Mah</h1>
+                    <h1 className='text-lg'>{Handheld2?.battery}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
-
 
 
                 </div>
@@ -217,26 +214,26 @@ const id = Number(event.target.value);
 
 
                     <h1 className='text-lg'>{Handheld3?.handheldName}</h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
 
+                    <h1 className='text-lg'>{Handheld3?.processor}</h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
+
+                    <h1 className='text-lg'>{Handheld3?.cpu} </h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
+
+                    <h1 className='text-lg'>{Handheld3?.gpu}</h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
+
+                    <h1 className='text-lg'>{Handheld3?.ram}</h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
+
+                    <h1 className='text-lg'>{Handheld3?.display}</h1>
+                    <div className="divider my-3 w-3/3 mx-auto"></div>
+                    
+                    <h1 className='text-lg'>{Handheld3?.battery}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 
-                    <h1 className='text-lg'>AMD Van Goh</h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
-
-                    <h1 className='text-lg'>4x Zen 2 </h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
-
-                    <h1 className='text-lg'>8 RDNA2 CU's</h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
-
-                    <h1 className='text-lg'>16gb</h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
-
-                    <h1 className='text-lg'>7" Display</h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
-
-                    <h1 className='text-lg'>50Mah</h1>
-                    <div className="divider my-3 w-3/4 mx-auto"></div>
 
 
 

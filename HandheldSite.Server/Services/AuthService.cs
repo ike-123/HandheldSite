@@ -146,5 +146,21 @@ namespace HandheldSite.Server.Services
             return RefreshToken;
 
         }
+
+        
+        public async Task LogoutAsync(string userid)
+        {
+          
+          var user = await _dbcontext.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userid);
+
+          	//update database
+			if (user != null)
+			{
+				user.RefreshToken = null;
+				await _dbcontext.SaveChangesAsync();
+			}
+
+
+        }
     }
 }

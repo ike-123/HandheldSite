@@ -57,20 +57,20 @@ namespace HandheldSite.Server.Services
 
         }
 
-        public async Task ChangeUserProfile(UpdateProfileDTO UpdatedProfileDTO, string userid)
+        public async Task<object> ChangeUserProfile(UpdateProfileDTO UpdatedProfileDTO, string userid)
         {
             User? user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userid);
 
-            byte[]? imageBytes = null;
+            // byte[]? imageBytes = null;
 
-            if (UpdatedProfileDTO.ProfileImage != null)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    await UpdatedProfileDTO.ProfileImage.CopyToAsync(ms);
-                    imageBytes = ms.ToArray();
-                }
-            }
+            // if (UpdatedProfileDTO.ProfileImage != null)
+            // {
+            //     using (var ms = new MemoryStream())
+            //     {
+            //         await UpdatedProfileDTO.ProfileImage.CopyToAsync(ms);
+            //         imageBytes = ms.ToArray();
+            //     }
+            // }
 
              // Update username if provided
             if (!string.IsNullOrWhiteSpace(UpdatedProfileDTO.username))
@@ -86,6 +86,13 @@ namespace HandheldSite.Server.Services
                 user.ProfileImage = ms.ToArray();
             }
             await _dbContext.SaveChangesAsync();
+
+            return new
+            {
+                username = user.UserName,
+                user.Id,
+                user.ProfileImage
+            };
 
 
         }

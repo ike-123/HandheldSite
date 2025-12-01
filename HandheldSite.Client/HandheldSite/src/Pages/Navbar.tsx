@@ -2,18 +2,20 @@ import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { useMainStore } from '../Stores/MainStore'
 import ImageUrl from './Components/ImageUrl'
+import { useAuthStore } from '../Stores/AuthStore'
+import ProfileImageUrl from './Components/ProfileImageUrl'
 
 const Navbar = () => {
 
   const LoggedIn = useMainStore((state) => state.loggedIn)
-  const UserDetails = useMainStore((state)=> state.user);
-  
-
+  const UserDetails = useMainStore((state) => state.user);
+  const Logout = useAuthStore((state)=> state.Logout)
 
 
   async function LogoutButton() {
 
-
+    await Logout()
+    console.log("logged out");
   }
 
 
@@ -31,46 +33,49 @@ const Navbar = () => {
 
 
           {
-            LoggedIn ? 
-            
-            (<div className="dropdown dropdown-end">
-              {/* profile image */}
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
+            LoggedIn ?
 
-                <ImageUrl TailwindStyles='' image={UserDetails?.profileImage}/>
+              (<div className="dropdown dropdown-end">
+                {/* profile image */}
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+
+                    <ProfileImageUrl TailwindStyles='' image={UserDetails?.profileImage} />
+
+                  </div>
 
                 </div>
 
-              </div>
 
+                <ul
+                  tabIndex={-1}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                  <li>
+                    <a className="justify-between">
+                      Profile
+                    </a>
+                  </li>
 
-              <ul
-                tabIndex={-1}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li><a>Logout</a></li>
-              </ul>
-            </div>) 
-            
-            : (
-              <div className='flex items-center gap-3'>
+                  <li onClick={LogoutButton}>
+                    <a>Logout</a>
+                    </li>
 
-                <Link to="/login">
-                  <h1 className="text-sm text-white">Login</h1>
-                </Link>
+                </ul>
+              </div>)
 
-                <Link to="/Register">
-                  <h1 className="rounded-sm bg-accent p-1 px-2 text-xl text-white">Sign up</h1>
-                </Link>
+              : (
+                <div className='flex items-center gap-3'>
 
-              </div>
-            )
+                  <Link to="/login">
+                    <h1 className="text-sm text-white">Login</h1>
+                  </Link>
+
+                  <Link to="/Register">
+                    <h1 className="rounded-sm bg-accent p-1 px-2 text-xl text-white">Sign up</h1>
+                  </Link>
+
+                </div>
+              )
           }
 
 

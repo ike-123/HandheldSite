@@ -12,9 +12,11 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ReviewComponent from './Components/ReviewComponent';
 import ImageUrl from './Components/ImageUrl';
+import toast from 'react-hot-toast';
+import ProfileImageUrl from './Components/ProfileImageUrl';
 
-    TimeAgo.addDefaultLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-GB')
 
 
 type Post = {
@@ -36,7 +38,7 @@ const HomePage = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
 
-    const [userReview, SetUserReview] = useState<any | null>();
+    const [userReview, SetUserReview] = useState<string>("");
     const [reviewImage, SetReviewImage] = useState<File | null>(null);
 
 
@@ -52,7 +54,9 @@ const HomePage = () => {
     const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitReview = useMainStore((state) => state.CreateReview);
-    const UserDetails = useMainStore((state)=> state.user);
+    const UserDetails = useMainStore((state) => state.user);
+    const LoggedIn = useMainStore((state) => state.loggedIn)
+
 
 
     const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
@@ -121,8 +125,6 @@ const HomePage = () => {
 
         async function Get_My_Profile() {
 
-            console.log("run");
-
             const { data } = await GetMyProfile();
             console.log(data);
 
@@ -149,8 +151,16 @@ const HomePage = () => {
 
     function ChangeUseReviewValue(event: React.ChangeEvent<HTMLInputElement>) {
 
-        console.log(event.target.value);
-        SetUserReview(event.target.value);
+        if(LoggedIn){
+            console.log(event.target.value);
+            SetUserReview(event.target.value);
+        }
+        else{
+            console.log("not logged in")
+            toast.dismiss();
+            toast.error("You must Login to write a review")
+        }
+
     }
 
     function HandleImageSelect(event: React.ChangeEvent<HTMLInputElement>) {
@@ -182,18 +192,23 @@ const HomePage = () => {
 
     async function SubmitReviewButton() {
 
-        const formData = new FormData();
+        if (LoggedIn) {
+            const formData = new FormData();
 
-        formData.append("HandheldId", currentHandheldId!.toString());
-        formData.append("ReviewText", userReview);
-        if (reviewImage) {
-            formData.append("PrimaryImage", reviewImage);
+            formData.append("HandheldId", currentHandheldId!.toString());
+            formData.append("ReviewText", userReview);
+            if (reviewImage) {
+                formData.append("PrimaryImage", reviewImage);
+            }
+
+
+
+            await SubmitReview(formData);
+        }
+        else{
+            toast.error("You must Login to post a review");
         }
 
-        
-
-        const { data } = await SubmitReview(formData);
-        console.log(data);
     }
 
 
@@ -210,7 +225,7 @@ const HomePage = () => {
                     <div className="avatar justify-center mt-10">
 
                         <div className="ring-primary ring-offset-base-100 w-24 rounded-full absolute bottom-0 ring-2 ring-offset-2">
-                            <ImageUrl TailwindStyles='' image={UserDetails?.profileImage}/>
+                            <ProfileImageUrl TailwindStyles='' image={UserDetails?.profileImage} />
                         </div>
                     </div>
 
@@ -229,7 +244,7 @@ const HomePage = () => {
                 <div className='card h-40 bg-primary px-8 pb-4 pt-2'>
 
                     <legend className="fieldset-legend text-sm">Handheld</legend>
-                    <select className="select mb" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/${newId}`); }}>
+                    <select className="select mb" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/home/${newId}`); }}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -273,10 +288,10 @@ const HomePage = () => {
 
                     <div className='avatar flex gap-3 items-center font-bold mb-1' >
 
-                        <ImageUrl TailwindStyles='w-12 rounded-xl' image={UserDetails?.profileImage}/>
+                        <ProfileImageUrl TailwindStyles='w-12 rounded-xl' image={UserDetails?.profileImage} />
                         <form className="w-full" action="">
 
-                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' onChange={ChangeUseReviewValue} />
+                            <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUseReviewValue} />
                         </form>
 
                     </div>
@@ -300,11 +315,11 @@ const HomePage = () => {
 
                 {reviews.map((review: any) => (
 
-                   
-                        
-                    <ReviewComponent review={review}/>
 
-                  
+
+                    <ReviewComponent review={review} />
+
+
 
                 ))}
 

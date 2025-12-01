@@ -133,6 +133,47 @@ namespace HandheldSite.Server.Controllers
 
 		}
 
+        [Authorize]
+        [HttpGet("Logout")]
+		public async Task<IActionResult> Logout()
+		{
+			//get the name of the user through jwt claims
+			var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+			if (userid == null)
+			{
+				return Unauthorized("user not found");
+			}
+
+
+			await _authservice.LogoutAsync(userid);
+
+            //Delete AccessToken as a HTTPonly Cookie
+            Response.Cookies.Delete("Access_Token" , new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddMinutes(_configuration.GetValue<int>("JwtOptions:ExpirationTimeInMinutes"))
+            });
+            
+            //Delete RefreshToken as a HTTPonly Cookie
+            Response.Cookies.Delete("Refresh_Token" , new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+
+
+			return NoContent();
+
+
+		}
+
 
 
 

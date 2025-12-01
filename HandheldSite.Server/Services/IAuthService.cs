@@ -13,6 +13,9 @@ namespace HandheldSite.Server.Services
 
         Task<TokensDTO?> RefreshTokensAsync(string? refreshRequest);
 
+        Task LogoutAsync(string userid);
+
+
 
     }
 }

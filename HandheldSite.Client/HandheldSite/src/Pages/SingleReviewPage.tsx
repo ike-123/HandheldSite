@@ -7,6 +7,7 @@ import en from 'javascript-time-ago/locale/en'
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
 import ImageUrl from './Components/ImageUrl';
+import ProfileImageUrl from './Components/ProfileImageUrl';
 
     TimeAgo.addLocale(en)
     const timeAgo = new TimeAgo('en-GB')
@@ -20,7 +21,7 @@ const SingleReviewPage = () => {
     const [PageContent, SetPageContent] = useState<any>();
 
     const [imageUrl, setImageUrl] = useState<string>();
-    const [ProfileImageUrl, setProfileImageUrl] = useState<string>();
+    // const [ProfileImageUrl, setProfileImageUrl] = useState<string>();
 
 
 
@@ -119,7 +120,7 @@ const SingleReviewPage = () => {
                     <div className='avatar flex gap-3 items-center font-bold mb-1' >
 
                       
-                        <ImageUrl TailwindStyles='w-15 h-15 rounded-xl' image={PageContent?.user.profileImage}/>
+                        <ProfileImageUrl TailwindStyles='w-15 h-15 rounded-xl' image={PageContent?.user.profileImage}/>
 
                     </div>
 

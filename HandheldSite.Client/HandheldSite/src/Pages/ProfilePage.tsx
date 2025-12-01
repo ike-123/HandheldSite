@@ -9,6 +9,7 @@ import LikedHeart from '../../public/Liked-Heart.png'
 import { Link } from 'react-router-dom';
 import ImageUrl from './Components/ImageUrl';
 import ReviewComponent from './Components/ReviewComponent';
+import ProfileImageUrl from './Components/ProfileImageUrl';
 
 const ProfilePage = () => {
 
@@ -33,7 +34,7 @@ const ProfilePage = () => {
     const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
 
 
-    const [ProfileImage, SetProfileImage] = useState<File | null>(null);
+    const [newUpdatedProfile, SetUpdatedProfileImage] = useState<File | null>(null);
     const [previewProfile, SetPreviewProfile] = useState<string | null>(null);
     const [username, SetUserName] = useState<any | null>();
 
@@ -43,8 +44,6 @@ const ProfilePage = () => {
 
 
     useEffect(() => {
-
-
 
         async function Get_Reviews_for_User(id: string) {
 
@@ -60,6 +59,8 @@ const ProfilePage = () => {
 
             SetUserInfo(data);
             console.log(data);
+
+            SetUserName(data.username);
         }
 
 
@@ -119,7 +120,7 @@ const ProfilePage = () => {
         console.log(event.target.files);
         const file = event.target.files?.[0];
         if (file) {
-            SetProfileImage(file);
+            SetUpdatedProfileImage(file);
             SetPreviewProfile(URL.createObjectURL(file));
         }
     }
@@ -146,6 +147,16 @@ const ProfilePage = () => {
         SetUserName(event.target.value);
     }
 
+    function handleModalClose() {
+        
+        SetUserName(userinfo.username);
+        SetUpdatedProfileImage(null);
+        SetPreviewProfile(null);
+
+        // you can run any code here
+    }
+
+
 
     async function SubmitChangeProfile() {
 
@@ -154,14 +165,14 @@ const ProfilePage = () => {
         if (username) {
             formData.append("username", username.toString());
         }
-        if (ProfileImage) {
-            formData.append("profileimage", ProfileImage);
+        if (newUpdatedProfile) {
+            formData.append("profileimage", newUpdatedProfile);
         }
 
         console.log(formData);
 
-        const { data } = await SubmitProfileChange(formData);
-        console.log(data);
+        await SubmitProfileChange(formData);
+        navigate(0);
     }
 
 
@@ -182,7 +193,7 @@ const ProfilePage = () => {
 
                         <div className=" ring-primary ring-offset-base-100 w-60 rounded-full ring-3 ring-offset-3">
                             {/* profile image */}
-                            <ImageUrl TailwindStyles='' image={userinfo?.profileImage}/>
+                            <ProfileImageUrl TailwindStyles='' image={userinfo?.profileImage} />
 
                         </div>
 
@@ -203,19 +214,17 @@ const ProfilePage = () => {
 
                         <div className='w-50 mt-auto pl-85'>
 
-                            {/* The button to open modal */}
-                            <label htmlFor="my_modal_7" className="btn bg-accent w-27 mb-2">Edit Profile</label>
+                            {/* Open the modal using document.getElementById('ID').showModal() method */}
+                            <button className="btn  bg-accent w-27 mb-2" onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement | null)?.showModal()}>Edit Profile</button>
 
-                            {/* Put this part before </body> tag */}
+                            <dialog id="my_modal_2" onClose={handleModalClose} className="modal">
 
-                            <input type="checkbox" id="my_modal_7" className="modal-toggle " />
-                            <div className="modal" role="dialog">
                                 <div className="modal-box flex flex-col gap-10">
 
                                     <div className='flex-row flex gap-4'>
 
                                         <label className='text-xl font-bold' htmlFor="username">Username</label>
-                                        <input className='  focus:outline-none border-1 rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" onChange={ChangeUsername} />
+                                        <input className='  focus:outline-none border-1 rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" value={username} onChange={ChangeUsername} />
                                     </div>
 
 
@@ -223,7 +232,12 @@ const ProfilePage = () => {
 
                                     <div className='flex-row flex gap-8'>
 
-                                        <img className='w-20 rounded-sm' src={previewProfile!} alt="" />
+                                        {
+                                            previewProfile
+
+                                                ? <img className='w-20 rounded-sm' src={previewProfile!} alt="" />
+                                                : <ImageUrl TailwindStyles='w-20 rounded-sm' image={userinfo?.profileImage} />
+                                        }
 
                                         <div className='flex items-center'>
                                             <label htmlFor="file" className="btn w-35 rounded-lg bg-primary border-gray-500 cursor-pointer"> Change Photo </label>
@@ -241,8 +255,11 @@ const ProfilePage = () => {
                                     </div>
 
                                 </div>
-                                <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
-                            </div>
+
+                                <form method="dialog" className="modal-backdrop">
+                                    <button>close</button>
+                                </form>
+                            </dialog>
 
 
                         </div>
@@ -270,7 +287,7 @@ const ProfilePage = () => {
 
 
                 {reviews.map((review: any) => (
-                  <ReviewComponent review={review}/>
+                    <ReviewComponent review={review} />
                 ))}
 
             </div>

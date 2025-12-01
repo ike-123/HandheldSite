@@ -1,5 +1,5 @@
 import './App.css'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
 import Navbar from './Pages/Navbar'
 import NotFoundPage from './Pages/NotFoundPage'
 import HomePage from './Pages/HomePage'
@@ -35,9 +35,14 @@ const router = createBrowserRouter([{
   element: <PageStructure/>,
   errorElement: <NotFoundPage />,
   children: [
+    
+    {
+        index: true,
+        element: <Navigate to="/1" replace />
+    },
 
     {
-      path: "/:id",
+      path: "home/:id",
       element: <HomePage />,
     },
     {
@@ -89,7 +94,7 @@ function App() {
   },[])
 
   return (
-
+    
     <RouterProvider router={router} />
   )
 }

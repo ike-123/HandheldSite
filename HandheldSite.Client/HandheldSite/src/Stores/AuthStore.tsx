@@ -7,7 +7,7 @@ type AuthStore = {
     // token:number;
     Register: (email: string, password: string) => Promise<void>;
     Login: (email: string, password: string) => Promise<void>;
-    Logout: (email: string, password: string) => Promise<void>;
+    Logout: () => Promise<void>;
 
     // setAccessToken: ()=>Promise<void>;
 

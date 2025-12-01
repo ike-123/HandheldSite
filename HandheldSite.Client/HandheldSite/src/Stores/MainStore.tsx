@@ -175,15 +175,21 @@ export const useMainStore = create<MainStore>((set) => ({
 
     },
 
-        async SubmitProfileChange(post: any) {
+    async SubmitProfileChange(post: any) {
 
-        await api.post("Profile/UpdateProfile", post, {
+        const {data} = await api.post("Profile/UpdateProfile", post, {
 
             headers: {
                 "Content-Type": "multipart/form-data",
             }
 
         });
+
+        console.log(data);
+
+        set( (previous) =>( { ...previous, profileImage: data.profileImage, username: data.username}));
+
+        
 
     },
 
@@ -218,12 +224,15 @@ export const useMainStore = create<MainStore>((set) => ({
 
     async AuthPing() {
 
+        console.log("ping");
         try {
             const { data } = await api.get("Auth/Ping", { withCredentials: true });
 
             set({ user: data, loggedIn: true });
             //console.log("User is loggged in");
+            console.log("success ping");
             console.log(data);
+
 
 
         } catch (error) {

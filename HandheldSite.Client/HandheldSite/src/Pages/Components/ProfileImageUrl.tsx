@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from 'react'
+import No_User from '../../../public/No-User.png'
 
 interface ProfileImageUrlProps {
     image: string | null;
     TailwindStyles: string | undefined;
 }
 
-const ImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles }) => {
+const ProfileImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles }) => {
 
     const [imageUrl, setImageUrl] = useState<string>();
-    const [_TailwindStyles,setTailwindStyles] = useState<string|undefined>("");
 
 
     useEffect(() => {
 
         if (!image || typeof image !== 'string') {
 
-            setImageUrl("")
+            setImageUrl(No_User)
             return;
         }
 
         const dataUrl = `data:image/jpeg;base64,${image}`;
         setImageUrl(dataUrl);
-        setTailwindStyles(TailwindStyles);
-
 
         return () => {
 
@@ -34,9 +32,9 @@ const ImageUrl: React.FC<ProfileImageUrlProps> = ({ image, TailwindStyles }) => 
 
     return (
         // <div>{image}</div>
-        <img className={_TailwindStyles} src={imageUrl} alt="" />
+        <img className={TailwindStyles} src={imageUrl} alt="" />
 
     )
 }
 
-export default ImageUrl
+export default ProfileImageUrl
