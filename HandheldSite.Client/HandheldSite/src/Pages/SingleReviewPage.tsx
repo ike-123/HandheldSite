@@ -111,7 +111,7 @@ const SingleReviewPage = () => {
 
             <div className=' self-center flex flex-col w-9/12'>
 
-                <ImageUrl TailwindStyles='w-full h-100 self-center object-cover' image={PageContent?.primaryImage}/>
+                <ImageUrl TailwindStyles='w-full h-100 self-center object-cover mb-4' image={PageContent?.primaryImage}/>
 
 
                 {/* user info */}

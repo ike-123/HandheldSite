@@ -89,39 +89,6 @@ const HomePage = () => {
 
     }, [])
 
-    // useEffect(() => {
-    //     reviews.forEach((review: any) => {
-    //         if (!review.primaryImage || imageUrls[review.reviewId]) return;
-
-    //         // 1) already a data URL string (e.g. "data:image/png;base64,...")
-    //         if (typeof review.primaryImage === 'string' && review.primaryImage.startsWith('data:')) {
-    //             setImageUrls(prev => ({ ...prev, [review.reviewId]: review.primaryImage }));
-    //             return;
-    //         }
-
-    //         // 2) plain base64 string without prefix
-    //         if (typeof review.primaryImage === 'string') {
-    //             const dataUrl = `data:image/jpeg;base64,${review.primaryImage}`;
-    //             setImageUrls(prev => ({ ...prev, [review.reviewId]: dataUrl }));
-    //             return;
-    //         }
-
-    //         // 3) numeric byte array or { data: number[] } from EF/JSON
-    //         const bytes = review.primaryImage.data ?? review.primaryImage;
-    //         const uint8 = new Uint8Array(bytes);
-    //         const blob = new Blob([uint8], { type: 'image/png' }); // adjust mime type if needed
-    //         const url = URL.createObjectURL(blob);
-    //         setImageUrls(prev => ({ ...prev, [review.reviewId]: url }));
-    //     });
-    //     // revoke created URLs on unmount to avoid memory leaks
-    //     return () => {
-    //         Object.values(imageUrls).forEach(u => {
-    //             try { URL.revokeObjectURL(u); } catch { }
-    //         });
-    //     };
-    // }, [reviews]);
-
-
     useEffect(() => {
 
 
@@ -209,7 +176,7 @@ const HomePage = () => {
         if (LoggedIn) {
             const formData = new FormData();
 
-            if(userReview == ""){
+            if (userReview == "") {
                 toast.dismiss();
                 toast.error("Text is required");
                 return;
@@ -233,76 +200,50 @@ const HomePage = () => {
 
 
     return (
+
         <div className='flex px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto gap-5'>
 
-            {/* left section */}
-            {/* <div className='flex-1 gap-3 flex flex-col'>
-
-
-                <div className='card h-60 bg-primary flex items-center gap-1'>
-
-                    <img className='w-full h-20 object-fill rounded-t-md' src="https://i.pinimg.com/736x/e9/53/e8/e953e8aeaf4844dab4bcffb58ec04bdf.jpg" alt="" />
-                    <div className="avatar justify-center mt-10">
-
-                        <div className="ring-primary ring-offset-base-100 w-24 rounded-full absolute bottom-0 ring-2 ring-offset-2">
-                            <ProfileImageUrl TailwindStyles='' image={UserDetails?.profileImage} />
-                        </div>
-                    </div>
-
-                    <h1 className='text-2xl'>{UserDetails?.username}</h1>
-
-                    <div className='w-full px-10'>
-                        <Link to={`/profilepage/${UserDetails?.id}`} className='btn btn-secondary p-2 mt-5 w-full'>
-                            My Profile
-                        </Link>
-                    </div>
-
-
-
-                </div>
-
-                <div className='card h-40 bg-primary px-8 pb-4 pt-2'>
-
-                    <legend className="fieldset-legend text-sm">Handheld</legend>
-                    <select className="select mb" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/home/${newId}`); }}>
-
-                        {
-                            Handhelds.map((handheld: any) => (
-
-                                <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
-
-                            ))
-                        }
-
-                    </select>
-
-
-                    <legend className="fieldset-legend text-sm">Sort By</legend>
-
-                    <select className="select" value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
-
-                        <option value="recent">Most Recent</option>
-                        <option value="likes">Most Liked</option>
-                    </select>
-
-                </div >
-
-                <div className='py-3 bg-primary rounded-md'>
-
-                    <ul className="menu menu-xl bg-base-200 rounded-box w-full bg-primary">
-                        <li><a>Home</a></li>
-                        <li><Link to={"/likedReviews"}>Liked Reviews</Link></li>
-                        <li><Link to={"/Comparison"}>Compare</Link></li>
-                    </ul>
-                </div>
-
-
-            </div> */}
 
 
             {/* Middle Section */}
 
             <div className=' flex flex-col gap-4 flex-2'>
+
+                <div className='bg-white/15 backdrop-blur-sm border-b border-white/30 h-12 flex gap-10 items-center justify-around w-full sticky top-0 z-10'>
+
+
+                    <div className='flex gap-2 flex-row items-center'>
+
+                        <legend className="fieldset-legend text-xs m-0">Handheld:</legend>
+                        <select className="select select-sm select-accent/10 focus:ring-0 focus:out" value={currentHandheldId} onChange={(event) => { const newId = event.target.value; navigate(`/home/${newId}`); }}>
+
+                            {
+                                Handhelds.map((handheld: any) => (
+
+                                    <option key={handheld.handheldId} value={handheld.handheldId} > {handheld.handheldName}</option>
+
+                                ))
+                            }
+
+                        </select>
+                        
+                    </div>
+
+
+                    <div className='flex gap-2'>
+
+                        <legend className="fieldset-legend whitespace-nowrap text-xs m-0">Sort by:</legend>
+
+                        <select className="select select-sm" value={sort} onChange={(e) => navigate(`?sort=${e.target.value}`)}>
+
+                            <option value="recent">Most Recent</option>
+                            <option value="likes">Most Liked</option>
+                        </select>
+                    </div>
+
+
+
+                </div>
 
                 <div className='card bg-primary p-4 flex flex-col'>
 
@@ -313,7 +254,7 @@ const HomePage = () => {
 
                             <div className='flex self-center gap-1 flex-row'>
                                 <img className='object-cover h-30 w-50  rounded' src={previewPicture!} alt="preview Image" />
-                                
+
 
                                 <button className="btn h-8 self-center w-8 rounded-full bg-red-400 cursor-pointer p-1" onClick={RemoveUploadedPicture}>
                                     <img className=' ' src={Delete} alt="" />
@@ -331,12 +272,12 @@ const HomePage = () => {
                     <div className='avatar flex gap-3 font-bold mb-1' >
 
                         <ProfileImageUrl TailwindStyles='w-12 h-12 rounded-xl' image={UserDetails?.profileImage} />
-                        <form className="w-full" action="">
+                        {/* <form className="w-full" action="">
 
                             <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUserReviewValue} />
-                        </form>
+                        </form> */}
 
-                        {/* <TextareaAutosize className='py-1 self-center resize-none border-2 border-accent w-full' value={userReview} onChange={ChangeUserReviewValue} /> */}
+                        <TextareaAutosize className='p-1 self-center focus:outline-none resize-none border-2 rounded border-gray-800 w-full' autoComplete='off' placeholder='Write your Review' value={userReview} onChange={ChangeUserReviewValue} />
 
 
 
@@ -361,22 +302,16 @@ const HomePage = () => {
 
                 {reviews.map((review: any) => (
 
-
-
                     <ReviewComponent review={review} />
-
-
 
                 ))}
 
 
             </div>
 
-
-
             {/* Right Section */}
 
-            <div className='card h-200 bg-primary flex flex-1 min-w-0 px-2 '>
+            <div className='card rounded-none bg-primary flex flex-1 min-w-0 px-2 sticky top-0 h-screen'>
 
                 {selectedHandheld &&
 
@@ -440,8 +375,6 @@ const HomePage = () => {
                             </div>
 
 
-
-
                             <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
@@ -453,7 +386,6 @@ const HomePage = () => {
 
 
                             </div>
-
 
 
                             <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
@@ -480,52 +412,13 @@ const HomePage = () => {
 
                             </div>
 
-
-
-
-
-
-
-
-
-
-
                         </div>
-
-
-                        {/* <div className="stats stats-vertical shadow self-center">
-                            <div className="stat">
-                                <div className="stat-title">APU</div>
-                                <div className="stat-value">AMD Van Gouh</div>
-                                <div className="stat-desc">4 zen2/ 4 RDNA 2 CU's</div>
-
-                            </div>
-                            <div className="stat">
-                                <div className="stat-title ">Release Date</div>
-                                <div className="stat-value">19/03/2022</div>
-                                <div className="stat-desc">4 zen2/ 4 RDNA 2 CU's</div>
-
-                            </div>
-
-                        </div> */}
-
-
 
 
                     </>
 
-
-
                 }
             </div>
-
-
-
-
-
-
-
-
 
         </div>
     )

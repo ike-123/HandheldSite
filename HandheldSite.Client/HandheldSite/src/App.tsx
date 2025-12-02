@@ -22,90 +22,105 @@ import ScrollToTop from './Pages/Components/ScrollToTop'
 // so i'll keep it commented out for now
 const PageStructure = () => {
   return (
-
     <>
       <Navbar />
-       {/* <ScrollToTop /> */}
-      <NavigationMenu/>
+      {/* <ScrollToTop /> */}
+      <NavigationMenu />
       {/* <Footer /> */}
     </>
-
-
   )
-
 }
 
-const router = createBrowserRouter([{
+const PageStructureNavbar = () => {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  )
+}
 
-  path: "/",
-  element: <PageStructure/>,
-  errorElement: <NotFoundPage />,
-  children: [
-    
-    {
+const router = createBrowserRouter([
+
+  {
+
+    path: "/",
+    element: <PageStructure />,
+    errorElement: <NotFoundPage />,
+    children: [
+
+      {
         index: true,
         element: <Navigate to="home/1" replace />
-    },
-
-    {
-      path: "home/:id",
-      element: <HomePage />,
-    },
-    {
-      path: "/Register",
-      element: <Register />,
-    },
-    {
-      path: "/Login",
-      element: <Login />,
-    },
-    {
-      path: "SingleReviewPage/:id",
-      element: <SingleReviewPage />
-    },
-    {
-      path: "ProfilePage/:id",
-      element: <ProfilePage />
-    },
-    {
-      path: "Comparison",
-      element: <ComparisonPage />
-    },
-    {
-      path: "LikedReviews",
-      element: <LikedReviews />
-    },
-    {
-      path: "test",
-      element: <Test/>
-    },
-       {
-      path: "nav",
-      element: <NavigationMenu/>
-    },
-    
+      },
+      {
+        path: "home/:id",
+        element: <HomePage />,
+      },
+      {
+        path: "SingleReviewPage/:id",
+        element: <SingleReviewPage />
+      },
+      {
+        path: "ProfilePage/:id",
+        element: <ProfilePage />
+      },
+      {
+        path: "Comparison",
+        element: <ComparisonPage />
+      },
+      {
+        path: "LikedReviews",
+        element: <LikedReviews />
+      },
+      {
+        path: "test",
+        element: <Test />
+      },
+      {
+        path: "nav",
+        element: <NavigationMenu />
+      },
 
 
-  ]
-}])
+
+    ]
+  },
+  {
+    path: "/",
+    element: <PageStructureNavbar />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: "/Register",
+        element: <Register />,
+      },
+      {
+        path: "/Login",
+        element: <Login />,
+      },
+
+    ]
+  }
+])
 
 function App() {
 
-    const AuthPing = useMainStore((state)=>state.AuthPing)
-  
+  const AuthPing = useMainStore((state) => state.AuthPing)
 
-  useEffect(()=>{
-    async function Call_Ping(){
+
+  useEffect(() => {
+    async function Call_Ping() {
 
       await AuthPing();
     }
 
     Call_Ping();
 
-  },[])
+  }, [])
 
   return (
-    
+
     <RouterProvider router={router} />
   )
 }

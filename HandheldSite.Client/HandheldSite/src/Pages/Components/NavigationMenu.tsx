@@ -20,96 +20,96 @@ const NavigationMenu = () => {
 
 
     return (
-        <div>
-
-            <div className='flex px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto gap-5'>
 
 
-                <div className='flex flex-row w-full'>
+        <div className='flex px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto gap-5'>
 
-                    {/* background for menu */}
-                    <div className='py-3 bg-primary rounded-md w-60 h-150 min-w-60 '>
 
-                        <ul className="menu menu-xl bg-base-200 flex gap-3  rounded-box w-full bg-primary">
+            <div className='flex flex-row w-full'>
 
-                            <li>
-                                <Link to={"/"}>
+                {/* background for menu */}
+                <div className='py-3 bg-primary w-60 min-w-60 sticky top-0 h-screen'>
 
-                                    <img className='h-7' src={Home} alt="" />
-                                    <h1>Home</h1>
-                                </Link>
-                            </li>
+                    <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full bg-primary">
 
-                            <li>
-                                <Link to={"/Comparison"}>
+                        <li>
+                            <Link to={"/"}>
 
-                                    <img className='h-7' src={compare} alt="" />
-                                    <h1>Compare</h1>
-                                </Link>
-                            </li>
+                                <img className='h-7' src={Home} alt="" />
+                                <h1>Home</h1>
+                            </Link>
+                        </li>
 
-                            {
+                        <li>
+                            <Link to={"/Comparison"}>
 
-                                LoggedIn ?
-                                    <li>
-                                        <Link to={"/likedReviews"}>
+                                <img className='h-7' src={compare} alt="" />
+                                <h1>Compare</h1>
+                            </Link>
+                        </li>
 
-                                            <img className='h-7' src={Heart} alt="" />
+                        {
 
-                                            <h1>Liked Reviews</h1>
-                                        </Link>
-                                    </li>
-                                    :
-                                    ""
-                            }
+                            LoggedIn ?
+                                <li>
+                                    <Link to={"/likedReviews"}>
 
-                            
-                            {
+                                        <img className='h-7' src={Heart} alt="" />
 
-                                LoggedIn ?
+                                        <h1>Liked Reviews</h1>
+                                    </Link>
+                                </li>
+                                :
+                                ""
+                        }
 
-                                    <li>
-                                        <Link className='flex' to={`/profilepage/${UserDetails?.id}`} >
 
-                                            <div tabIndex={0} role="button" className=" avatar">
-                                                <div className="w-8 rounded-full">
+                        {
 
-                                                    <ProfileImageUrl TailwindStyles='' image={UserDetails?.profileImage} />
+                            LoggedIn ?
 
-                                                </div>
+                                <li>
+                                    <Link className='flex' to={`/profilepage/${UserDetails?.id}`} >
+
+                                        <div tabIndex={0} role="button" className=" avatar">
+                                            <div className="w-8 rounded-full">
+
+                                                <ProfileImageUrl TailwindStyles='' image={UserDetails?.profileImage} />
 
                                             </div>
 
-                                            <h1>Profile</h1>
-                                        </Link>
-                                    </li>
+                                        </div>
+
+                                        <h1>Profile</h1>
+                                    </Link>
+                                </li>
 
 
-                                    :""
+                                : ""
 
-                            }
+                        }
 
 
 
-                        </ul>
+                    </ul>
 
-                    </div>
+                </div>
 
-                    <div className='flex-1'>
+                <div className='flex-1'>
 
-                        <Outlet />
-
-                    </div>
-
+                    <Outlet />
 
                 </div>
 
 
-
-
             </div>
 
+
+
+
         </div>
+
+
     )
 }
 
