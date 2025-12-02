@@ -326,7 +326,8 @@ const HomePage = () => {
                         <div className='max-w-full'>
 
                             <div className=''>
-                                <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" />
+                                {/* <img className=' w-full h-45 object-cover mx-auto' src={selectedHandheld.handheldImg} alt="" /> */}
+                                <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={selectedHandheld.handheldImg}/>
                             </div>
 
                             <h1 className='font-bold text-2xl mb-1.5'>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMainStore } from '../Stores/MainStore';
+import ImageUrl from './Components/ImageUrl';
 
 const ComparisonPage = () => {
 
@@ -119,7 +120,9 @@ const ComparisonPage = () => {
 
                     </select>
 
-                    <img className=' w-full h-45 object-cover mx-auto' src={Handheld1?.handheldImg} alt="" />
+                    {/* <img className=' w-full h-45 object-cover mx-auto' src={Handheld1?.handheldImg} alt="" /> */}
+                    <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={Handheld1?.handheldImg}/>
+
 
 
                     <div className="divider w-3/4 mx-auto"></div>
@@ -165,7 +168,8 @@ const ComparisonPage = () => {
 
                     </select>
 
-                    <img className=' w-full h-45 object-cover mx-auto' src={Handheld2?.handheldImg} alt="" />
+                    {/* <img className=' w-full h-45 object-cover mx-auto' src={Handheld2?.handheldImg} alt="" /> */}
+                    <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={Handheld2?.handheldImg}/>
 
 
                     <div className="divider w-3/4 mx-auto"></div>
@@ -207,8 +211,8 @@ const ComparisonPage = () => {
                         }
 
                     </select>
-                    <img className=' w-full h-45 object-cover mx-auto' src={Handheld3?.handheldImg} alt="" />
-
+                    
+                    <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={Handheld3?.handheldImg}/>
 
                     <div className="divider w-3/4 mx-auto"></div>
 
@@ -230,7 +234,7 @@ const ComparisonPage = () => {
 
                     <h1 className='text-lg'>{Handheld3?.display}</h1>
                     <div className="divider my-3 w-3/3 mx-auto"></div>
-                    
+
                     <h1 className='text-lg'>{Handheld3?.battery}</h1>
                     <div className="divider my-3 w-3/4 mx-auto"></div>
 

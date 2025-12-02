@@ -8,7 +8,7 @@ namespace HandheldSite.Server.Models
         public int HandheldId {get;set;}
         public string HandheldName {get;set;}  = string.Empty;
         public string Description {get;set;}  = string.Empty;
-        public string HandheldImg {get;set;} = string.Empty;
+        public byte[]? HandheldImg {get;set;}
         public string Processor {get;set;} = string.Empty;
         public string CPU {get;set;} = string.Empty;
         public string GPU {get;set;} = string.Empty;
