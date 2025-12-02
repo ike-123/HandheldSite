@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom';
-import { useMainStore } from '../../Stores/MainStore';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import ProfileImageUrl from './ProfileImageUrl';
 
 import Home from '../../../public/Home.png'
 import compare from '../../../public/compare.png'
 import Heart from '../../../public/Heart_White.png'
+import { useAuthStore } from '../../Stores/AuthStore';
 
 
 
@@ -13,8 +13,8 @@ const NavigationMenu = () => {
 
 
 
-    const UserDetails = useMainStore((state) => state.user);
-    const LoggedIn = useMainStore((state) => state.loggedIn)
+    const UserDetails = useAuthStore((state) => state.user);
+    const LoggedIn = useAuthStore((state) => state.loggedIn)
 
 
 
@@ -33,31 +33,35 @@ const NavigationMenu = () => {
                     <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full bg-primary">
 
                         <li>
-                            <Link to={"/"}>
-
+                            <NavLink to={"/home"} className={({ isActive }) => isActive
+                                ? "bg-accent text-white flex items-center gap-2 p-2"
+                                : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
                                 <img className='h-7' src={Home} alt="" />
                                 <h1>Home</h1>
-                            </Link>
+                            </NavLink>
                         </li>
 
                         <li>
-                            <Link to={"/Comparison"}>
-
+                            <NavLink to={"/Comparison"} className={({ isActive }) => isActive
+                                ? "bg-accent text-white flex items-center gap-2 p-2"
+                                : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
                                 <img className='h-7' src={compare} alt="" />
                                 <h1>Compare</h1>
-                            </Link>
+                            </NavLink>
                         </li>
 
                         {
 
                             LoggedIn ?
                                 <li>
-                                    <Link to={"/likedReviews"}>
+                                    <NavLink to={"/likedReviews"} className={({ isActive }) => isActive
+                                        ? "bg-accent text-white flex items-center gap-2 p-2"
+                                        : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
 
                                         <img className='h-7' src={Heart} alt="" />
 
                                         <h1>Liked Reviews</h1>
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 :
                                 ""
@@ -69,7 +73,9 @@ const NavigationMenu = () => {
                             LoggedIn ?
 
                                 <li>
-                                    <Link className='flex' to={`/profilepage/${UserDetails?.id}`} >
+                                    <NavLink to={`/Profilepage/${UserDetails?.id}`} className={({ isActive }) => isActive
+                                        ? "bg-accent text-white flex items-center gap-2 p-2"
+                                        : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
 
                                         <div tabIndex={0} role="button" className=" avatar">
                                             <div className="w-8 rounded-full">
@@ -81,7 +87,7 @@ const NavigationMenu = () => {
                                         </div>
 
                                         <h1>Profile</h1>
-                                    </Link>
+                                    </NavLink>
                                 </li>
 
 

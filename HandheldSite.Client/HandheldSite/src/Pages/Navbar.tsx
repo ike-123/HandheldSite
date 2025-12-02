@@ -1,14 +1,13 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { useMainStore } from '../Stores/MainStore'
 import ImageUrl from './Components/ImageUrl'
 import { useAuthStore } from '../Stores/AuthStore'
 import ProfileImageUrl from './Components/ProfileImageUrl'
 
 const Navbar = () => {
 
-  const LoggedIn = useMainStore((state) => state.loggedIn)
-  const UserDetails = useMainStore((state) => state.user);
+  const LoggedIn = useAuthStore((state) => state.loggedIn)
+  const UserDetails = useAuthStore((state) => state.user);
   const Logout = useAuthStore((state)=> state.Logout)
 
 

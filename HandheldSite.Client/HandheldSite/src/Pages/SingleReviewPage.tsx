@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useMainStore } from '../Stores/MainStore';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -8,9 +8,11 @@ import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
 import ImageUrl from './Components/ImageUrl';
 import ProfileImageUrl from './Components/ProfileImageUrl';
+import { useAuthStore } from '../Stores/AuthStore';
+import toast from 'react-hot-toast';
 
-    TimeAgo.addLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
+TimeAgo.addLocale(en)
+const timeAgo = new TimeAgo('en-GB')
 
 const SingleReviewPage = () => {
 
@@ -21,6 +23,8 @@ const SingleReviewPage = () => {
     const [PageContent, SetPageContent] = useState<any>();
 
     const [imageUrl, setImageUrl] = useState<string>();
+    
+
     // const [ProfileImageUrl, setProfileImageUrl] = useState<string>();
 
 
@@ -31,6 +35,7 @@ const SingleReviewPage = () => {
     const GetPageInfo = useMainStore((state) => state.GetReview);
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    const LoggedIn = useAuthStore((state)=> state.loggedIn)
 
 
 
@@ -51,7 +56,7 @@ const SingleReviewPage = () => {
 
     }, [id])
 
- 
+
 
 
     async function ToggleLikeButton(reviewid: number) {
@@ -59,17 +64,24 @@ const SingleReviewPage = () => {
 
         //only allow user to like if logged in. If not logged in then send toast error.
 
-        const { data } = await ToggleLike(reviewid);
-        const likecount = data.likestatus.likecount;
-        const likestatus = data.likestatus.likestatus;
 
-        console.log(data);
+          if (LoggedIn) {
 
-        SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus, likeCount:likecount }));
+            const { data } = await ToggleLike(reviewid);
+            const likestatus = data.likestatus.likestatus;
+            const likecount = data.likestatus.likecount;
 
-        // SetReviews(previous => previous.map((review) =>
-        //     review.reviewId === ReturnedId ? { ...review, isLiked: likestatus } : review
-        // ));
+            console.log(data);
+
+            console.log("hey");
+
+            SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus, likeCount: likecount }));
+
+        }
+        else {
+            toast.dismiss()
+            toast.error("You must Login to Like a post")
+        }
     }
 
 
@@ -111,7 +123,7 @@ const SingleReviewPage = () => {
 
             <div className=' self-center flex flex-col w-9/12'>
 
-                <ImageUrl TailwindStyles='w-full h-100 self-center object-cover mb-4' image={PageContent?.primaryImage}/>
+                <ImageUrl TailwindStyles='w-full h-100 self-center object-cover mb-4' image={PageContent?.primaryImage} />
 
 
                 {/* user info */}
@@ -119,8 +131,10 @@ const SingleReviewPage = () => {
 
                     <div className='avatar flex gap-3 items-center font-bold mb-1' >
 
-                      
-                        <ProfileImageUrl TailwindStyles='w-15 h-15 rounded-xl' image={PageContent?.user.profileImage}/>
+                        <Link to={`/ProfilePage/${PageContent?.userId}`}>
+                            <ProfileImageUrl TailwindStyles='w-15 h-15 highlight-ring-rounded' image={PageContent?.user.profileImage} />
+
+                        </Link>
 
                     </div>
 
@@ -139,24 +153,24 @@ const SingleReviewPage = () => {
 
 
 
-                    <div className='flex gap-2'>
+                <div className='flex items-center'>
 
-                            {PageContent?.isLiked ?
+                    {PageContent?.isLiked ?
 
-                                <button className='' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
-                                    <img className='h-8' src={LikedHeart} alt="" />
-                                </button>
+                        <button className='button-hover-red' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
+                            <img className='h-12 p-2' src={LikedHeart} alt="" />
+                        </button>
 
-                                :
-                                <button className='' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
-                                    <img className='h-8' src={NotLikedHeart} alt="" />
+                        :
+                        <button className='button-hover-red' onClick={() => { ToggleLikeButton(PageContent?.reviewId) }}>
+                            <img className='h-12 p-2' src={NotLikedHeart} alt="" />
 
-                                </button>
+                        </button>
 
-                            }
+                    }
 
-                            <h1 className='text-3xl'>{PageContent?.likeCount}</h1>
-                        </div>
+                    <h1 className='text-3xl'>{PageContent?.likeCount}</h1>
+                </div>
                 {/* review Text */}
 
                 <div className='mt-10'>
@@ -164,6 +178,10 @@ const SingleReviewPage = () => {
                     <p>
                         {PageContent?.reviewText}
                     </p>
+
+                </div>
+
+                <div className='h-20'>
 
                 </div>
 

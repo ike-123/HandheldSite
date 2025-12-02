@@ -9,7 +9,7 @@ namespace HandheldSite.Server.Services
 
         Task<User?> RegisterAsync(RegisterRequest registerRequest);
 
-        Task<TokensDTO?> LoginAsync(LoginRequest loginRequest);
+        Task<Tokens_UserIdDTO?> LoginAsync(LoginRequest loginRequest);
 
         Task<TokensDTO?> RefreshTokensAsync(string? refreshRequest);
 

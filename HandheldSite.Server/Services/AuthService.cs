@@ -54,7 +54,7 @@ namespace HandheldSite.Server.Services
         }
 
 
-        public async Task<TokensDTO?> LoginAsync(LoginRequest loginRequest)
+        public async Task<Tokens_UserIdDTO?> LoginAsync(LoginRequest loginRequest)
         {
 
             User? user = await _dbcontext.Users.FirstOrDefaultAsync(user=> user.Email == loginRequest.Email);
@@ -69,7 +69,7 @@ namespace HandheldSite.Server.Services
                 return null;
             }
 
-            return new TokensDTO{AccessToken = CreateJWTToken(user), RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)};
+            return new Tokens_UserIdDTO{AccessToken = CreateJWTToken(user), RefreshToken = await GenerateAndSaveRefreshTokenAsync(user),Userid = user.Id.ToString()};
 
         }
 

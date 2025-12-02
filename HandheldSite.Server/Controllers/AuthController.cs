@@ -51,6 +51,8 @@ namespace HandheldSite.Server.Controllers
                 return BadRequest("Username or Password is Incorrect");
             }
 
+            object profilePageInfo = await _profileService.GetUserProfileinfo(result!.Userid);
+                
             //Send AccessToken as a HTTPonly Cookie
             Response.Cookies.Append("Access_Token", result.AccessToken , new CookieOptions
             {
@@ -71,7 +73,7 @@ namespace HandheldSite.Server.Controllers
                 Expires = DateTime.UtcNow.AddDays(7)
             });
 
-            return Ok(); 
+            return Ok(profilePageInfo); 
 
         }
 

@@ -13,7 +13,6 @@ import Footer from './Pages/Footer'
 import Test from './Pages/test'
 import { useEffect } from 'react'
 import { useAuthStore } from './Stores/AuthStore'
-import { useMainStore } from './Stores/MainStore'
 import NavigationMenu from './Pages/Components/NavigationMenu'
 import ScrollToTop from './Pages/Components/ScrollToTop'
 
@@ -24,7 +23,7 @@ const PageStructure = () => {
   return (
     <>
       <Navbar />
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <NavigationMenu />
       {/* <Footer /> */}
     </>
@@ -52,6 +51,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Navigate to="home/1" replace />
+      },
+      {
+        path: "home",
+        element: <Navigate to="/home/1" replace />
       },
       {
         path: "home/:id",
@@ -106,7 +109,7 @@ const router = createBrowserRouter([
 
 function App() {
 
-  const AuthPing = useMainStore((state) => state.AuthPing)
+  const AuthPing = useAuthStore((state) => state.AuthPing)
 
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using HandheldSite.Server.Data;
 using HandheldSite.Server.Models;
@@ -66,15 +67,26 @@ namespace HandheldSite.Server.Services
             var query = _dbContext.Reviews.Where(review => review.HandheldId == HandheldIdId);
 
             if (sort == "recent")
-                query = query.OrderByDescending(h => h.CreatedAt)
-            ;
+            {
+                query = query.OrderByDescending(h => h.CreatedAt);
+                
+            }
 
-            if (sort == "mostlikes")
+            if (sort == "likes")
+            {
+                query = query.OrderByDescending(review => review.LikeCount);
 
-                query = query.OrderByDescending(review => _dbContext.Likes.Count(like => like.ReviewId == review.ReviewId));
+            }
 
 
             var reviews = await query.ToListAsync();
+
+            // Debug.WriteLine("please",reviews[0].LikeCount);
+            // Debug.WriteLine("please",reviews[1].LikeCount);
+            // Debug.WriteLine("please",reviews[2].LikeCount);
+
+
+
 
 
             // Get all reviewIds we are working with
@@ -91,7 +103,7 @@ namespace HandheldSite.Server.Services
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName, u.Id, u.ProfileImage  });
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName, u.Id, u.ProfileImage });
 
 
             var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto
@@ -337,7 +349,7 @@ namespace HandheldSite.Server.Services
 
 
             // Batch load all users
-            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName,u.Id,  u.ProfileImage });
+            var users = await _dbContext.Users.Where(u => userIds.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => new { u.Email, u.UserName, u.Id, u.ProfileImage });
 
 
             var result = await Task.WhenAll(reviews.Select(async review => new ReviewWithLikeDto

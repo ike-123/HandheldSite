@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useMainStore } from '../Stores/MainStore'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import processor from '../../public/processor.png'
 
 import NotLikedHeart from '../../public/Not-Liked-Heart.png'
 import LikedHeart from '../../public/Liked-Heart.png'
+import Upload from '../../public/Upload.png'
+
+
 import Delete from '../../public/delete.png'
 import { Link } from 'react-router-dom';
 
@@ -16,6 +18,10 @@ import ImageUrl from './Components/ImageUrl';
 import toast from 'react-hot-toast';
 import ProfileImageUrl from './Components/ProfileImageUrl';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useAuthStore } from '../Stores/AuthStore';
+import { useMainStore } from '../Stores/MainStore'
+
+
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-GB')
@@ -59,8 +65,8 @@ const HomePage = () => {
     const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitReview = useMainStore((state) => state.CreateReview);
-    const UserDetails = useMainStore((state) => state.user);
-    const LoggedIn = useMainStore((state) => state.loggedIn);
+    const UserDetails = useAuthStore((state) => state.user);
+    const LoggedIn = useAuthStore((state) => state.loggedIn);
 
 
 
@@ -119,7 +125,7 @@ const HomePage = () => {
             Get_Reviews_for_Handheld(parseInt(id), sort);
         }
 
-    }, [id])
+    }, [id,sort])
 
     function ChangeUserReviewValue(event: any) {
 
@@ -207,7 +213,7 @@ const HomePage = () => {
 
             {/* Middle Section */}
 
-            <div className=' flex flex-col gap-4 flex-2'>
+            <div className=' flex flex-col gap-4 flex-2 min-w-0'>
 
                 <div className='bg-white/15 backdrop-blur-sm border-b border-white/30 h-12 flex gap-10 items-center justify-around w-full sticky top-0 z-10'>
 
@@ -277,7 +283,7 @@ const HomePage = () => {
                             <input className="w-full h-8 outline-1" type="text" name='reviewText' placeholder='Write your Review' autoComplete='off' value={userReview}  onChange={ChangeUserReviewValue} />
                         </form> */}
 
-                        <TextareaAutosize className='p-1 self-center focus:outline-none resize-none border-2 rounded border-gray-800 w-full' autoComplete='off' placeholder='Write your Review' value={userReview} onChange={ChangeUserReviewValue} />
+                        <TextareaAutosize className='p-1 self-center focus:outline-none resize-none border-2 rounded border-gray-800 w-full' autoComplete='off' placeholder={`Write a Review for the ${selectedHandheld?.handheldName}`} value={userReview} onChange={ChangeUserReviewValue} />
 
 
 
@@ -287,9 +293,10 @@ const HomePage = () => {
 
 
                         {/* <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button> */}
-
-                        <div>
-                            <label htmlFor="file" className="btn w-15 ml-14 rounded-2xl bg-emerald-400 cursor-pointer"> Photo </label>
+                        <div className='btn  bg-emerald-400 w-22 ml-14 rounded-2xl cursor-pointer'>
+                            <img src={Upload} className='h-5 cursor-pointer ' alt="" />
+                            
+                            <label htmlFor="file" className="cursor-pointer"> Upload </label>
                             <input id="file" type="file" className="hidden" onChange={HandleImageSelect} />
 
                         </div>

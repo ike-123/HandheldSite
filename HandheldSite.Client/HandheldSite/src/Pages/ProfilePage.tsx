@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import ImageUrl from './Components/ImageUrl';
 import ReviewComponent from './Components/ReviewComponent';
 import ProfileImageUrl from './Components/ProfileImageUrl';
+import { useAuthStore } from '../Stores/AuthStore';
 
 const ProfilePage = () => {
 
@@ -27,8 +28,8 @@ const ProfilePage = () => {
 
     const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitProfileChange = useMainStore((state) => state.SubmitProfileChange);
-    const UserDetails = useMainStore((state) => state.user);
-    const LoggedIn = useMainStore((state) => state.loggedIn);
+    const UserDetails = useAuthStore((state) => state.user);
+    const LoggedIn = useAuthStore((state) => state.loggedIn);
 
 
 

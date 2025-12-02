@@ -1,2 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@layer components{
+  .highlight-ring-rounded{
+    @apply rounded border-2 border-transparent hover:bg-accent/30 hover:rounded hover:backdrop-blur-xs hover:border-2 hover:border-accent/50 transition-all duration-250 ease-linear delay-25
+  }
+
+  .button-hover-red{
+    @apply rounded-full border border-transparent hover:bg-red-300/30 hover:rounded-full hover:backdrop-blur-xs hover:border hover:border-red-300/30  transition-all duration-250 ease-linear delay-25
+  }
+}
