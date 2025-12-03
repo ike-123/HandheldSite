@@ -65,11 +65,11 @@ const ComparisonPage = () => {
         <>
 
 
-            <div className='flex max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <div className='flex max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-base-content'>
 
                 {/* <div className='w-full bg-amber-200 h-15'></div> */}
 
-                <div className='flex  relative flex-col items-center pt-5 w-75 min-w-60 bg-primary outline-1'>
+                <div className='flex  relative flex-col items-center pt-5 w-75 min-w-60 bg-base-200 outline-1 '>
 
                     {/* <h1 className='font-bold text-2xl truncate'>Specifications</h1> */}
 
@@ -106,9 +106,9 @@ const ComparisonPage = () => {
                 </div>
 
 
-                <div className='flex flex-col items-center pt-5 w-75 min-w-60 bg-primary outline-1'>
+                <div className='flex flex-col items-center pt-5 w-75 min-w-60 bg-base-200 outline-1'>
 
-                    <select className="select mb" value={Handheld1?.handheldId} onChange={setHandheld1change}>
+                    <select className="select mb bg-primary w-5/6 " value={Handheld1?.handheldId} onChange={setHandheld1change}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -154,9 +154,9 @@ const ComparisonPage = () => {
                 </div>
 
 
-                <div className='flex flex-col items-center pt-5  w-75 min-w-60 bg-primary outline-1'>
+                <div className='flex flex-col items-center pt-5  w-75 min-w-60 bg-base-200 outline-1'>
 
-                    <select className="select mb" value={Handheld2?.handheldId} onChange={setHandheld2change}>
+                    <select className="select mb  bg-primary w-5/6" value={Handheld2?.handheldId} onChange={setHandheld2change}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -198,9 +198,9 @@ const ComparisonPage = () => {
 
                 </div>
 
-                <div className='flex flex-col items-center pt-5 w-75 min-w-60 bg-primary outline-1'>
+                <div className='flex flex-col items-center pt-5 w-75 min-w-60 bg-base-200 outline-1'>
 
-                    <select className="select mb" value={Handheld3?.handheldId} onChange={setHandheld3change}>
+                    <select className="select mb  bg-primary w-5/6" value={Handheld3?.handheldId} onChange={setHandheld3change}>
 
                         {
                             Handhelds.map((handheld: any) => (
@@ -211,7 +211,7 @@ const ComparisonPage = () => {
                         }
 
                     </select>
-                    
+
                     <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={Handheld3?.handheldImg}/>
 
                     <div className="divider w-3/4 mx-auto"></div>

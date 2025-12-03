@@ -93,7 +93,7 @@ const ReviewComponent: React.FC<any> = ({ review }) => {
 
     return (
 
-        <div className='card bg-primary p-4 gap-4 w-full cursor-pointer' onMouseDown={handleMouseDown} onClick={handleClick}>
+        <div className='card bg-base-200 p-4 gap-4 w-full cursor-pointer border border-base-content/30' onMouseDown={handleMouseDown} onClick={handleClick}>
 
             <div className='flex gap-3 items-center h-10' >
 

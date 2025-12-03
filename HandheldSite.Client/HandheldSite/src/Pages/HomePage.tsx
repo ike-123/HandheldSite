@@ -251,7 +251,7 @@ const HomePage = () => {
 
                 </div>
 
-                <div className='card bg-primary p-4 flex flex-col'>
+                <div className='card bg-base-200 p-4 flex flex-col border border-base-content/30'>
 
                     {
                         previewPicture
@@ -293,14 +293,14 @@ const HomePage = () => {
 
 
                         {/* <button className='btn w-15 ml-14 rounded-2xl bg-emerald-400'>Photo</button> */}
-                        <div className='btn  bg-emerald-400 w-22 ml-14 rounded-2xl cursor-pointer'>
+                        <div className='btn btn-accent w-22 ml-14 rounded-2xl cursor-pointer'>
                             <img src={Upload} className='h-5 cursor-pointer ' alt="" />
                             
                             <label htmlFor="file" className="cursor-pointer"> Upload </label>
                             <input id="file" type="file" className="hidden" onChange={HandleImageSelect} />
 
                         </div>
-                        <button onClick={SubmitReviewButton} className='btn w-15 ml-auto'>Submit</button>
+                        <button onClick={SubmitReviewButton} className='btn btn-secondary w-15 ml-auto'>Submit</button>
 
                     </div>
 
@@ -318,7 +318,7 @@ const HomePage = () => {
 
             {/* Right Section */}
 
-            <div className='card rounded-none bg-primary flex flex-1 min-w-0 px-2 sticky top-0 h-screen'>
+            <div className='card rounded-none bg-base-200 flex flex-1 min-w-0 px-2 sticky top-0 h-screen'>
 
                 {selectedHandheld &&
 
@@ -330,26 +330,26 @@ const HomePage = () => {
                                 <ImageUrl TailwindStyles='w-full h-45 object-cover mx-auto' image={selectedHandheld.handheldImg}/>
                             </div>
 
-                            <h1 className='font-bold text-2xl mb-1.5'>
+                            <h1 className='font-bold text-2xl mb-1.5 text-base-content'>
 
                                 {selectedHandheld.handheldName}
 
                             </h1>
 
-                            <h2 className='mb-1'>
+                            <h2 className='mb-1 text-base-content'>
                                 {selectedHandheld.description}
                             </h2>
 
                         </div>
 
 
-                        <div className='px-3 flex flex-col gap-3 mt-2.5'>
+                        <div className='px-3 flex flex-col gap-5 mt-2.5'>
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5 py-1'>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5 py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                <div className='text-primary-content'>
                                     <p className='text-sm'>Processor</p>
                                     <p className='font-bold'> {selectedHandheld.processor}</p>
                                 </div>
@@ -357,11 +357,11 @@ const HomePage = () => {
 
                             </div>
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1 '>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1 '>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                 <div className='text-primary-content'>
                                     <p className='text-sm'>CPU</p>
                                     <p className='font-bold'> {selectedHandheld.cpu}</p>
                                 </div>
@@ -370,11 +370,11 @@ const HomePage = () => {
                             </div>
 
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                  <div className='text-primary-content'>
                                     <p className='text-sm'>GPU</p>
                                     <p className='font-bold'> {selectedHandheld.gpu}</p>
                                 </div>
@@ -383,11 +383,11 @@ const HomePage = () => {
                             </div>
 
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                <div className='text-primary-content'>
                                     <p className='text-sm'>RAM</p>
                                     <p className='font-bold'> {selectedHandheld.ram}</p>
                                 </div>
@@ -396,11 +396,11 @@ const HomePage = () => {
                             </div>
 
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                 <div className='text-primary-content'>
                                     <p className='text-sm'>Display</p>
                                     <p className='font-bold'> {selectedHandheld.display}</p>
                                 </div>
@@ -408,11 +408,11 @@ const HomePage = () => {
 
                             </div>
 
-                            <div className='card bg-secondary flex-row items-center gap-1.5 pl-2.5  py-1'>
+                            <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
                                 <img src={processor} className='h-6' alt="" />
 
-                                <div>
+                                 <div className='text-primary-content'>
                                     <p className='text-sm'>Battery</p>
                                     <p className='font-bold'> {selectedHandheld.battery}</p>
                                 </div>

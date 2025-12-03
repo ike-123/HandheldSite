@@ -28,13 +28,13 @@ const NavigationMenu = () => {
             <div className='flex flex-row w-full'>
 
                 {/* background for menu */}
-                <div className='py-3 bg-primary w-60 min-w-60 sticky top-0 h-screen'>
+                <div className='py-3 bg-base-200 w-60 min-w-60 sticky top-0 h-screen'>
 
-                    <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full bg-primary">
+                    <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full bg-base-200">
 
                         <li>
                             <NavLink to={"/home"} className={({ isActive }) => isActive
-                                ? "bg-accent text-white flex items-center gap-2 p-2"
+                                ? "bg-primary text-white flex items-center gap-2 p-2"
                                 : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
                                 <img className='h-7' src={Home} alt="" />
                                 <h1>Home</h1>
@@ -43,7 +43,7 @@ const NavigationMenu = () => {
 
                         <li>
                             <NavLink to={"/Comparison"} className={({ isActive }) => isActive
-                                ? "bg-accent text-white flex items-center gap-2 p-2"
+                                ? "bg-primary text-white flex items-center gap-2 p-2"
                                 : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
                                 <img className='h-7' src={compare} alt="" />
                                 <h1>Compare</h1>
@@ -55,7 +55,7 @@ const NavigationMenu = () => {
                             LoggedIn ?
                                 <li>
                                     <NavLink to={"/likedReviews"} className={({ isActive }) => isActive
-                                        ? "bg-accent text-white flex items-center gap-2 p-2"
+                                        ? "bg-primary text-white flex items-center gap-2 p-2"
                                         : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
 
                                         <img className='h-7' src={Heart} alt="" />
@@ -74,7 +74,7 @@ const NavigationMenu = () => {
 
                                 <li>
                                     <NavLink to={`/Profilepage/${UserDetails?.id}`} className={({ isActive }) => isActive
-                                        ? "bg-accent text-white flex items-center gap-2 p-2"
+                                        ? "bg-primary text-white flex items-center gap-2 p-2"
                                         : "text-gray-300 hover:bg-gray-700 flex items-center gap-2 p-2"}>
 
                                         <div tabIndex={0} role="button" className=" avatar">
