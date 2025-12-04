@@ -164,6 +164,12 @@ var app = builder.Build();
 
 app.UseCors("AllowReactApp");
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+
+app.MapFallbackToFile("/index.html");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

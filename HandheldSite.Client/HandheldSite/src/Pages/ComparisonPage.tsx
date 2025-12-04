@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useMainStore } from '../Stores/MainStore';
 import ImageUrl from './Components/ImageUrl';
 

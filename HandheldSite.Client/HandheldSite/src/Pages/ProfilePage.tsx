@@ -4,9 +4,6 @@ import en from 'javascript-time-ago/locale/en'
 import { useMainStore } from '../Stores/MainStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import NotLikedHeart from '../../public/Not-Liked-Heart.png'
-import LikedHeart from '../../public/Liked-Heart.png'
-import { Link } from 'react-router-dom';
 import ImageUrl from './Components/ImageUrl';
 import ReviewComponent from './Components/ReviewComponent';
 import ProfileImageUrl from './Components/ProfileImageUrl';
@@ -19,14 +16,14 @@ const ProfilePage = () => {
 
 
     TimeAgo.addLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
+    // const timeAgo = new TimeAgo('en-GB')
 
     const GetReviewsForUser = useMainStore((state) => state.GetReviewsByUser);
     const GetUserProfile = useMainStore((state) => state.GetUserProfile);
 
 
 
-    const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    // const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitProfileChange = useMainStore((state) => state.SubmitProfileChange);
     const UserDetails = useAuthStore((state) => state.user);
     const LoggedIn = useAuthStore((state) => state.loggedIn);
@@ -35,7 +32,7 @@ const ProfilePage = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
     const [userinfo, SetUserInfo] = useState<any>();
-    const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
+    // const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
 
 
     const [newUpdatedProfile, SetUpdatedProfileImage] = useState<File | null>(null);
@@ -180,21 +177,21 @@ const ProfilePage = () => {
     }
 
 
-    async function ToggleLikeButton(reviewid: number) {
+    // async function ToggleLikeButton(reviewid: number) {
 
-        const { data } = await ToggleLike(reviewid);
-        const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus.likestatus;
-        const LikeCount = data.likestatus.likecount;
+    //     const { data } = await ToggleLike(reviewid);
+    //     const ReturnedId = data.reviewId;
+    //     const likestatus = data.likestatus.likestatus;
+    //     const LikeCount = data.likestatus.likecount;
 
 
-        SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
+    //     SetReviews(previous => previous.map((review) =>
+    //         review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
-        ));
+    //     ));
 
-        console.log(ReturnedId);
-    }
+    //     console.log(ReturnedId);
+    // }
 
     function ChangeUsername(event: React.ChangeEvent<HTMLInputElement>) {
 
@@ -279,7 +276,7 @@ const ProfilePage = () => {
                                         <div className='flex-row flex gap-4'>
 
                                             <label className='text-xl font-bold' htmlFor="username">Username</label>
-                                            <input className='  focus:outline-none border-1 rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" value={username} onChange={ChangeUsername} />
+                                            <input className='  focus:outline-none border rounded p-1 border-accent' name='username' id='username' placeholder='Username' type="text" value={username} onChange={ChangeUsername} />
                                         </div>
 
 

@@ -1,10 +1,7 @@
 import TimeAgo from 'javascript-time-ago';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import en from 'javascript-time-ago/locale/en'
 import { useMainStore } from '../Stores/MainStore';
-import NotLikedHeart from '../../public/Not-Liked-Heart.png'
-import LikedHeart from '../../public/Liked-Heart.png'
-import { Link } from 'react-router-dom';
 import ReviewComponent from './Components/ReviewComponent';
 
 
@@ -13,7 +10,7 @@ const LikedReviews = () => {
 
     const [reviews, SetReviews] = useState<any[]>([]);
 
-    const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    // const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const GetLikedReviews = useMainStore((state) => state.GetLikedReviews);
 
 
@@ -22,7 +19,7 @@ const LikedReviews = () => {
 
 
     TimeAgo.addDefaultLocale(en)
-    const timeAgo = new TimeAgo('en-GB')
+    // const timeAgo = new TimeAgo('en-GB')
 
 
     useEffect(() => {
@@ -78,21 +75,21 @@ const LikedReviews = () => {
     
 
 
-    async function ToggleLikeButton(reviewid: number) {
+    // async function ToggleLikeButton(reviewid: number) {
 
-        const { data } = await ToggleLike(reviewid);
-        const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus.likestatus;
-        const LikeCount = data.likestatus.likecount;
+    //     const { data } = await ToggleLike(reviewid);
+    //     const ReturnedId = data.reviewId;
+    //     const likestatus = data.likestatus.likestatus;
+    //     const LikeCount = data.likestatus.likecount;
 
 
-        SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
+    //     SetReviews(previous => previous.map((review) =>
+    //         review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
-        ));
+    //     ));
 
-        console.log(ReturnedId);
-    }
+    //     console.log(ReturnedId);
+    // }
 
 
     return (

@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import processor from '../../public/processor.png'
 
-import NotLikedHeart from '../../public/Not-Liked-Heart.png'
-import LikedHeart from '../../public/Liked-Heart.png'
 import Upload from '../../public/Upload.png'
 
 
 import Delete from '../../public/delete.png'
-import { Link } from 'react-router-dom';
 
 import TimeAgo from 'javascript-time-ago'
 
@@ -24,14 +21,6 @@ import { useMainStore } from '../Stores/MainStore'
 
 
 TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo('en-GB')
-
-
-type Post = {
-    HandheldId: number,
-    PrimaryImage: string,
-    ReviewText: string
-}
 
 const HomePage = () => {
 
@@ -63,14 +52,13 @@ const HomePage = () => {
     const GetReviewforHandheld = useMainStore((state) => state.GetReviewsForHandheld);
     const GetMyProfile = useMainStore((state) => state.GetMyProfile);
     const GetHandhelds = useMainStore((state) => state.GetAllHandhelds);
-    const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
+    // const ToggleLike = useMainStore((state) => state.ToggleLikeButton);
     const SubmitReview = useMainStore((state) => state.CreateReview);
     const UserDetails = useAuthStore((state) => state.user);
     const LoggedIn = useAuthStore((state) => state.loggedIn);
 
 
 
-    const [imageUrls, setImageUrls] = useState<Record<number, string>>({});
 
 
     const selectedHandheld: any = Handhelds.find((handheld: any) => handheld.handheldId === currentHandheldId);
@@ -159,21 +147,21 @@ const HomePage = () => {
         // you can run any code here
     }
 
-    async function ToggleLikeButton(reviewid: number) {
+    // async function ToggleLikeButton(reviewid: number) {
 
-        const { data } = await ToggleLike(reviewid);
-        const ReturnedId = data.reviewId;
-        const likestatus = data.likestatus.likestatus;
-        const LikeCount = data.likestatus.likecount;
+    //     const { data } = await ToggleLike(reviewid);
+    //     const ReturnedId = data.reviewId;
+    //     const likestatus = data.likestatus.likestatus;
+    //     const LikeCount = data.likestatus.likecount;
 
 
-        SetReviews(previous => previous.map((review) =>
-            review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
+    //     SetReviews(previous => previous.map((review) =>
+    //         review.reviewId === ReturnedId ? { ...review, isLiked: likestatus, likeCount: LikeCount } : review
 
-        ));
+    //     ));
 
-        console.log(ReturnedId);
-    }
+    //     console.log(ReturnedId);
+    // }
 
 
 

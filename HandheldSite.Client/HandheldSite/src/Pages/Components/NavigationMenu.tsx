@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import ProfileImageUrl from './ProfileImageUrl';
 
 import Home from '../../../public/Home.png'
@@ -30,7 +29,7 @@ const NavigationMenu = () => {
                 {/* background for menu */}
                 <div className='py-3 bg-base-200 w-60 min-w-60 sticky top-0 h-screen'>
 
-                    <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full bg-base-200">
+                    <ul className="menu menu-xl bg-base-200 flex gap-3 rounded-box w-full">
 
                         <li>
                             <NavLink to={"/home"} className={({ isActive }) => isActive

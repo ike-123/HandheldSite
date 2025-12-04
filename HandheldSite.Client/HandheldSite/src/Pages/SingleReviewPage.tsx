@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
 import { useMainStore } from '../Stores/MainStore';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -18,11 +18,11 @@ const SingleReviewPage = () => {
 
     //reviewid
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [PageContent, SetPageContent] = useState<any>();
 
-    const [imageUrl, setImageUrl] = useState<string>();
+    // const [imageUrl, setImageUrl] = useState<string>();
     
 
     // const [ProfileImageUrl, setProfileImageUrl] = useState<string>();

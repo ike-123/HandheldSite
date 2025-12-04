@@ -130,3 +130,8 @@
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Debug/net10.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Debug/net10.0/Microsoft.IdentityModel.Tokens.dll
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Debug/net10.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Debug/net10.0/HandheldSite.Server.staticwebassets.runtime.json
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Debug/net10.0/compressed/sr1e6ih58b-{0}-2he2wp3bz3-2he2wp3bz3.gz
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Debug/net10.0/compressed/9j0k7qozjb-{0}-1xi72hj1e4-1xi72hj1e4.gz
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Debug/net10.0/compressed/m4vez6s7f8-{0}-kx4e297es5-kx4e297es5.gz
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Debug/net10.0/compressed/tlq396trxj-{0}-69kjnsiwqx-69kjnsiwqx.gz

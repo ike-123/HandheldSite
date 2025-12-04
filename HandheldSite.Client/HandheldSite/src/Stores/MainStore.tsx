@@ -1,4 +1,4 @@
-import axios, { AxiosError, type AxiosInstance } from "axios";
+
 import { create } from "zustand";
 import api_Refresh from '../utils/API_refresh'
 
@@ -17,11 +17,7 @@ type MainStore = {
     GetLikedReviews: () => Promise<any>;
 
 }
-type Post = {
-    HandheldId: number,
-    PrimaryImage: string,
-    ReviewText: string
-}
+
 
 
 export const useMainStore = create<MainStore>((set) => ({

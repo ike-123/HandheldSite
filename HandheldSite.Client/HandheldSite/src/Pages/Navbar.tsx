@@ -1,6 +1,5 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import ImageUrl from './Components/ImageUrl'
+
+import { Link } from 'react-router-dom'
 import { useAuthStore } from '../Stores/AuthStore'
 import ProfileImageUrl from './Components/ProfileImageUrl'
 
@@ -25,7 +24,7 @@ const Navbar = () => {
 
       <div className="navbar bg-base-100 shadow-sm mb-5 px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto ">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">HandheldSite</a>
+          <Link to={"/"} className="btn btn-ghost text-xl">HandheldHub</Link>
         </div>
         <div className="flex-none ">
 

@@ -71,9 +71,9 @@ api.interceptors.response.use((response) => response, async (error: AxiosError) 
         //will send a new access and refresh token
         try {
             console.log("trying");
-            const { data } = await axios.get(
-                "http://localhost:5112/api/Auth/RefreshToken",
-                { withCredentials: true }
+                await axios.get(
+                    "http://localhost:5112/api/Auth/RefreshToken",
+                    { withCredentials: true }
 
             );
 
