@@ -13,14 +13,13 @@ type AuthStore = {
     AuthPing: () => Promise<void>;
     user: any | null;
     loggedIn: boolean;
-
-
+    
     // setAccessToken: ()=>Promise<void>;
 
 }
-
+  
 const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:5112/api/Auth/",
+    baseURL: "https://handheldhub-bgfjhnaphkchgnbq.uksouth-01.azurewebsites.net/api/Auth/",
     withCredentials: true,
 });
 

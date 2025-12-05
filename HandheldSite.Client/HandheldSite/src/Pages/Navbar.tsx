@@ -24,7 +24,7 @@ const Navbar = () => {
 
       <div className="navbar bg-base-100 shadow-sm mb-5 px-4 sm:px-6 lg:px-8. max-w-7xl mx-auto ">
         <div className="flex-1">
-          <Link to={"/"} className="btn btn-ghost text-xl">HandheldHub</Link>
+          <Link to={"/"} className="btn btn-ghost text-xl">New Festus</Link>
         </div>
         <div className="flex-none ">
 

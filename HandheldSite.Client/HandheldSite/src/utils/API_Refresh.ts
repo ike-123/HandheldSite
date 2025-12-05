@@ -13,7 +13,7 @@ let failedQueue: any[] = [];
 
 
 const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:5112/api/",
+    baseURL: "https://handheldhub-bgfjhnaphkchgnbq.uksouth-01.azurewebsites.net/api/",
     withCredentials: true,
 });
 
@@ -72,7 +72,7 @@ api.interceptors.response.use((response) => response, async (error: AxiosError) 
         try {
             console.log("trying");
                 await axios.get(
-                    "http://localhost:5112/api/Auth/RefreshToken",
+                    "https://handheldhub-bgfjhnaphkchgnbq.uksouth-01.azurewebsites.net/api/Auth/RefreshToken",
                     { withCredentials: true }
 
             );
