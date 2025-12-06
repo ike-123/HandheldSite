@@ -30,6 +30,25 @@ namespace HandheldSite.Server.Controllers
             return Ok(Handhelds);
         }
 
+        [HttpPost("CreateHandheld")]
+        public async Task<ActionResult> CreateHandheld([FromForm] CreateHandheldDTO handheld)
+        {
+            if (handheld == null)
+            {
+                return BadRequest("provided Handheld is Null.");
+            }
+
+            try
+            {
+                await _handheldService.CreateHandheld(handheld);
+                return Ok("Handheld Created");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Failed to Upload Handheld.");
+            }
+        }
+
 
     }
 }

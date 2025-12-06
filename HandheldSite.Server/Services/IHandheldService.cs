@@ -7,5 +7,7 @@ namespace HandheldSite.Server.Services
     {
 
         Task<List<Handheld>> GetAllHandhelds();
+
+        Task CreateHandheld(CreateHandheldDTO _submittedHandheld);
     }
 }

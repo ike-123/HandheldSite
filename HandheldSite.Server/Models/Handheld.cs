@@ -16,7 +16,5 @@ namespace HandheldSite.Server.Models
         public string Display {get;set;} = string.Empty;
         public string Battery {get;set;} = string.Empty;
 
-
-
     }
 }
