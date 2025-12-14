@@ -6,6 +6,13 @@ import Upload from '../../public/Upload.png'
 
 
 import Delete from '../../public/delete.png'
+import GPU from '../../public/gpu.png'
+import memory from '../../public/memory.png'
+import battery from '../../public/battery.png'
+import display from '../../public/display.png'
+import cpu from '../../public/cpu.png'
+
+
 
 import TimeAgo from 'javascript-time-ago'
 
@@ -347,7 +354,7 @@ const HomePage = () => {
 
                             <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1 '>
 
-                                <img src={processor} className='h-6' alt="" />
+                                <img src={cpu} className='h-6' alt="" />
 
                                  <div className='text-primary-content'>
                                     <p className='text-sm'>CPU</p>
@@ -360,7 +367,7 @@ const HomePage = () => {
 
                             <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
-                                <img src={processor} className='h-6' alt="" />
+                                <img src={GPU} className='h-6' alt="" />
 
                                   <div className='text-primary-content'>
                                     <p className='text-sm'>GPU</p>
@@ -373,7 +380,7 @@ const HomePage = () => {
 
                             <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
-                                <img src={processor} className='h-6' alt="" />
+                                <img src={memory} className='h-6' alt="" />
 
                                 <div className='text-primary-content'>
                                     <p className='text-sm'>RAM</p>
@@ -386,7 +393,7 @@ const HomePage = () => {
 
                             <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
-                                <img src={processor} className='h-6' alt="" />
+                                <img src={display} className='h-6' alt="" />
 
                                  <div className='text-primary-content'>
                                     <p className='text-sm'>Display</p>
@@ -398,7 +405,7 @@ const HomePage = () => {
 
                             <div className='card bg-primary flex-row items-center gap-1.5 pl-2.5  py-1'>
 
-                                <img src={processor} className='h-6' alt="" />
+                                <img src={battery} className='h-6' alt="" />
 
                                  <div className='text-primary-content'>
                                     <p className='text-sm'>Battery</p>
