@@ -1,0 +1,10 @@
+{
+  "host": "win6019.site4now.net",
+  "username": "festus123-001",
+  "password": "Tablet64",
+  "protocol": "ftp",
+  "port": 21,
+  "remotePath": "/site/wwwroot",
+  "uploadOnSave": false,
+  "confirm": false
+}
