@@ -192,6 +192,8 @@ const HomePage = () => {
 
 
             await SubmitReview(formData);
+
+            window.location.reload();
         }
         else {
             toast.error("You must Login to post a review");

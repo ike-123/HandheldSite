@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3dEcFiu89vI=",
+  "dgSpecHash": "01xPzCrj3eI=",
   "success": true,
   "projectFilePath": "/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/HandheldSite.Server.csproj",
   "expectedPackageFiles": [
@@ -60,8 +60,7 @@
     "/Users/ikeonugha/.nuget/packages/system.runtime.caching/6.0.0/system.runtime.caching.6.0.0.nupkg.sha512",
     "/Users/ikeonugha/.nuget/packages/system.security.cryptography.protecteddata/6.0.0/system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
     "/Users/ikeonugha/.nuget/packages/system.security.permissions/6.0.0/system.security.permissions.6.0.0.nupkg.sha512",
-    "/Users/ikeonugha/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
-    "/Users/ikeonugha/.nuget/packages/microsoft.netcore.app.host.win-x64/10.0.0/microsoft.netcore.app.host.win-x64.10.0.0.nupkg.sha512"
+    "/Users/ikeonugha/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": [
     {
