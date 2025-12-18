@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import axios from "axios";
 import { create } from "zustand";
-import api_Refresh from '../utils/API_refresh'
+import api_Refresh from '../utils/API_Refresh'
 
 
 type AuthStore = {
