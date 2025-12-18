@@ -8,7 +8,7 @@ type AuthStore = {
 
     // token:number;
     Register: (email: string, password: string) => Promise<void>;
-    Login: (email: string, password: string) => Promise<void>;
+    Login: (email: string, password: string) => Promise<any>;
     Logout: () => Promise<void>;
     AuthPing: () => Promise<void>;
     user: any | null;
@@ -42,12 +42,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
             const {data} = await api.post("Login", { email, password });
 
             set({ user: data, loggedIn: true });
-            console.log("success ping");
             console.log(data);
             
         } catch (error) {
 
             set({ user: null, loggedIn: false });
+            throw error;
 
         }
 
@@ -67,11 +67,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
             set({ user: data, loggedIn: true });
             //console.log("User is loggged in");
-            console.log("success ping");
             console.log(data);
 
         } catch (error) {
-
+            
             set({ user: null, loggedIn: false });
 
         }
