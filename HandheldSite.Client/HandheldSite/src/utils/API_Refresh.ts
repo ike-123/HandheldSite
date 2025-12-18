@@ -13,7 +13,7 @@ let failedQueue: any[] = [];
 
 
 const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:5112/api/",
+    baseURL: "https://festus123-001-site1.qtempurl.com/api/",
     withCredentials: true,
 });
 
@@ -72,7 +72,7 @@ api.interceptors.response.use((response) => response, async (error: AxiosError) 
         try {
             console.log("trying");
                 await axios.get(
-                    "http://localhost:5112/api/Auth/RefreshToken",
+                    "https://festus123-001-site1.qtempurl.com/api/Auth/RefreshToken",
                     { withCredentials: true }
 
             );

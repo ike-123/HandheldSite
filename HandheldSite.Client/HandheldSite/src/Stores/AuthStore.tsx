@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import axios from "axios";
 import { create } from "zustand";
-import api_Refresh from '../utils/API_refresh'
+import api_Refresh from '../utils/API_Refresh'
 
 
 type AuthStore = {
@@ -20,7 +20,7 @@ type AuthStore = {
 }
 
 const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:5112/api/Auth/",
+    baseURL: "https://festus123-001-site1.qtempurl.com/api/Auth/",
     withCredentials: true,
 });
 
