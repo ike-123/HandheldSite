@@ -31,7 +31,6 @@ const LikedReviews = () => {
             const { data } = await GetLikedReviews();
 
             SetReviews(data);
-            console.log(data);
         }
 
         Get_Liked_Reviews();

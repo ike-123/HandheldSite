@@ -42,12 +42,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
             const {data} = await api.post("Login", { email, password });
 
             set({ user: data, loggedIn: true });
-            console.log("success ping");
             console.log(data);
             
         } catch (error) {
 
             set({ user: null, loggedIn: false });
+            throw error;
 
         }
 
@@ -56,7 +56,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     async Logout() {
 
         await api.get("Logout");
-
+        window.location.reload();
     },
 
     async AuthPing() {
@@ -67,7 +67,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
             set({ user: data, loggedIn: true });
             //console.log("User is loggged in");
-            console.log("success ping");
             console.log(data);
 
         } catch (error) {

@@ -150,5 +150,5 @@
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Release/net10.0/win-x64/System.Security.Permissions.dll
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Release/net10.0/win-x64/System.Windows.Extensions.dll
 /Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/bin/Release/net10.0/win-x64/Microsoft.Data.SqlClient.SNI.dll
-/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Release/net10.0/win-x64/compressed/tou6mosfee-{0}-t3cixev9d8-t3cixev9d8.gz
-/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Release/net10.0/win-x64/compressed/m4vez6s7f8-{0}-hfb6aeq7fc-hfb6aeq7fc.gz
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Release/net10.0/win-x64/compressed/ct02r6hxrg-{0}-rq7xaew2un-rq7xaew2un.gz
+/Users/ikeonugha/Documents/Web Development/HandheldSite/HandheldSite.Server/obj/Release/net10.0/win-x64/compressed/m4vez6s7f8-{0}-380z50rmqd-380z50rmqd.gz

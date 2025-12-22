@@ -9,7 +9,6 @@ import SingleReviewPage from './Pages/SingleReviewPage'
 import ProfilePage from './Pages/ProfilePage'
 import ComparisonPage from './Pages/ComparisonPage'
 import LikedReviews from './Pages/LikedReviews'
-import Test from './Pages/test'
 import { useEffect } from 'react'
 import { useAuthStore } from './Stores/AuthStore'
 import NavigationMenu from './Pages/Components/NavigationMenu'
@@ -74,10 +73,6 @@ const router = createBrowserRouter([
       {
         path: "LikedReviews",
         element: <LikedReviews />
-      },
-      {
-        path: "test",
-        element: <Test />
       },
       {
         path: "nav",

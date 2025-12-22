@@ -72,8 +72,6 @@ export const useMainStore = create<MainStore>((set) => ({
 
         });
 
-        console.log(data);
-
         set( (previous) =>( { ...previous, profileImage: data.profileImage, username: data.username}));
 
         

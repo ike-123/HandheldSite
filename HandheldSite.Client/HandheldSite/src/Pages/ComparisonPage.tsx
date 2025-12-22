@@ -24,7 +24,6 @@ const ComparisonPage = () => {
             SetHandheld2(data[1])
             SetHandheld3(data[3])
 
-            console.log(data);
             SetHandhelds(data);
         }
 

@@ -45,7 +45,6 @@ const SingleReviewPage = () => {
 
             const { data } = await GetPageInfo(reviewId);
 
-            console.log(data);
             SetPageContent(data);
         }
 
@@ -71,9 +70,6 @@ const SingleReviewPage = () => {
             const likestatus = data.likestatus.likestatus;
             const likecount = data.likestatus.likecount;
 
-            console.log(data);
-
-            console.log("hey");
 
             SetPageContent((previous: any) => ({ ...previous, isLiked: likestatus, likeCount: likecount }));
 

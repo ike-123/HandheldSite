@@ -78,8 +78,6 @@ const HomePage = () => {
             const { data } = await GetHandhelds();
             console.log(data);
 
-            console.log("initial")
-
             SetHandhelds(data);
 
 
@@ -125,7 +123,6 @@ const HomePage = () => {
     function ChangeUserReviewValue(event: any) {
 
         if (LoggedIn) {
-            console.log(event.target.value);
             SetUserReview(event.target.value);
         }
         else {

@@ -51,14 +51,9 @@ const ProfilePage = () => {
         function CheckUserId() {
             if (UserDetails?.id === id) {
                 setIsUsersOwnProfile(true);
-                console.log("yes user");
             }
             else {
                 setIsUsersOwnProfile(false);
-                console.log("no user");
-
-                console.log("user ", UserDetails?.id, " routeid = ", id)
-
             }
 
         }
@@ -69,7 +64,6 @@ const ProfilePage = () => {
             const { data } = await GetReviewsForUser(id);
 
             SetReviews(data);
-            console.log(data);
         }
 
         async function Get_User_Profile(id: string) {
@@ -77,7 +71,6 @@ const ProfilePage = () => {
             const { data } = await GetUserProfile(id);
 
             SetUserInfo(data);
-            console.log(data);
 
             SetUserName(data.username);
         }
