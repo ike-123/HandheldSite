@@ -5,7 +5,7 @@
 
 🎮 Handheld Gaming Review Platform
 
-This project is a web-based platform dedicated to gaming handhelds, allowing users to read, write, and explore reviews for popular handheld gaming devices. It also provides a side-by-side comparison tool so users can easily evaluate and compare specifications such as performance, display, battery life, and more.
+This project is a web-based platform for gaming handhelds. It allows users to read, write, and explore reviews for popular handheld gaming devices. It also provides a side by side comparison tool so users can easily evaluate and compare specifications such as performance, display, battery life, and more.
 
 <img width="3016" height="1728" alt="image" src="https://github.com/user-attachments/assets/b95f0e79-da56-45de-bc72-7c18f69bb8b6" />
 
