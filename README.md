@@ -16,19 +16,19 @@ The goal of the platform is to help gamers make informed decisions by combining 
 - Read and write reviews for gaming handhelds  
 - Compare specifications of popular handheld devices  
 - Secure user authentication and authorization  
-- Responsive and modern user interface  
+- Responsive and modern user interface
+- Browse user profiles and read other user reviews
 
 
 ### 🔐 Authentication & Authorization
 - ASP.NET Core Identity  
 - JWT access tokens with refresh tokens  
-- Controller-based authentication and authorization  
+- Controller-based authentication and authorization
 
 
 
 ### ☁️ Deployment
 - The application was previously deployed using azure app services, but is now using SmarterASP
-
 
 
 
