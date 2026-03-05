@@ -10,7 +10,7 @@ This project is a web-based platform for gaming handhelds. It allows users to re
 <img width="3016" height="1728" alt="image" src="https://github.com/user-attachments/assets/b95f0e79-da56-45de-bc72-7c18f69bb8b6" />
 
 
-The goal of the platform is to help gamers make informed decisions by combining community-driven reviews with clear, structured hardware comparisons.
+The goal of the platform is to help gamers make informed decisions by combining community driven reviews with clear, structured hardware comparisons.
 
 ### 🚀 Features
 - Read and write reviews for gaming handhelds  
@@ -23,7 +23,6 @@ The goal of the platform is to help gamers make informed decisions by combining 
 ### 🔐 Authentication & Authorization
 - ASP.NET Core Identity  
 - JWT access tokens with refresh tokens  
-- Controller-based authentication and authorization
 
 
 
