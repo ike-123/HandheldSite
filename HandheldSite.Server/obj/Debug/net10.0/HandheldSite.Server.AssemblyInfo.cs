@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HandheldSite.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdd6f6d17cfd37d2decd28cc9d2ad0a64157ad4f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd1fd9093dd8d9703f1d25fe8f0046faa214f307")]
 [assembly: System.Reflection.AssemblyProductAttribute("HandheldSite.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HandheldSite.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
